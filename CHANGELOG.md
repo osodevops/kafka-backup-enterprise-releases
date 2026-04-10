@@ -1,6 +1,12 @@
 # Changelog
 
-## v0.3.0 (upcoming)
+## v0.3.1 (2026-04-10)
+
+### CI/CD
+- Fully automated release pipeline: tag → build → Docker Hub → public release sync → Homebrew formula update
+- No manual steps required for any release
+
+## v0.3.0 (2026-04-10)
 
 ### Features
 - **OAuth/OIDC authentication** for Confluent Schema Registry and DEK Registry — supports Okta, Azure AD, Keycloak via standard client credentials flow with automatic token refresh

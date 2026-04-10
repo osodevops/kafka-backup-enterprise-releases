@@ -3,7 +3,7 @@
 ## Docker Image
 
 ```bash
-docker pull osodevops/kafka-backup-enterprise:v0.2.1
+docker pull osodevops/kafka-backup-enterprise:v0.3.1
 ```
 
 Note: The image is built for `linux/amd64`. For ARM clusters, download the `aarch64-linux` binary from [Releases](https://github.com/osodevops/kafka-backup-enterprise-releases/releases) and build a custom image.
@@ -60,7 +60,7 @@ spec:
         spec:
           containers:
             - name: kafka-backup
-              image: osodevops/kafka-backup-enterprise:v0.2.1
+              image: osodevops/kafka-backup-enterprise:v0.3.1
               args: ["backup", "--config", "/config/backup.yaml"]
               env:
                 - name: ENTERPRISE_LICENSE_KEY

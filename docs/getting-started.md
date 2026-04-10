@@ -17,7 +17,7 @@ brew install osodevops/tap/kafka-backup-enterprise
 ### Docker
 
 ```bash
-docker pull osodevops/kafka-backup-enterprise:v0.2.1
+docker pull osodevops/kafka-backup-enterprise:v0.3.1
 ```
 
 ### Binary Download
@@ -26,11 +26,11 @@ Download from [Releases](https://github.com/osodevops/kafka-backup-enterprise-re
 
 ```bash
 # Linux (x86_64)
-curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.2.1/kafka-backup-x86_64-linux.tar.gz | tar xz
+curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.3.1/kafka-backup-x86_64-linux.tar.gz | tar xz
 sudo mv kafka-backup /usr/local/bin/kafka-backup-enterprise
 
 # macOS (Apple Silicon)
-curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.2.1/kafka-backup-aarch64-macos.tar.gz | tar xz
+curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.3.1/kafka-backup-aarch64-macos.tar.gz | tar xz
 sudo mv kafka-backup /usr/local/bin/kafka-backup-enterprise
 ```
 
@@ -94,7 +94,7 @@ kafka-backup-enterprise backup --config backup.yaml --schema-only
 ```bash
 docker run --rm \
   -v ./backup.yaml:/config.yaml \
-  osodevops/kafka-backup-enterprise:v0.2.1 \
+  osodevops/kafka-backup-enterprise:v0.3.1 \
   backup --config /config.yaml --schema-only
 ```
 
@@ -124,7 +124,7 @@ In Docker, pass the license via environment variable:
 docker run --rm \
   -e ENTERPRISE_LICENSE_KEY="$(base64 < license.lic)" \
   -v ./backup.yaml:/config.yaml \
-  osodevops/kafka-backup-enterprise:v0.2.1 \
+  osodevops/kafka-backup-enterprise:v0.3.1 \
   backup --config /config.yaml
 ```
 
