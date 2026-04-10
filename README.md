@@ -46,17 +46,29 @@ enterprise:
     url: "https://schema-registry:8081"
 ```
 
-## Enterprise Features
+## OSS vs Enterprise
 
-| Feature | Description |
-|---------|-------------|
-| **Confluent Schema Registry backup** | All subjects, versions, schemas, compatibility configs, modes |
-| **Apicurio Registry v3 backup** | Groups, artifacts, versions, content, rules, export ZIP |
-| **Confluent RBAC backup** | MDS role bindings, principals, cluster scopes |
-| **Field-level encryption backup** | CSFLE/DEK Registry metadata, KEK/DEK inventory |
-| **Both registries simultaneously** | Configure Confluent SR and Apicurio in the same config |
+| Feature | OSS | Enterprise |
+|---------|:---:|:---------:|
+| Core backup & restore | Yes | Yes |
+| All storage backends (S3, Azure, GCS, filesystem) | Yes | Yes |
+| Point-in-time recovery (PITR) | Yes | Yes |
+| Compression (Zstd, LZ4) | Yes | Yes |
+| Kafka SASL/TLS authentication | Yes | Yes |
+| Consumer offset management | Yes | Yes |
+| Three-phase restore | Yes | Yes |
+| **Confluent Schema Registry backup/restore** | - | Yes |
+| **Apicurio Registry v3 backup/restore** | - | Yes |
+| **Confluent RBAC backup/restore (MDS)** | - | Yes |
+| **Field-level encryption (CSFLE/DEK)** | - | Yes |
+| **Data masking** | - | Planned |
+| **Audit logging** | - | Planned |
+| **WebAssembly plugins** | - | Planned |
+| **Priority support** | Community | 24/7 SLA |
 
-All features work with the OSS backup engine — topics, partitions, offsets, consumer groups, three-phase restore, and everything else in [kafka-backup](https://github.com/osodevops/kafka-backup).
+Both registries can be configured simultaneously — back up Confluent SR and Apicurio in the same run.
+
+All enterprise features work alongside the full OSS backup engine — topics, partitions, offsets, consumer groups, three-phase restore, and everything else in [kafka-backup](https://github.com/osodevops/kafka-backup).
 
 ## Documentation
 
