@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.3.0 (upcoming)
+
+### Features
+- **OAuth/OIDC authentication** for Confluent Schema Registry and DEK Registry — supports Okta, Azure AD, Keycloak via standard client credentials flow with automatic token refresh
+- **Tink AEAD decryption** — decrypt AES-256-GCM and AES-128-GCM encrypted field values using plaintext DEK bytes. Enables `Decrypt` and `ReEncrypt` restore modes.
+- **Encryption restore** — restore backed-up KEKs and DEKs to a target DEK Registry with three conflict policies (skip, overwrite, error) and dry-run support
+
+### Tests
+- 6 new Tink crypto tests (encrypt/decrypt roundtrip, wrong key, tampered data, AES-128)
+- 7 new encryption restore wiremock tests (full pipeline, conflict handling, dry-run, soft-deleted)
+
 ## v0.2.1 (2026-04-09)
 
 ### Features
