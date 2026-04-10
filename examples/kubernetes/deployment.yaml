@@ -1,0 +1,52 @@
+# Example CronJob for scheduled Kafka + Schema Registry backup
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kafka-backup
+  namespace: kafka-backup
+spec:
+  schedule: "0 */6 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          containers:
+            - name: kafka-backup
+              image: osodevops/kafka-backup-enterprise:v0.2.1
+              args: ["backup", "--config", "/config/backup.yaml"]
+              env:
+                - name: ENTERPRISE_LICENSE_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: kafka-backup-license
+                      key: license-b64
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: s3-credentials
+                      key: access-key
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: s3-credentials
+                      key: secret-key
+              volumeMounts:
+                - name: config
+                  mountPath: /config
+                  readOnly: true
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "1Gi"
+                  cpu: "500m"
+          volumes:
+            - name: config
+              configMap:
+                name: kafka-backup-config
+          restartPolicy: OnFailure

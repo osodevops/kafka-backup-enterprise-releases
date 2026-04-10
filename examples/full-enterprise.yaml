@@ -1,0 +1,69 @@
+# Full enterprise config — all features enabled
+mode: backup
+backup_id: "full-enterprise-backup"
+
+source:
+  bootstrap_servers:
+    - kafka-1:9092
+    - kafka-2:9092
+    - kafka-3:9092
+  security:
+    security_protocol: SASL_SSL
+    sasl_mechanism: SCRAM-SHA-512
+    sasl_username: ${KAFKA_USER}
+    sasl_password: ${KAFKA_PASS}
+  topics:
+    include:
+      - "*"
+    exclude:
+      - "__*"
+
+storage:
+  backend: s3
+  bucket: kafka-backups
+  region: us-east-1
+  prefix: production
+
+backup:
+  compression: zstd
+  segment_max_bytes: 134217728
+
+enterprise:
+  # Confluent Schema Registry
+  schema_registry:
+    url: "https://schema-registry:8081"
+    auth:
+      type: basic
+      username: ${SR_USER}
+      password: ${SR_PASS}
+    backup:
+      subjects: ["*"]
+      exclude: ["*-internal"]
+
+  # Apicurio Registry (can run alongside Confluent SR)
+  apicurio_registry:
+    url: "https://apicurio:8080"
+    auth:
+      type: oidc
+      token_url: https://keycloak:8443/realms/registry/protocol/openid-connect/token
+      client_id: ${APICURIO_CLIENT_ID}
+      client_secret: ${APICURIO_CLIENT_SECRET}
+    backup:
+      groups: ["*"]
+      include_export: true
+
+  # Confluent RBAC
+  confluent_rbac:
+    mds_url: "https://mds:8090"
+    auth:
+      username: ${MDS_USER}
+      password: ${MDS_PASS}
+    backup:
+      principals: ["*"]
+      exclude_principals: ["User:backup-svc"]
+
+  # Field-level encryption
+  encryption:
+    enabled: true
+    backup:
+      kek_filter: ["*"]

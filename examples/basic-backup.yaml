@@ -1,0 +1,15 @@
+# Minimal backup config — Kafka data + Schema Registry
+mode: backup
+backup_id: "daily-backup"
+
+source:
+  bootstrap_servers:
+    - kafka:9092
+
+storage:
+  backend: s3
+  bucket: kafka-backups
+
+enterprise:
+  schema_registry:
+    url: "http://schema-registry:8081"

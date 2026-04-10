@@ -1,0 +1,42 @@
+# Confluent Schema Registry backup with Basic auth and subject filtering
+mode: backup
+backup_id: "sr-backup"
+
+source:
+  bootstrap_servers:
+    - kafka:9092
+  security:
+    security_protocol: SASL_SSL
+    sasl_mechanism: SCRAM-SHA-512
+    sasl_username: ${KAFKA_USER}
+    sasl_password: ${KAFKA_PASS}
+
+storage:
+  backend: s3
+  bucket: kafka-backups
+  region: us-east-1
+  prefix: production
+
+enterprise:
+  schema_registry:
+    url: "https://schema-registry:8081"
+    auth:
+      type: basic
+      username: ${SR_USER}
+      password: ${SR_PASS}
+    tls:
+      ca_cert: /certs/ca.pem
+    backup:
+      subjects:
+        - "orders-*"
+        - "payments-*"
+        - "users-*"
+      exclude:
+        - "*-test"
+        - "*-internal"
+      include_versions: all
+      include_references: true
+    connection:
+      timeout_ms: 30000
+      max_retries: 3
+      rate_limit_rps: 25

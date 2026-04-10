@@ -1,0 +1,39 @@
+# Apicurio Registry v3 backup with OIDC auth (Keycloak)
+mode: backup
+backup_id: "apicurio-backup"
+
+source:
+  bootstrap_servers:
+    - kafka:9092
+
+storage:
+  backend: s3
+  bucket: kafka-backups
+  prefix: apicurio
+
+enterprise:
+  apicurio_registry:
+    url: "https://apicurio-registry:8080"
+    auth:
+      type: oidc
+      token_url: https://keycloak:8443/realms/registry/protocol/openid-connect/token
+      client_id: ${APICURIO_CLIENT_ID}
+      client_secret: ${APICURIO_CLIENT_SECRET}
+      scope: registry-api
+    tls:
+      ca_cert: /certs/ca.pem
+    backup:
+      groups:
+        - "*"
+      exclude_groups:
+        - "test-*"
+        - "dev-*"
+      artifacts:
+        - "*"
+      include_export: true
+      include_versions: all
+      include_references: true
+    connection:
+      timeout_ms: 30000
+      max_retries: 3
+      rate_limit_rps: 50
