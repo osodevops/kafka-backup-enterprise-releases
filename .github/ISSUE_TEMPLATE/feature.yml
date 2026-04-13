@@ -1,0 +1,65 @@
+name: Feature request
+description: Suggest a new feature or improvement for kafka-backup Enterprise
+
+labels: ["enhancement"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your feature suggestion! Please describe your idea in detail.
+
+        If you're requesting a feature for the open-source core, consider opening an issue on [kafka-backup (OSS)](https://github.com/osodevops/kafka-backup) instead.
+
+  - type: textarea
+    attributes:
+      label: Is your feature request related to a problem?
+      description: A clear description of what the problem is.
+      placeholder: I'm always frustrated when [...]
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Describe the solution you'd like
+      description: A clear description of what you want to happen.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Describe alternatives you've considered
+      description: Any alternative solutions or features you've considered.
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Use case
+      description: Describe the scenario where this feature would be helpful — the more concrete the better.
+    validations:
+      required: false
+
+  - type: dropdown
+    attributes:
+      label: Which area does this relate to?
+      options:
+        - Schema Registry
+        - Confluent RBAC
+        - Licensing
+        - Encryption / Data Masking
+        - Audit Logging
+        - WASM Plugins
+        - CLI / Configuration
+        - Performance
+        - Documentation
+        - Other
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Add any other context, screenshots, or links about the feature request.
+    validations:
+      required: false

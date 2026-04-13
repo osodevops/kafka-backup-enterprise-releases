@@ -1,0 +1,87 @@
+name: Bug report
+description: Report a bug or unexpected behavior in kafka-backup Enterprise
+
+labels: ["bug"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting an issue! Please provide as much detail as possible to help us reproduce and fix the problem.
+
+        For urgent production issues covered under a support contract, email [support@oso.sh](mailto:support@oso.sh) directly.
+
+  - type: textarea
+    attributes:
+      label: Describe the bug
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe the issue step by step
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Run command '...'
+        2. With config '...'
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Expected behavior
+      description: A clear description of what you expected to happen.
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Error output / Logs
+      description: If applicable, paste the error message or relevant logs.
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Configuration
+      description: Share your (sanitized) configuration file if relevant. Remove any credentials or sensitive values.
+      render: yaml
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Environment
+      description: Environment information where the problem occurs.
+      value: |
+        - kafka-backup-enterprise version:
+        - OS and architecture:
+        - Kafka version:
+        - Confluent Platform version (if applicable):
+        - Storage backend: [S3 / Azure Blob / GCS / filesystem]
+        - Deployment: [bare metal / Docker / Kubernetes]
+    validations:
+      required: false
+
+  - type: dropdown
+    attributes:
+      label: Does this affect the OSS binary too?
+      description: Does the same issue occur with the open-source kafka-backup binary?
+      options:
+        - "Not applicable / enterprise-only feature"
+        - "Yes — also broken in OSS"
+        - "No — OSS works, enterprise does not"
+        - "Haven't tested OSS"
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Add any other context about the problem here.
+    validations:
+      required: false

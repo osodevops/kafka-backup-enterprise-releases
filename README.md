@@ -1,4 +1,11 @@
-# kafka-backup-enterprise
+# kafka-backup Enterprise
+
+[![Latest Release](https://img.shields.io/github/v/release/osodevops/kafka-backup-enterprise-releases?style=flat-square&label=release)](https://github.com/osodevops/kafka-backup-enterprise-releases/releases/latest)
+[![License](https://img.shields.io/badge/license-Proprietary-red?style=flat-square)](https://kafkabackup.com/enterprise)
+[![Rust](https://img.shields.io/badge/rust-2021_edition-orange?style=flat-square&logo=rust)](https://www.rust-lang.org/)
+[![Kafka](https://img.shields.io/badge/kafka-3.7+-231F20?style=flat-square&logo=apachekafka)](https://kafka.apache.org/)
+[![Confluent Platform](https://img.shields.io/badge/confluent_platform-5.4+-0074A2?style=flat-square)](https://www.confluent.io/)
+[![Docs](https://img.shields.io/badge/docs-kafkabackup.com-blue?style=flat-square)](https://kafkabackup.com/enterprise)
 
 Enterprise edition of [kafka-backup](https://github.com/osodevops/kafka-backup) — backup and restore for Apache Kafka with Schema Registry, RBAC, and encryption support.
 
@@ -111,9 +118,19 @@ kafka-backup-enterprise license apply --file license.lic
 kafka-backup-enterprise license info
 ```
 
+## Reporting Issues
+
+Use the GitHub issue tracker in this repository to report bugs or suggest features:
+
+- [**Report a bug**](https://github.com/osodevops/kafka-backup-enterprise-releases/issues/new?template=bug.yml)
+- [**Request a feature**](https://github.com/osodevops/kafka-backup-enterprise-releases/issues/new?template=feature.yml)
+
+For urgent production issues covered under a support contract, contact [support@oso.sh](mailto:support@oso.sh).
+
 ## Links
 
 - [kafkabackup.com/enterprise](https://kafkabackup.com/enterprise) — Pricing and trials
 - [kafka-backup OSS](https://github.com/osodevops/kafka-backup) — Open-source core (MIT)
 - [Docker Hub](https://hub.docker.com/r/osodevops/kafka-backup-enterprise) — Docker images
+- [OSO](https://www.oso.sh)
 - [Changelog](CHANGELOG.md)

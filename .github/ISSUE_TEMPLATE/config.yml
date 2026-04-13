@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://kafkabackup.com/enterprise
+    about: Read the full documentation before opening an issue
+  - name: Request a trial license
+    url: https://kafkabackup.com/enterprise
+    about: Get a free 30-day trial with all enterprise features
+  - name: Enterprise support
+    url: mailto:support@oso.sh
+    about: Urgent production issues for customers with a support contract
+  - name: OSS issues (kafka-backup core)
+    url: https://github.com/osodevops/kafka-backup/issues
+    about: Issues with the open-source core rather than enterprise features
