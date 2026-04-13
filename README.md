@@ -1,11 +1,11 @@
 # kafka-backup Enterprise
 
 [![Latest Release](https://img.shields.io/github/v/release/osodevops/kafka-backup-enterprise-releases?style=flat-square&label=release)](https://github.com/osodevops/kafka-backup-enterprise-releases/releases/latest)
-[![License](https://img.shields.io/badge/license-Proprietary-red?style=flat-square)](https://kafkabackup.com/enterprise)
+[![License](https://img.shields.io/badge/license-Proprietary-red?style=flat-square)](https://enterprise.kafkabackup.com/)
 [![Rust](https://img.shields.io/badge/rust-2021_edition-orange?style=flat-square&logo=rust)](https://www.rust-lang.org/)
 [![Kafka](https://img.shields.io/badge/kafka-3.7+-231F20?style=flat-square&logo=apachekafka)](https://kafka.apache.org/)
 [![Confluent Platform](https://img.shields.io/badge/confluent_platform-5.4+-0074A2?style=flat-square)](https://www.confluent.io/)
-[![Docs](https://img.shields.io/badge/docs-kafkabackup.com-blue?style=flat-square)](https://kafkabackup.com/enterprise)
+[![Docs](https://img.shields.io/badge/docs-kafkabackup.com-blue?style=flat-square)](https://enterprise.kafkabackup.com/)
 
 Enterprise edition of [kafka-backup](https://github.com/osodevops/kafka-backup) — backup and restore for Apache Kafka with Schema Registry, RBAC, and encryption support.
 
@@ -105,8 +105,8 @@ All enterprise features work alongside the full OSS backup engine — topics, pa
 The binary includes a **14-day free trial** — all enterprise features are enabled automatically on first run, no signup needed.
 
 After the trial:
-- Get a 30-day extended trial at [kafkabackup.com/enterprise](https://kafkabackup.com/enterprise)
-- Purchase an annual license for production use
+- [Contact us](mailto:sales@oso.sh) to request an extended trial
+- [Purchase an annual license](https://enterprise.kafkabackup.com/)
 
 Without a license, the binary continues to work as the full OSS edition.
 
@@ -129,7 +129,7 @@ For urgent production issues covered under a support contract, contact [support@
 
 ## Links
 
-- [kafkabackup.com/enterprise](https://kafkabackup.com/enterprise) — Pricing and trials
+- [enterprise.kafkabackup.com](https://enterprise.kafkabackup.com/) — Pricing and purchase
 - [kafka-backup OSS](https://github.com/osodevops/kafka-backup) — Open-source core (MIT)
 - [Docker Hub](https://hub.docker.com/r/osodevops/kafka-backup-enterprise) — Docker images
 - [OSO](https://www.oso.sh)
