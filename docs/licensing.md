@@ -61,7 +61,7 @@ The license is saved to `~/.config/kafka-backup/license.lic` and loaded automati
 ```bash
 docker run --rm \
   -e ENTERPRISE_LICENSE_KEY="$(base64 < license.lic)" \
-  osodevops/kafka-backup-enterprise:v0.2.1 \
+  osodevops/kafka-backup-enterprise:v0.3.2 \
   backup --config /config.yaml
 ```
 
@@ -70,7 +70,7 @@ docker run --rm \
 ```bash
 docker run --rm \
   -v ./license.lic:/etc/kafka-backup/license.key \
-  osodevops/kafka-backup-enterprise:v0.2.1 \
+  osodevops/kafka-backup-enterprise:v0.3.2 \
   backup --config /config.yaml
 ```
 

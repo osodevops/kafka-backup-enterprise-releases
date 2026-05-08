@@ -16,7 +16,7 @@ spec:
         spec:
           containers:
             - name: kafka-backup
-              image: osodevops/kafka-backup-enterprise:v0.2.1
+              image: osodevops/kafka-backup-enterprise:v0.3.2
               args: ["backup", "--config", "/config/backup.yaml"]
               env:
                 - name: ENTERPRISE_LICENSE_KEY

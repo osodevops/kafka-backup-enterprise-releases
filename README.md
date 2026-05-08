@@ -20,7 +20,7 @@ brew install osodevops/tap/kafka-backup-enterprise
 
 **Docker:**
 ```bash
-docker pull osodevops/kafka-backup-enterprise:v0.3.1
+docker pull osodevops/kafka-backup-enterprise:v0.3.2
 ```
 
 **Binary download:** See [Releases](https://github.com/osodevops/kafka-backup-enterprise-releases/releases) for Linux (x86_64, aarch64), macOS (Intel, Apple Silicon), and Windows.
@@ -67,6 +67,7 @@ enterprise:
 | **Confluent Schema Registry backup/restore** | - | Yes |
 | **Apicurio Registry v3 backup/restore** | - | Yes |
 | **Confluent RBAC backup/restore (MDS)** | - | Yes |
+| **AWS MSK ZooKeeper to KRaft migration** | - | Yes |
 | **Field-level encryption (CSFLE/DEK)** | - | Yes |
 | **Data masking** | - | Planned |
 | **Audit logging** | - | Planned |
@@ -86,6 +87,7 @@ All enterprise features work alongside the full OSS backup engine — topics, pa
 | [Schema Registry Backup](docs/schema-registry.md) | Confluent SR backup and restore |
 | [Apicurio Registry Backup](docs/apicurio-registry.md) | Apicurio v3 backup and restore |
 | [RBAC Backup](docs/rbac.md) | Confluent MDS role binding backup |
+| [MSK KRaft Migration](docs/msk-kraft-migration.md) | AWS MSK ZooKeeper to KRaft migration |
 | [Encryption Backup](docs/encryption.md) | Field-level encryption metadata backup |
 | [Licensing](docs/licensing.md) | How the license system works, trial, purchasing |
 | [Kubernetes Deployment](docs/kubernetes.md) | Deploy to K8s with license secret |

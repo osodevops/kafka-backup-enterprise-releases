@@ -17,7 +17,7 @@ brew install osodevops/tap/kafka-backup-enterprise
 ### Docker
 
 ```bash
-docker pull osodevops/kafka-backup-enterprise:v0.3.1
+docker pull osodevops/kafka-backup-enterprise:v0.3.2
 ```
 
 ### Binary Download
@@ -26,11 +26,11 @@ Download from [Releases](https://github.com/osodevops/kafka-backup-enterprise-re
 
 ```bash
 # Linux (x86_64)
-curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.3.1/kafka-backup-x86_64-linux.tar.gz | tar xz
+curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.3.2/kafka-backup-x86_64-linux.tar.gz | tar xz
 sudo mv kafka-backup /usr/local/bin/kafka-backup-enterprise
 
 # macOS (Apple Silicon)
-curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.3.1/kafka-backup-aarch64-macos.tar.gz | tar xz
+curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.3.2/kafka-backup-aarch64-macos.tar.gz | tar xz
 sudo mv kafka-backup /usr/local/bin/kafka-backup-enterprise
 ```
 
@@ -38,7 +38,7 @@ sudo mv kafka-backup /usr/local/bin/kafka-backup-enterprise
 
 ```bash
 kafka-backup-enterprise --version
-# kafka-backup 0.2.1
+# kafka-backup 0.3.2
 
 kafka-backup-enterprise license info
 # Status: Enterprise Auto-Trial
@@ -94,7 +94,7 @@ kafka-backup-enterprise backup --config backup.yaml --schema-only
 ```bash
 docker run --rm \
   -v ./backup.yaml:/config.yaml \
-  osodevops/kafka-backup-enterprise:v0.3.1 \
+  osodevops/kafka-backup-enterprise:v0.3.2 \
   backup --config /config.yaml --schema-only
 ```
 
@@ -124,7 +124,7 @@ In Docker, pass the license via environment variable:
 docker run --rm \
   -e ENTERPRISE_LICENSE_KEY="$(base64 < license.lic)" \
   -v ./backup.yaml:/config.yaml \
-  osodevops/kafka-backup-enterprise:v0.3.1 \
+  osodevops/kafka-backup-enterprise:v0.3.2 \
   backup --config /config.yaml
 ```
 
@@ -133,4 +133,5 @@ docker run --rm \
 - [Configuration Reference](configuration.md) — all enterprise config options
 - [Schema Registry Backup](schema-registry.md) — Confluent SR details
 - [Apicurio Registry Backup](apicurio-registry.md) — Apicurio v3 details
+- [MSK KRaft Migration](msk-kraft-migration.md) — AWS MSK ZooKeeper to KRaft migration
 - [Kubernetes Deployment](kubernetes.md) — deploy to K8s

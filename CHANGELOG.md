@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.3.2 (2026-05-08)
+
+### Features
+- **AWS MSK ZooKeeper to KRaft migration** — production-ready enterprise migration flow for moving MSK Provisioned clusters from ZooKeeper metadata mode to KRaft metadata mode.
+- **Controlled cutover** — coordinated producer freeze, sentinel drain, translated consumer group offset commits, and explicit `READY_FOR_CLIENT_SWITCH` handoff.
+- **Offset continuity** — source consumer group offsets are translated onto the target cluster so consumers resume from the same message position after the switch.
+- **S3-backed seed and tail** — bulk seed through S3 followed by live tail replication until lag is within the configured drain threshold.
+- **ACL and auth migration planning** — SCRAM-to-SCRAM E2E path, ACL drift policies, and IAM access-map output for cross-auth modernization paths.
+- **Signed migration evidence** — Ed25519-signed JSON evidence bundle with the complete journal, topology plan, ACL plan, seed/tail stats, cutover report, offset translations, and validation results.
+
+### Validation
+- Full AWS end-to-end release rehearsal completed on May 7, 2026 with migration ID `aws-e2e-r4-20260507T200820Z`.
+- Covered 11 topics, 68 partitions, compacted topics, tombstones, Kafka Connect internals, Kafka Streams topics, ACLs, consumer offsets, sentinels, and post-switch writes.
+- Seeded 120,861 records / 123,761,664 bytes, translated 37 offsets across 3 consumer groups, observed 68 sentinels, and matched 122/122 comparable spot-check records.
+- Final validation outcome was `WARNING` only because 26 empty or zero-span partitions had no record available for spot comparison; all comparable records matched and `offset_floor_violations=0`.
+
+### Release Notes
+- Enterprise release is built against OSS core `v0.15.4`.
+- Helm chart and app version are `0.3.2`.
+- The AWS-proven production path is SCRAM-SHA-512 source to SCRAM-SHA-512 target. IAM and cross-auth paths are implemented and covered by automated tests, but should be rehearsed in staging before being treated as equivalent production evidence.
+
 ## v0.3.1 (2026-04-10)
 
 ### CI/CD
