@@ -1,0 +1,133 @@
+{
+  "version": "0.6.1",
+  "recorded_utc": "2026-10-13T19:43:10.260470+00:00",
+  "public_release_url": "https://github.com/osodevops/kafka-backup-enterprise-releases/releases/tag/v0.6.1",
+  "binary_archives": [
+    {
+      "name": "kafka-backup-x86_64-linux.tar.gz",
+      "sha256": "7145554ae1b8688951957250645850b3982b954be4751cc607a68dc11af0fd8c",
+      "size_bytes": 21018144,
+      "archive_verified": true,
+      "private_public_digest_match": true
+    },
+    {
+      "name": "kafka-backup-aarch64-linux.tar.gz",
+      "sha256": "41b28af428dd5b1eedd45999edadf265aea01ffb42d0686b63bda96720d31117",
+      "size_bytes": 21417937,
+      "archive_verified": true,
+      "private_public_digest_match": true
+    },
+    {
+      "name": "kafka-backup-x86_64-macos.tar.gz",
+      "sha256": "637277aef0c95cd96bc63ddbed2c9c427217b0ea9c51d42e3a8af083196f7883",
+      "size_bytes": 19693674,
+      "archive_verified": true,
+      "private_public_digest_match": true
+    },
+    {
+      "name": "kafka-backup-aarch64-macos.tar.gz",
+      "sha256": "784c5e157efd0176037e8cf63055d4d4a9c1130658fb4a8abd5f665218b57a34",
+      "size_bytes": 18688825,
+      "archive_verified": true,
+      "private_public_digest_match": true
+    },
+    {
+      "name": "kafka-backup-x86_64-windows.zip",
+      "sha256": "59370fe918424167bd6231351da0f7ec2aea9cfb3539e7e12b46f65cd9b5495c",
+      "size_bytes": 18442709,
+      "archive_verified": true,
+      "private_public_digest_match": true
+    }
+  ],
+  "private_release_url": "https://github.com/osodevops/kafka-backup-enterprise/releases/tag/v0.6.1",
+  "homebrew": {
+    "formula": "osodevops/homebrew-tap/Formula/kafka-backup-enterprise.rb",
+    "version": "0.6.1",
+    "checksums_match_published_assets": true,
+    "ruby_syntax": "passed"
+  },
+  "status": "verified",
+  "source_commit": "176e4fefea1657da21bbd2330509476a41c0720d",
+  "qualified_source_commit": "ed01b0031f36bc825872b3806054ac4d5af2cb00",
+  "qualification": {
+    "pairs": 81,
+    "contracts": 1297,
+    "workflow_run_id": 38437211446,
+    "ci_run_id": 38437219687
+  },
+  "release_workflow": {
+    "id": 38447677989,
+    "conclusion": "success",
+    "five_platform_builds": true,
+    "docker": true,
+    "public_sync": true,
+    "homebrew": true
+  },
+  "native_execution": {
+    "macos_arm64": {
+      "version": "0.6.1",
+      "licence_key_verified": true,
+      "restore_help_schema_only": true,
+      "validate_help_schema_only": true
+    },
+    "macos_x86_64": {
+      "version": "0.6.1",
+      "licence_key_verified": true
+    },
+    "linux_x86_64": {
+      "version": "0.6.1",
+      "licence_key_verified": true,
+      "runtime": "ubuntu:24.04",
+      "runtime_digest": "sha256:534baea6a22c03a63003dbc8dbe78fe34bc0d7e595d9a9dc9834884ff530eb55"
+    },
+    "linux_aarch64": {
+      "version": "0.6.1",
+      "licence_key_verified": true,
+      "runtime": "ubuntu:24.04",
+      "runtime_digest": "sha256:534baea6a22c03a63003dbc8dbe78fe34bc0d7e595d9a9dc9834884ff530eb55"
+    },
+    "windows_x86_64": {
+      "version_smoke": "passed in native Windows release job",
+      "licence_key_verified_in_native_release_job": true
+    }
+  },
+  "linux_minimum_glibc": "2.39",
+  "commercial_key_sha256": "833b2cbed15de334cdfdfad44c687b849a5244011a0b05ae89588e690bec4d66",
+  "docker": {
+    "tag": "osodevops/kafka-backup-enterprise:v0.6.1",
+    "digest": "sha256:b7996633a1bfd5ba1a8057e67661631f27fa3aee739b9003ef93833e18ecc03b",
+    "anonymous_manifest_verified": true,
+    "version": "0.6.1",
+    "licence_key_verified": true,
+    "restore_help_schema_only": true
+  },
+  "oci_helm": {
+    "reference": "ghcr.io/osodevops/charts/kafka-backup-enterprise:0.6.1",
+    "digest": "sha256:7576c3c8893935c7b4378834d20c85263f7e3ba766a3c4f4c74b7070dff396e1",
+    "authenticated_pull_verified": true,
+    "independent_verify_run": 38455007060,
+    "source_files_match": true,
+    "normalized_chart_metadata_match": true,
+    "lint": "passed",
+    "rendered_image": "osodevops/kafka-backup-enterprise:v0.6.1"
+  },
+  "limits": "Registry semantic/framing exclusions remain as documented in schema-registry-compatibility.md; artifact verification does not expand that scope.",
+  "public_helm": {
+    "chart_version": "0.6.2",
+    "app_version": "0.6.1",
+    "url": "https://github.com/osodevops/helm-charts/releases/tag/kafka-backup-enterprise-0.6.2",
+    "archive_sha256": "202e1370d7cdfdd33a31381977db19e7b4dfa0dd66d2960e052dc74daeb3fde8",
+    "public_index": "https://osodevops.github.io/helm-charts/",
+    "index_pull_verified": true,
+    "all_package_files_match_oci_except_intended_chart_version": true,
+    "licence_test_hook_included": true,
+    "kubernetes_install_test_run": 38456441756,
+    "kubernetes_licence_test": "Succeeded",
+    "release_workflow_run": 38456794726,
+    "release_workflow_conclusion": "success",
+    "pages_workflow_run": 38456875261,
+    "lint": "passed",
+    "rendered_image": "osodevops/kafka-backup-enterprise:v0.6.1",
+    "prior_chart_0_6_1_archive_preserved": true
+  }
+}

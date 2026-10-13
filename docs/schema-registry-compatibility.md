@@ -111,3 +111,12 @@ workflows enumerate all 81 ordered provider/version pairs. The full release
 matrix passed; its results apply to the executed fixtures and explicit limits
 above. They do not establish compatibility for unqualified custom serializers,
 rule executors or other excluded semantic combinations.
+
+## Published artifacts
+
+The [artifact verification report](schema-registry-release-artifacts.json) records
+all five binary checksums, execution and licence-key checks, the public Docker
+digest, OCI chart verification, the public Helm index and Homebrew checksums.
+Linux standalone binaries require glibc 2.39+; the Docker image supplies its own
+runtime. The public Helm chart 0.6.2 and OCI chart 0.6.1 both install application
+0.6.1. Chart 0.6.2 includes the source licence smoke-test hook.
