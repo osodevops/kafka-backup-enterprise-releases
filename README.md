@@ -23,7 +23,7 @@ brew install osodevops/tap/kafka-backup-enterprise
 docker pull osodevops/kafka-backup-enterprise:v0.6.1
 ```
 
-**Binary download:** See [Releases](https://github.com/osodevops/kafka-backup-enterprise-releases/releases) for Linux (x86_64, aarch64), macOS (Intel, Apple Silicon), and Windows.
+**Binary download:** See [Releases](https://github.com/osodevops/kafka-backup-enterprise-releases/releases) for Linux (x86_64, aarch64), macOS (Intel, Apple Silicon), and Windows. Linux standalone binaries require glibc 2.39+; use Docker on older Linux hosts.
 
 ## Quick Start
 

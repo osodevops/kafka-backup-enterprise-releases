@@ -17,20 +17,35 @@ brew install osodevops/tap/kafka-backup-enterprise
 ### Docker
 
 ```bash
-docker pull osodevops/kafka-backup-enterprise:v0.3.2
+docker pull osodevops/kafka-backup-enterprise:v0.6.1
 ```
 
+### Helm
+
+```bash
+helm repo add oso-devops https://osodevops.github.io/helm-charts/
+helm repo update
+helm upgrade --install kafka-backup-enterprise oso-devops/kafka-backup-enterprise --version 0.6.2
+```
+
+Chart 0.6.2 installs application 0.6.1 and includes its licence smoke-test hook.
+Set your Kafka/storage configuration and licence values before installation.
+
 ### Binary Download
+
+Linux standalone binaries require glibc 2.39 or newer (for example, Ubuntu
+24.04). Use the Docker image on hosts with an older glibc. macOS binaries are
+available for Intel and Apple Silicon; Windows provides an x86_64 executable.
 
 Download from [Releases](https://github.com/osodevops/kafka-backup-enterprise-releases/releases):
 
 ```bash
 # Linux (x86_64)
-curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.3.2/kafka-backup-x86_64-linux.tar.gz | tar xz
+curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.6.1/kafka-backup-x86_64-linux.tar.gz | tar xz
 sudo mv kafka-backup /usr/local/bin/kafka-backup-enterprise
 
 # macOS (Apple Silicon)
-curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.3.2/kafka-backup-aarch64-macos.tar.gz | tar xz
+curl -L https://github.com/osodevops/kafka-backup-enterprise-releases/releases/download/v0.6.1/kafka-backup-aarch64-macos.tar.gz | tar xz
 sudo mv kafka-backup /usr/local/bin/kafka-backup-enterprise
 ```
 
@@ -38,7 +53,7 @@ sudo mv kafka-backup /usr/local/bin/kafka-backup-enterprise
 
 ```bash
 kafka-backup-enterprise --version
-# kafka-backup 0.3.2
+# kafka-backup 0.6.1
 
 kafka-backup-enterprise license info
 # Status: Enterprise Auto-Trial
@@ -94,7 +109,7 @@ kafka-backup-enterprise backup --config backup.yaml --schema-only
 ```bash
 docker run --rm \
   -v ./backup.yaml:/config.yaml \
-  osodevops/kafka-backup-enterprise:v0.3.2 \
+  osodevops/kafka-backup-enterprise:v0.6.1 \
   backup --config /config.yaml --schema-only
 ```
 
@@ -124,7 +139,7 @@ In Docker, pass the license via environment variable:
 docker run --rm \
   -e ENTERPRISE_LICENSE_KEY="$(base64 < license.lic)" \
   -v ./backup.yaml:/config.yaml \
-  osodevops/kafka-backup-enterprise:v0.3.2 \
+  osodevops/kafka-backup-enterprise:v0.6.1 \
   backup --config /config.yaml
 ```
 
