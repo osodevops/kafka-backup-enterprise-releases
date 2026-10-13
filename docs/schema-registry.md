@@ -1,5 +1,9 @@
 # Confluent Schema Registry Backup
 
+For verified ID preservation, ID allocation, migration and schema-only restore,
+see [the restore guide](schema-registry-restore.md) and
+[recorded compatibility evidence](schema-registry-compatibility.md).
+
 Backs up all subjects, schema versions, compatibility configs, modes, and schema references from Confluent Schema Registry.
 
 ## What Gets Backed Up

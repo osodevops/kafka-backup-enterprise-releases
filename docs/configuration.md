@@ -81,10 +81,11 @@ enterprise:
       retry_backoff_ms: 1000
       rate_limit_rps: 25
 
-  # ─── Apicurio Registry v3 ──────────────────────────────
+  # ─── Apicurio Registry v2/v3 ──────────────────────────
   apicurio_registry:
     enabled: true
     url: "https://apicurio:8080"
+    api_version: v3             # v2 | v3; must match the server/API URL
 
     storage_backend: sql        # sql | kafkasql | auto
 

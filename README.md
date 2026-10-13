@@ -20,7 +20,7 @@ brew install osodevops/tap/kafka-backup-enterprise
 
 **Docker:**
 ```bash
-docker pull osodevops/kafka-backup-enterprise:v0.3.2
+docker pull osodevops/kafka-backup-enterprise:v0.6.1
 ```
 
 **Binary download:** See [Releases](https://github.com/osodevops/kafka-backup-enterprise-releases/releases) for Linux (x86_64, aarch64), macOS (Intel, Apple Silicon), and Windows.
@@ -36,6 +36,10 @@ kafka-backup-enterprise backup --config backup.yaml
 
 # Schema-only backup
 kafka-backup-enterprise backup --config backup.yaml --schema-only
+
+# Validate a restore plan, then restore only the registries
+kafka-backup-enterprise validate-restore --config restore.yaml --schema-only --format json
+kafka-backup-enterprise restore --config restore.yaml --schema-only
 ```
 
 Minimal config:
@@ -65,7 +69,7 @@ enterprise:
 | Consumer offset management | Yes | Yes |
 | Three-phase restore | Yes | Yes |
 | **Confluent Schema Registry backup/restore** | - | Yes |
-| **Apicurio Registry v3 backup/restore** | - | Yes |
+| **Apicurio Registry v2/v3 backup/restore** | - | Yes |
 | **Confluent RBAC backup/restore (MDS)** | - | Yes |
 | **AWS MSK ZooKeeper to KRaft migration** | - | Yes |
 | **Field-level encryption (CSFLE/DEK)** | - | Yes |
@@ -76,6 +80,11 @@ enterprise:
 
 Both registries can be configured simultaneously — back up Confluent SR and Apicurio in the same run.
 
+Registry restoration verifies schemas and settings before Kafka replay. ID
+allocation and supported cross-provider migrations require explicit serializer
+profiles and coordinate mappings. See the restore guide for supported framing,
+snapshot requirements and explicit exclusions.
+
 All enterprise features work alongside the full OSS backup engine — topics, partitions, offsets, consumer groups, three-phase restore, and everything else in [kafka-backup](https://github.com/osodevops/kafka-backup).
 
 ## Documentation
@@ -85,7 +94,9 @@ All enterprise features work alongside the full OSS backup engine — topics, pa
 | [Getting Started](docs/getting-started.md) | Install, first backup, apply a license |
 | [Configuration Reference](docs/configuration.md) | Full YAML config for all enterprise features |
 | [Schema Registry Backup](docs/schema-registry.md) | Confluent SR backup and restore |
-| [Apicurio Registry Backup](docs/apicurio-registry.md) | Apicurio v3 backup and restore |
+| [Apicurio Registry Backup](docs/apicurio-registry.md) | Apicurio v2/v3 backup |
+| [Schema Registry Restore](docs/schema-registry-restore.md) | ID preservation, rewriting, migration profiles and recovery |
+| [Compatibility Evidence](docs/schema-registry-compatibility.md) | Exact images, SDK versions and executed contracts |
 | [RBAC Backup](docs/rbac.md) | Confluent MDS role binding backup |
 | [MSK KRaft Migration](docs/msk-kraft-migration.md) | AWS MSK ZooKeeper to KRaft migration |
 | [Encryption Backup](docs/encryption.md) | Field-level encryption metadata backup |

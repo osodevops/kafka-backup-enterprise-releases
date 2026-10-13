@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-10-13T12:52:26.071532+00:00",
+  "cargo_lock_sha256": "152215afd092c3074e1de3892888da861c0e4b5fc8c5a099069277eb6c76de2b",
+  "vulnerabilities": 0,
+  "audit_exit_success": true,
+  "remaining_warnings": [
+    {
+      "category": "unmaintained",
+      "package": "rustls-pemfile",
+      "version": "2.2.0",
+      "advisory_id": "RUSTSEC-2025-0134",
+      "assessment": "Maintenance advisory inherited through the OSS TLS configuration parser; no vulnerability reported."
+    },
+    {
+      "category": "unmaintained",
+      "package": "unsafe-libyaml",
+      "version": "0.2.11",
+      "advisory_id": "RUSTSEC-2024-0449",
+      "assessment": "Maintenance advisory inherited through serde_yaml; no vulnerability reported."
+    },
+    {
+      "category": "unsound",
+      "package": "lru",
+      "version": "0.12.5",
+      "advisory_id": "RUSTSEC-2026-0253",
+      "assessment": "The AWS S3 Express cache uses new/get_or_insert_mut; it does not call the affected pop or IterMut APIs. Tagged aws-sdk-s3 1.119.0 src/s3_express.rs was reviewed."
+    },
+    {
+      "category": "unsound",
+      "package": "lru",
+      "version": "0.12.5",
+      "advisory_id": "RUSTSEC-2026-0002",
+      "assessment": "The AWS S3 Express cache uses new/get_or_insert_mut; it does not call the affected pop or IterMut APIs. Tagged aws-sdk-s3 1.119.0 src/s3_express.rs was reviewed."
+    },
+    {
+      "category": "yanked",
+      "package": "spin",
+      "version": "0.9.8",
+      "advisory_id": null,
+      "assessment": "Yanked locked transitive release; no security advisory reported."
+    }
+  ]
+}
