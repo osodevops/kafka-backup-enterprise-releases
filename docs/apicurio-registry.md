@@ -1,6 +1,14 @@
-# Apicurio Registry v3 Backup
+# Apicurio Registry v2/v3 Backup
 
-Backs up groups, artifacts, versions, content, references, and rules from Apicurio Registry via the Core Registry API v3. Captures both a native export ZIP and a structured artefact-by-artefact backup.
+Backs up groups, artifacts, versions, content, references, and rules from
+Apicurio Registry via the explicit Core Registry API v2 or v3 adapter. Set
+`enterprise.apicurio_registry.api_version` to `v2` or `v3` to match the server.
+Captures both a native export ZIP and a structured artifact-by-artifact backup.
+
+For restoration, original global/content IDs require a complete unfiltered
+archive and an empty target using the same API generation. Filtered restores
+and supported v2-to-v3 migrations allocate IDs through normal APIs. See
+[the restore guide](schema-registry-restore.md) for configuration and limits.
 
 ## What Gets Backed Up
 
@@ -22,6 +30,7 @@ Backs up groups, artifacts, versions, content, references, and rules from Apicur
 enterprise:
   apicurio_registry:
     url: "http://apicurio:8080"
+    api_version: v3             # Select v2 for an Apicurio 2.x registry
 ```
 
 ## With OIDC Authentication (Keycloak)
