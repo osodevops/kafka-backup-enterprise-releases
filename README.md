@@ -14,10 +14,11 @@ kafka-backup-enterprise license activate-trial --format json
 kafka-backup-enterprise license info --format json
 ```
 
-For Docker, persist trial state across restarts:
+The Docker image targets Linux amd64. ARM hosts can use Docker amd64 emulation
+or the native ARM binary. Persist trial state across restarts:
 
 ```bash
-docker pull osodevops/kafka-backup-enterprise:v0.8.0
+docker pull --platform linux/amd64 osodevops/kafka-backup-enterprise:v0.8.0
 docker volume create kafka-backup-trial
 docker run --rm \
   --mount type=volume,src=kafka-backup-trial,dst=/var/lib/kafka-backup \
