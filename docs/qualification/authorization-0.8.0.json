@@ -1,0 +1,1443 @@
+{
+  "release": "0.8.0",
+  "status": "prepublication_qualified",
+  "source_commit": "83ff9702bb67dca47d96e7fa032a3a1bd392956b",
+  "ci_run_id": 38728397978,
+  "platforms": [
+    {
+      "version": "7.6.0",
+      "status": "platform_qualified",
+      "recorded_utc": "2026-10-15T11:43:52.822194+00:00",
+      "input_commit": "83ff9702bb67dca47d96e7fa032a3a1bd392956b",
+      "snapshot_count": 21,
+      "first_created": 20,
+      "repeat_created": 0,
+      "target_only": [
+        {
+          "kind": "acl",
+          "scope": {
+            "provider": "kafka",
+            "cluster": "NkU3OEVBNTcwNTJENDM2Qg"
+          },
+          "rule": {
+            "principal": "User:sentinel",
+            "host": "*",
+            "operation": "READ",
+            "permission_type": "ALLOW",
+            "resource_type": "TOPIC",
+            "resource_name": "recovered-sentinel",
+            "pattern_type": "LITERAL"
+          }
+        },
+        {
+          "kind": "role",
+          "principal": "User:bootstrap",
+          "scope": {
+            "provider": "platform",
+            "scope": {
+              "clusters": {
+                "kafka-cluster": "NkU3OEVBNTcwNTJENDM2Qg",
+                "connect-cluster": "destination-connect"
+              }
+            }
+          },
+          "role": "SystemAdmin",
+          "resource": null
+        },
+        {
+          "kind": "role",
+          "principal": "User:bootstrap",
+          "scope": {
+            "provider": "platform",
+            "scope": {
+              "clusters": {
+                "kafka-cluster": "NkU3OEVBNTcwNTJENDM2Qg",
+                "ksql-cluster": "destination-ksql"
+              }
+            }
+          },
+          "role": "SystemAdmin",
+          "resource": null
+        },
+        {
+          "kind": "role",
+          "principal": "User:bootstrap",
+          "scope": {
+            "provider": "platform",
+            "scope": {
+              "clusters": {
+                "kafka-cluster": "NkU3OEVBNTcwNTJENDM2Qg",
+                "schema-registry-cluster": "destination-sr"
+              }
+            }
+          },
+          "role": "SystemAdmin",
+          "resource": null
+        },
+        {
+          "kind": "role",
+          "principal": "User:bootstrap",
+          "scope": {
+            "provider": "platform",
+            "scope": {
+              "clusters": {
+                "kafka-cluster": "NkU3OEVBNTcwNTJENDM2Qg"
+              }
+            }
+          },
+          "role": "SystemAdmin",
+          "resource": null
+        }
+      ],
+      "passed": [
+        "complete_capture",
+        "mapped_roles_and_acls",
+        "component_enforcement",
+        "repeat_zero_writes",
+        "source_offline",
+        "data_and_schema_recovery",
+        "kill_and_resume",
+        "allow_and_deny_probes",
+        "additive_sentinel"
+      ],
+      "probes": [
+        {
+          "component": "connect",
+          "operation": "GET /connectors/sentinel-file/config",
+          "allowed": false,
+          "status": 403
+        },
+        {
+          "component": "registry",
+          "operation": "GET /subjects/recovered-orders-value/versions/latest",
+          "allowed": false,
+          "status": 403
+        },
+        {
+          "component": "registry",
+          "operation": "GET /subjects/recovered-orders-value/versions/latest",
+          "allowed": true
+        },
+        {
+          "component": "registry",
+          "operation": "POST /subjects/recovered-orders-value/versions",
+          "allowed": false,
+          "status": 403
+        },
+        {
+          "component": "connect",
+          "operation": "PUT /connectors/destination-file/config",
+          "allowed": true
+        },
+        {
+          "component": "connect",
+          "operation": "GET /connectors/destination-file/config",
+          "allowed": true
+        },
+        {
+          "component": "connect",
+          "operation": "GET /connectors/sentinel-file/config",
+          "allowed": false,
+          "status": 403
+        },
+        {
+          "component": "ksql",
+          "operation": "POST /ksql",
+          "allowed": true
+        },
+        {
+          "component": "ksql",
+          "operation": "POST /ksql",
+          "allowed": false,
+          "status": 403
+        }
+      ],
+      "interrupted_after_committed_deny": true,
+      "images": [
+        {
+          "service": "source",
+          "image_id": "sha256:aeb3af4252318fe3d3475d7b35addfde93d198b42839fdedd14f47cd450100bb",
+          "digests": [
+            "confluentinc/cp-server@sha256:aeb3af4252318fe3d3475d7b35addfde93d198b42839fdedd14f47cd450100bb"
+          ],
+          "state": "exited"
+        },
+        {
+          "service": "destination",
+          "image_id": "sha256:aeb3af4252318fe3d3475d7b35addfde93d198b42839fdedd14f47cd450100bb",
+          "digests": [
+            "confluentinc/cp-server@sha256:aeb3af4252318fe3d3475d7b35addfde93d198b42839fdedd14f47cd450100bb"
+          ],
+          "state": "running"
+        },
+        {
+          "service": "ldap",
+          "image_id": "sha256:18742e9c449c9c1afe129d3f2f3ee15fb34cc43e5f940a20f3399728f41d7c28",
+          "digests": [
+            "osixia/openldap@sha256:18742e9c449c9c1afe129d3f2f3ee15fb34cc43e5f940a20f3399728f41d7c28"
+          ],
+          "state": "running"
+        },
+        {
+          "service": "source-registry",
+          "image_id": "sha256:d23d8440708bb44daad5cba4195c070b9713c126375b355afb5ffedf7f1b94e7",
+          "digests": [
+            "confluentinc/cp-schema-registry@sha256:d23d8440708bb44daad5cba4195c070b9713c126375b355afb5ffedf7f1b94e7"
+          ],
+          "state": "exited"
+        },
+        {
+          "service": "destination-registry",
+          "image_id": "sha256:d23d8440708bb44daad5cba4195c070b9713c126375b355afb5ffedf7f1b94e7",
+          "digests": [
+            "confluentinc/cp-schema-registry@sha256:d23d8440708bb44daad5cba4195c070b9713c126375b355afb5ffedf7f1b94e7"
+          ],
+          "state": "running"
+        },
+        {
+          "service": "source-connect",
+          "image_id": "sha256:0bf9b70cc89a2dcdd9c57d2d92129dfbb012690a3323f4c4e92d1505c8c2ea4d",
+          "digests": [
+            "confluentinc/cp-server-connect@sha256:0bf9b70cc89a2dcdd9c57d2d92129dfbb012690a3323f4c4e92d1505c8c2ea4d"
+          ],
+          "state": "exited"
+        },
+        {
+          "service": "destination-connect",
+          "image_id": "sha256:0bf9b70cc89a2dcdd9c57d2d92129dfbb012690a3323f4c4e92d1505c8c2ea4d",
+          "digests": [
+            "confluentinc/cp-server-connect@sha256:0bf9b70cc89a2dcdd9c57d2d92129dfbb012690a3323f4c4e92d1505c8c2ea4d"
+          ],
+          "state": "running"
+        },
+        {
+          "service": "source-ksql",
+          "image_id": "sha256:8ec46c27982f52b43d73a87ec45ea4a4c79cff026ac13367e8c98f2e106e7bb3",
+          "digests": [
+            "confluentinc/cp-ksqldb-server@sha256:8ec46c27982f52b43d73a87ec45ea4a4c79cff026ac13367e8c98f2e106e7bb3"
+          ],
+          "state": "exited"
+        },
+        {
+          "service": "destination-ksql",
+          "image_id": "sha256:8ec46c27982f52b43d73a87ec45ea4a4c79cff026ac13367e8c98f2e106e7bb3",
+          "digests": [
+            "confluentinc/cp-ksqldb-server@sha256:8ec46c27982f52b43d73a87ec45ea4a4c79cff026ac13367e8c98f2e106e7bb3"
+          ],
+          "state": "running"
+        }
+      ],
+      "java_version": [
+        "openjdk version \"17.0.20.1\" 2026-08-18",
+        "OpenJDK Runtime Environment Homebrew (build 17.0.20.1+0)",
+        "OpenJDK 64-Bit Server VM Homebrew (build 17.0.20.1+0, mixed mode, sharing)"
+      ],
+      "binary_sha256": "afc512972cbd21811ba291de78303875ca219793da45677f36ffb18e23b3320e",
+      "kafka_client_sha256": "f6f8cce55579e7843ec4ebde2830e935552084f48891fd5db2d8e1ac4b45323b",
+      "source_sha256": {
+        ".github/workflows/ci.yml": "375e68f159988c6abb6ad0736339af35ff529f51e739fe2fdd620754b8bc55e4",
+        ".github/workflows/helm-publish.yml": "e7d8257dc7105cb9db037547b19f1a0b3faf960b569808f8709de0abb7add67d",
+        ".github/workflows/oauth-qualification.yml": "8557a633a3521422c58b4d6a592c2226d3bd606c5d04406281a7287a84c11a21",
+        ".github/workflows/registry-compatibility.yml": "8c3045be8faab5bea3d6a410ca5933ca79f4f27f2c0e646a61d5d8a4caa6334a",
+        ".github/workflows/release.yml": "f829bd11dadfd78b137fb18aaea5fd682d72fee8a76064817485ab63c9c214c6",
+        "Cargo.lock": "f48a56c94f4778a867244b44260decb201ca0b3d8a5c93ce2a006ff03b04973a",
+        "Cargo.toml": "7c1d101fe0d4aa9c5302d48923ca3990a4ccb9142ddcf067d05c07c665f1e878",
+        "crates/kafka-backup-enterprise-cli/Cargo.toml": "a8b21c9181fa77148dc4727b94b9b6109a7d21a4f1fae1f5e687ff1d7aaf961e",
+        "crates/kafka-backup-enterprise-cli/clippy.toml": "aed05da26d5d0dbefb1125d40279f08231c94d89c36d8a31788585e46ebb1986",
+        "crates/kafka-backup-enterprise-cli/src/commands/authorization.rs": "0d45abf4f954b265d001f1855a52259fd7cec5e8bb1e2ed554b13f57d46cef72",
+        "crates/kafka-backup-enterprise-cli/src/commands/backup.rs": "dc1b212302fbfe12bb4e8928163007e6e8c61f6f4f8e1bdbbfa24befe76574ab",
+        "crates/kafka-backup-enterprise-cli/src/commands/cluster_args.rs": "0f408817c63ed3f73618f6e93dee1dfe91e9270cbbeca49befa4568f39861734",
+        "crates/kafka-backup-enterprise-cli/src/commands/config.rs": "ffedbb21881ec04ed2babce88ea4f362b9656f558dbba76ca5d6123e1863554c",
+        "crates/kafka-backup-enterprise-cli/src/commands/describe.rs": "b9d56715bf6e84cb46ad373ec069a08c8f53dc05ed38934d5e80592d6eef08c7",
+        "crates/kafka-backup-enterprise-cli/src/commands/erasure.rs": "b50bbef8cee18128c807c2f99679b40f74cb26456b1269ddff27d5ba57fc401f",
+        "crates/kafka-backup-enterprise-cli/src/commands/license.rs": "56cea17c05383e5eac004db7557bf756a7ff59c0535bf8e2df9dd80c97bb8b5b",
+        "crates/kafka-backup-enterprise-cli/src/commands/list.rs": "8de460c58dc41ad7f038600380a6b5d61f69ad89eefaf4921f8e614d3a96cacb",
+        "crates/kafka-backup-enterprise-cli/src/commands/metrics_runtime.rs": "39e4ac29b490a3327ef3c356a2b8ab61475b903e90eb59de8ac4b310fd47078c",
+        "crates/kafka-backup-enterprise-cli/src/commands/migrate.rs": "3bf11593a0b7cf4054a43617cafa8f676d5e4da0c708ecc08d6c67cc7bb043d2",
+        "crates/kafka-backup-enterprise-cli/src/commands/mod.rs": "0259bc2bd604ada9c25192cf1a07792c4f23a9e6c90de90fce38c3fd9d1fcb6a",
+        "crates/kafka-backup-enterprise-cli/src/commands/oauth.rs": "91b227c32162be92d7df2250962bbca0c263c9ffb2b72ecaffa0b4b14d914e57",
+        "crates/kafka-backup-enterprise-cli/src/commands/offset_mapping.rs": "426f51d9aa3bd638e5253a8499a660b77719d755b26f33969500cd11aae5e815",
+        "crates/kafka-backup-enterprise-cli/src/commands/offset_reset.rs": "a33c36016d5baa5f999acaebc4d5b07fc6230adf37f43e3e23b2782ee0a42ddc",
+        "crates/kafka-backup-enterprise-cli/src/commands/offset_reset_bulk.rs": "8941103daed87b6729384ab9b109c9c3b896e018aa2b844962d65a6ffb065b1e",
+        "crates/kafka-backup-enterprise-cli/src/commands/offset_rollback.rs": "881c9d0e55da7af7f300dcf7b173b882b4bd2963f17dfa3923f02d344377b0bb",
+        "crates/kafka-backup-enterprise-cli/src/commands/plan_render.rs": "b31f0341c2bb3d3fe3b89f5ecc02e5a4436c2c3f40ffd05fe208baa1bb9b88b3",
+        "crates/kafka-backup-enterprise-cli/src/commands/prune.rs": "c60dcf9bd099d4f56268faff89fa7f24d1bcc74c937d297d09d9a48a406df5e3",
+        "crates/kafka-backup-enterprise-cli/src/commands/rbac_backup.rs": "dc5659dbb7a77b86f2432618bbc329f612e1b9c31db41d82f7975d48ed79ae6b",
+        "crates/kafka-backup-enterprise-cli/src/commands/registry_restore.rs": "7f53972728c364fe5849a49565467c5b7d2cbf4b2e03493b9b94667480fa6d39",
+        "crates/kafka-backup-enterprise-cli/src/commands/restore.rs": "1414b3841d2dab0c346366f01415e7d277600d4033a5f919a79e592dd01135bd",
+        "crates/kafka-backup-enterprise-cli/src/commands/sasl_plugin.rs": "c11f73c48c7db423522769dcf937f186d7cf7afa346102af94c4be2215e6662e",
+        "crates/kafka-backup-enterprise-cli/src/commands/schema_restore.rs": "ab44dad89168bf357faf9366487c9a35f85deea04a8000aa03557ddadaad3c97",
+        "crates/kafka-backup-enterprise-cli/src/commands/security_args.rs": "4e46a18b7b157b84703aa00a3f2c853cbb8ea5ded5379035831a1835f7510702",
+        "crates/kafka-backup-enterprise-cli/src/commands/snapshot_groups.rs": "4a7d19f5b9ca1adef537f5a6ed2ab8a1868e513a191c8a84a106a566046a55fc",
+        "crates/kafka-backup-enterprise-cli/src/commands/status.rs": "0a4e7d1081b2b660ddc342aeed1ddab7796ed7aa1796e40da6ecc747c789b3b3",
+        "crates/kafka-backup-enterprise-cli/src/commands/status_watch.rs": "d6810dbf1c64528dfe2be10d10be22b8d1cec4243cf18a8bee0c430776abd5bd",
+        "crates/kafka-backup-enterprise-cli/src/commands/storage_path.rs": "032feb2a97b876d024a81112e9c448af7ae9d9ff2996f6c94e9184187a14ad53",
+        "crates/kafka-backup-enterprise-cli/src/commands/three_phase.rs": "334850c9715f289195d88d7355d8c95b285856e84257ce5eb6f01ae238df0316",
+        "crates/kafka-backup-enterprise-cli/src/commands/validate.rs": "b54d88b3616d8319f35f78895f3fcd4dbc3f3cd0ca2ed02aff7a5b6cafa1a127",
+        "crates/kafka-backup-enterprise-cli/src/commands/validate_restore.rs": "55ae8e41fb048ada778f6ca63688d7a1f742477451a12d378365a48610d59571",
+        "crates/kafka-backup-enterprise-cli/src/commands/validation.rs": "ec9a0293d14faef0df3757478cb238910a9442be02d5eabaee540af9617da3df",
+        "crates/kafka-backup-enterprise-cli/src/main.rs": "9b709137df77bdcc71a26da47961792c095db68415cb3c71cfc4f3235bf9aa6d",
+        "crates/kafka-backup-enterprise-cli/tests/authorization_cli_test.rs": "93abb890492f4067d27bf83f5d660e59dc594014991ed8794cd84b176a921947",
+        "crates/kafka-backup-enterprise-cli/tests/backup_control_plane_cli_test.rs": "f362a29d66664e5bddd34b76dc51101a39406e45871c008abcce3da61b516413",
+        "crates/kafka-backup-enterprise-cli/tests/erasure_cli_test.rs": "3621e46247355f019b71419ae805acebb00d6892875ce19f7b5746ec665e7c0b",
+        "crates/kafka-backup-enterprise-cli/tests/issue_100_storage_paths.rs": "6795f9d67607f9722eacc3b119f69e0c3f80261e704d4eb0fb6f37c343d00b0d",
+        "crates/kafka-backup-enterprise-cli/tests/issue_167_missing_topics.rs": "c0ac29f820622dab199dcd874671d3624de72200ca7ddfb776f84deb8700826f",
+        "crates/kafka-backup-enterprise-cli/tests/issue_168_config_flag.rs": "d857f593299b8a88083470caf4de486b01a2b19b0b838a2eadf7d1a8e069bf04",
+        "crates/kafka-backup-enterprise-cli/tests/issue_169_prune.rs": "7175f3846a48d26474bdaceb8ac19f671b0dad76c4b4b21acac36c159111f03a",
+        "crates/kafka-backup-enterprise-cli/tests/issue_174_storage_paths.rs": "330e8677b937917c8b9274e1afe61a06da49be3e9a19912412fc4ed3f9a1e65d",
+        "crates/kafka-backup-enterprise-cli/tests/issue_188_log_output.rs": "efc343aecd03db9f2616adbb9ccbef07c49dc45fddbfc1a800572562c839c592",
+        "crates/kafka-backup-enterprise-cli/tests/issue_218_storage_errors.rs": "02421ebb3e54a7709c675d3c50b041fa3b9363f6ac87b736ddb2a16ef354a59c",
+        "crates/kafka-backup-enterprise-cli/tests/issue_219_evidence_paths.rs": "5eae812bcd4ffe1d0428b67e22b8867e3a8370de50841c840b591dec7b0aacc1",
+        "crates/kafka-backup-enterprise-cli/tests/issue_220_bool_flags.rs": "ba3535d30e584706fdf108cdc604298f19cea58b1a97b3c78a15c607d25b09bb",
+        "crates/kafka-backup-enterprise-cli/tests/issue_221_file_urls.rs": "af72122e1e456bfb73786c1fda72ac62f2c3eda8c383e7d8f33ce178c04f4125",
+        "crates/kafka-backup-enterprise-cli/tests/issue_223_snapshot_show.rs": "c3ef40f5fce2ec7b871dc831aec243c2b3a97c1edbbbbf17e7cfd9d373ab05ee",
+        "crates/kafka-backup-enterprise-cli/tests/issue_224_snapshot_groups.rs": "da4466413d92807052ad9a92139448009cb24f110e89968181d2dc16860403a2",
+        "crates/kafka-backup-enterprise-cli/tests/license_info_cli_test.rs": "46c217f9034163037278ada5eadd6326f734d88078f02e54565dca43483173ab",
+        "crates/kafka-backup-enterprise-cli/tests/oauth_cli_test.rs": "7528c575354924aedd227d215435b15be716a4a81d5f7c7ced0a60bc6b6a6aff",
+        "crates/kafka-backup-enterprise-cli/tests/oauth_local_stack.rs": "9c601396ef992ab73a6c2c7d83332a58060ea26df6d167dcca7b05b45716438a",
+        "crates/kafka-backup-enterprise-cli/tests/oss_parity.rs": "a99321f2c9d243e637d2d115c95998aafbed8193765b6fdcad6bd27d1863e27e",
+        "crates/kafka-backup-enterprise-cli/tests/registry_validation_json_test.rs": "91fd68abf35eb72aa9f81b83ad201d52fb1e2befc61d334470585799f04f7d7b",
+        "crates/kafka-backup-enterprise-cli/tests/schema_restore_cli_test.rs": "f4064c25b9ed3a36199906b7ae6bf2dae409e06dbb18c3458c718241704f6598",
+        "crates/kafka-backup-enterprise-cli/tests/schema_restore_records_e2e_test.rs": "ff10324a9dd6b3dde4e1ea56229bb1d21f60a9f072ec18a0804b3b3df1c0bf74",
+        "crates/kafka-backup-enterprise-cli/tests/support/mod.rs": "f1c0a6c58966f5c439a0966d8a2f57b6105743915e82fd328ca195f8f4e5322d",
+        "crates/kafka-backup-enterprise-cli/tests/support/stub_s3.rs": "59b598d57ea200d916e66f474b6f09289ef0090ebd46b07b436844c10774b6ae",
+        "crates/kafka-backup-enterprise-cli/tests/trial_lifecycle_cli_test.rs": "9922bdc9c581d2cf1cf17e21290135914eb81726d541df0baed7c869ce847856",
+        "crates/kafka-backup-enterprise-core/Cargo.toml": "7827e4f7f8eda334e4332e2cb8dfa1100512151ee912482f2adc5a2e8409961e",
+        "crates/kafka-backup-enterprise-core/keys/license_public.key": "65166c54010b7e18cea035d173c9e56624dd6f03b327482842ead53719eac604",
+        "crates/kafka-backup-enterprise-core/keys/license_public.key.sha256": "48ee4da7fe1e678002c61af6c51939c95b5748a216f316db15ed1aed7a5bb471",
+        "crates/kafka-backup-enterprise-core/keys/test_commercial_private.key": "a87678e8cb85a73acf41d4aaede5038f811c92c7fa8092c6ad8f73481b7f60dd",
+        "crates/kafka-backup-enterprise-core/keys/test_commercial_public.key": "9d4059a0f9700a2ca49e003f43987abeca36a387d22f619adde543d94454a655",
+        "crates/kafka-backup-enterprise-core/keys/trial_public.key": "e9b90f13dca3331366f6cde6050020604f8b5a335ec4bd79fab876db3ffea186",
+        "crates/kafka-backup-enterprise-core/keys/trial_test_private.key": "6f6759ac1b247a4c92107bca3771fa9ee176d41e26ad1868b2e70d3117b4cc82",
+        "crates/kafka-backup-enterprise-core/src/apicurio_registry/backup.rs": "85aca002f911693fd1036fd554c284d4908f78acce2f85b73a04f3870b493097",
+        "crates/kafka-backup-enterprise-core/src/apicurio_registry/client.rs": "775a9057630005d2465134d0bba0aa04847a7eaf65d3840be6c0960638dfdf45",
+        "crates/kafka-backup-enterprise-core/src/apicurio_registry/mod.rs": "6ebf3e0c6811f8f058b95fcae0166c80738908369d0bb03e0311239015282130",
+        "crates/kafka-backup-enterprise-core/src/apicurio_registry/models.rs": "1993b48506a9a2404aeb4b065997dcb0b8e833f0cfe0b9f174ffaf7692e70425",
+        "crates/kafka-backup-enterprise-core/src/authorization/adapters.rs": "23a94da2c8fd0f26c6024661b43eb0a142ff906267bf161d9b031151d5acccf6",
+        "crates/kafka-backup-enterprise-core/src/authorization/config.rs": "045aa51c10dd7db447e8f806562493fea2774c9a75e75c02afb9de4cce2ee584",
+        "crates/kafka-backup-enterprise-core/src/authorization/crn.rs": "ea4648760b2cf2e546a25eda624b15aaa989f4aa1f13758aeeb62b19c23f6417",
+        "crates/kafka-backup-enterprise-core/src/authorization/engine.rs": "956361a9f7149e69bf3eb9418ac1631407e98d815beab81d35c2561dfea96e67",
+        "crates/kafka-backup-enterprise-core/src/authorization/kafka.rs": "59ccc844cab3688b1a71cba3523697fc121c2b8443412ffda9063ad6e67c605d",
+        "crates/kafka-backup-enterprise-core/src/authorization/metrics.rs": "7c17d4ad9a850ea30f59f97ee4b4a21a195bc973a6153180ca26c523b5751460",
+        "crates/kafka-backup-enterprise-core/src/authorization/mod.rs": "df07bc82e61bf21fd6650b8457299cf0b4b5d1064c95ab2c6a4e33eb8323ae95",
+        "crates/kafka-backup-enterprise-core/src/authorization/model.rs": "4b8bccc1baabd864c89cc09723b6d7d918d514e467b7ee701fd8318ab53e8823",
+        "crates/kafka-backup-enterprise-core/src/authorization/transport.rs": "afb63594d3783223c9dd1a186de88553b3a6d70a9eec8548e2dcea49690c6728",
+        "crates/kafka-backup-enterprise-core/src/config.rs": "31583de4ec95b9e71039a5b2b6ec21d4fe868ba2639287cb2d5713311b20a598",
+        "crates/kafka-backup-enterprise-core/src/confluent_rbac/backup.rs": "9c3e781b9375a0dec6802b5a613435e3df4fcb2a1defbfcf2ed818d0d1711ed6",
+        "crates/kafka-backup-enterprise-core/src/confluent_rbac/mds_client.rs": "652892b9feca4e6f21d934e467d4273b7cacdffc118b00b4358a41d8cdf032f0",
+        "crates/kafka-backup-enterprise-core/src/confluent_rbac/mod.rs": "34a18c63e37412451c845afc8ae0de94e240d8e6d79adfe66dbb3677f1a7ae19",
+        "crates/kafka-backup-enterprise-core/src/confluent_rbac/types.rs": "c4f49ee4c9484782e203526d4ec5f746c8cbb22b5be90cfd285cd26253d316cf",
+        "crates/kafka-backup-enterprise-core/src/control_plane.rs": "6fff3bd1a2c4f1679e7225d36d6fba2da1cb4bc7e1d7de05406fd6f089f609ac",
+        "crates/kafka-backup-enterprise-core/src/crypto.rs": "fda64414ddebe9b4d145e0095ef842c481b5f1cfdeec3f8cb1e8792d868652ce",
+        "crates/kafka-backup-enterprise-core/src/encryption/backup.rs": "589e6598f63bed5b7136d086f531e106f40bcdbc36482c8868c65b9c0cbc655a",
+        "crates/kafka-backup-enterprise-core/src/encryption/config.rs": "2dc1cd4e93f9b862c98904a9fb38f81747e55a93c06ce67c9b2b1e654c2fbff3",
+        "crates/kafka-backup-enterprise-core/src/encryption/csfle/detector.rs": "ca8df6ca3700305f3c650e0959bc60d1b0316f3f4ea9c5f6bc0012e6529dbd5b",
+        "crates/kafka-backup-enterprise-core/src/encryption/csfle/mod.rs": "320b177cfa953ef30fc454c244a1d91fb2c4e6b421f7d15e6c47cb1afea5e416",
+        "crates/kafka-backup-enterprise-core/src/encryption/csfle/tink.rs": "42788164f3ad532ee9c137b8eedcd37500f739892df7fe3e33f259d8270e5d35",
+        "crates/kafka-backup-enterprise-core/src/encryption/dek_registry/client.rs": "f1cf0e9951489bf853ead1f68ba5a6c3e918e4f9c920540863156e892c6be804",
+        "crates/kafka-backup-enterprise-core/src/encryption/dek_registry/mod.rs": "80a3cd9d78c7cde775c7e745b86c6656d9142053fd940ea8ccb4aae6208a2829",
+        "crates/kafka-backup-enterprise-core/src/encryption/dek_registry/types.rs": "3125eadea896d80b9c31c76eb472f04c56b7bccf29cdc5a86e54aedbcbc8b1a9",
+        "crates/kafka-backup-enterprise-core/src/encryption/mod.rs": "a9725140e239f5f97e51ae6b7b646d478460ace5c65ee59ae6692038f52766aa",
+        "crates/kafka-backup-enterprise-core/src/encryption/restore.rs": "7a7d235d74e9eb191fb3a07b42d31dbe56357fd4eff2cdec02e44a50e88b4582",
+        "crates/kafka-backup-enterprise-core/src/erasure/mod.rs": "1b9a9bf05f82a632f53e9b978a45fb588e6778a5e9295df9460623b415a6a3d2",
+        "crates/kafka-backup-enterprise-core/src/erasure/suppression.rs": "43014fccc36dfb401e6567763c8565aee4966a3238df986a93079765caec0290",
+        "crates/kafka-backup-enterprise-core/src/error.rs": "ea62c8f46ba1e4b75ce31aba0fbf874d8d132c91f68b8cd92c5c26aa163e2e75",
+        "crates/kafka-backup-enterprise-core/src/lib.rs": "31bccf666b34a876edf65a59128377e42643bf6e4a574698e3e4f5fe05cbe33a",
+        "crates/kafka-backup-enterprise-core/src/license/loader.rs": "1e1ef886cd36472a395382a7427d18bfd5634df062c70553258d4f765f1973ee",
+        "crates/kafka-backup-enterprise-core/src/license/mod.rs": "e62b164e9bfae6b0db225c3d729cba42e292906c23d3a8149361176ac1a1761c",
+        "crates/kafka-backup-enterprise-core/src/license/payload.rs": "1b9fe85680a13eaaea3ef8e00d216939a83d1b7aa0f02555f34b533605f1dfef",
+        "crates/kafka-backup-enterprise-core/src/license/validator.rs": "933581a15ff0c0c815eb2899ae47fbbb35ef0dc0063230d397261a2e97f3d19c",
+        "crates/kafka-backup-enterprise-core/src/migrations/mod.rs": "e42e544430186f90fa00f606907375a898de328198ade17d39978f79b914e5d4",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/acl.rs": "5c04788ba95e58444bd1510940ce2f9e92dfa4903003c3adb5cf08832a804acc",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/aws.rs": "c4bbfe942e7f8116cdb956a160c353519388d1efc86084277d14c433ac47ecfa",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/config.rs": "9b1334d453554c6baa2a5f4b561ccdc004ab2de94536b7dd096eeb01350352d7",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/consumer_groups.rs": "343fa72e1a064e3f6f22e1f7e8c9a4c8b33beac6bcc8ab94c911569a3723f887",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/cutover.rs": "d9b4e0c1f838af0b944833f2fbe5394ee7040a86b92143efbe31b6d215a83631",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/drain.rs": "b462e36950e9d5d44b5d21e4130e0577cc19afb70ac746a80b82dfb705adeada",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/error.rs": "15e4c78d8f3b6e3574b8a08ce37f6c3e95c3f363c5725a9604fe9c5709352363",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/evidence.rs": "d6f69d155e9ee475490ee46848974647c3769b8555a018934f8cef6b2f755ee4",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/journal.rs": "c1ad0e7ae2393ec49c30cb90c5f8e4bf1fc042a2e865d758154d5ac15c94bcd6",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/kafka.rs": "81887df6409031cfc70bb6d3c728ec3ef63dc889b6058ac222e42647c0b6d770",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/mod.rs": "8dc3dfba6ae6606fbd6f890ae4e7e1e41ecc8c65d74cfb0bd0e3319f314e27a7",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/orchestrator.rs": "991c231bb95aa227cb8bca034bd48a50d6638a8f779f5fd983197bbc990e0c3f",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan.rs": "15cc889d55ef2b0187079567aefffafb1aeb2c3a5b32608f8e6497943b6cd940",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_aws_cli.rs": "6aefe9fc38f60523a031fe6c763ace510d75b178d2761981486b2c1d12fc500a",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_cost.rs": "9cfc4f818a9b7fd4703b7382d2a09e3a5ee309ddf8cb36d01e2a7ba4be5ffe70",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_iam_policy.rs": "41ba07b869eb252115ba4425c0147fbd4bc9eef9a32fa8fa9ff759d2d11b5e3c",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_meta.rs": "ac515e32939eea32783140fd80f5e1f176b3709e447d8d8058b38b23a7d778cc",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_runbook.rs": "2d7a4c0750cfd6af441cc7f78bae002457eec0be4cffa9ab88d83f4f32d87497",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/precheck.rs": "b2c44740d7b9c2cb1ccf8a6aa83df1283649b38775a420867a237f5f814ac934",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/rollback.rs": "33cc58e1e933f8b01e0d1f658ed7d03b6f0326c77df5153401cd1208c42794e9",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/seed.rs": "02d2d7a362aa5c3cafea53be6f7fae02579d0addbbefe7d6fd6b975ea6026364",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/state.rs": "1916a9bb6fea3a94572201c5d09a2cceca8db49ec34548f2f4ba3158d876400e",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/tail.rs": "b6ee98db2de7d56e565ab2a4ed409611f7bf0aa1f6f8b26a5069be583ce8cac8",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/topology.rs": "a75d91b6492763f355519a5b5f9ad93200e9b34d7cc544924b780266ad7f8ca2",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/transactions.rs": "7ddb200e630ee4993a4b46d892470936263a5bb7546e62163f61932a2efe3039",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/validation.rs": "2599aabaadf6e367bfa23595b9f33303c7cd7826c44ffb417436cb665b0cfd83",
+        "crates/kafka-backup-enterprise-core/src/oauth/config.rs": "0d789816c2f674996a6d4a91954c283f47a777892c7bbe0849cd2313e4260940",
+        "crates/kafka-backup-enterprise-core/src/oauth/install.rs": "fea9d6af9aa49acf06bc0a42797e11dc4ab9f67d8589ca08490837c1bf80199e",
+        "crates/kafka-backup-enterprise-core/src/oauth/mod.rs": "e302e72812f9e5d8442225e313633939bd4ede3e5cfc6ef7b12ecc2829d0055e",
+        "crates/kafka-backup-enterprise-core/src/oauth/registry_auth.rs": "2546151220f999dff3a15d2f3f8b68763a6fa491c8fd1cf702f442c1b7502545",
+        "crates/kafka-backup-enterprise-core/src/registry_restore/engine.rs": "4c3668788d00f54858354f35fe1c4fa1459a9a88c422a45ac24742cdca316990",
+        "crates/kafka-backup-enterprise-core/src/registry_restore/mod.rs": "18a7e989cb9f0211f999269a0fcadb6a33a07296138e6b1690514eeb889372cd",
+        "crates/kafka-backup-enterprise-core/src/registry_restore/snapshot.rs": "065c2353306753bbc789d274f8fe62a4528d7691410d63ab01b7b7e05eaee3bc",
+        "crates/kafka-backup-enterprise-core/src/registry_restore/wire.rs": "225957b4edceb915db3fdf29d216c7878dad0433e12813cb99687f9783b71815",
+        "crates/kafka-backup-enterprise-core/src/sasl/mod.rs": "35217d6fba5d423ae7ba0c8e321327def0f53e3249a49396ac49fe224b2bcb47",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/cache.rs": "383aa92d127bfd6bf15f3eeba043a7313434211edd1c2cbe27d0259f0e589c0f",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/framing.rs": "42c3a6b502f7ab702b3f48d5c86beb7cf03951114207535fc76d52479eff64ce",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/http.rs": "419064c8b406b49b8ee3a1bd9fa33c44c387d13f62d3cffe9e40fa15a819e86f",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/jwt.rs": "4ad0967f10d8ee05b0e1f91ddb9bce5deeca3f7fa0a96564c3764db15436d900",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/mod.rs": "999d0f8c774b3ff069a269c37a361baaa383599c60feba8f65a6ca6bf18d5609",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/plugin.rs": "f5f58ade1fec73f177c5ad55f8d0914c83167ca977a7a7a62bbdbcc7cbff183b",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/azure_imds.rs": "465fe70b186fa10f70ddc2e1301add96c1c9c1efebb5057c2f83feb79280853c",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/azure_workload.rs": "3bcc1b0d5278aa127f02e80c50c435e077bebea66f183c5fc18e930655e1db7a",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/file.rs": "b5ec07bb25fc69a9e974f28001578a66904ac2e09785c0f684af09eca56fe4af",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/mod.rs": "b3e3a3f3555a2a18ed14e8dc129f0c09819434421014e3731dcc0b01643cad32",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/msk_iam.rs": "0bd754daceed9ae494e6611fee5921176c6c36dfde4392f368f07d52d3cbd52a",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/oidc.rs": "9d9d215d9496816d251ff4161d9e0127b1b8e407a93af5e2bb51ad2fe643fa0a",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/static_token.rs": "163e6ade1212effa1af7086a9f0e1123a9aefa1192a2b41b1e6addec4262c585",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/token.rs": "30750155286c5c0b6dedbfb8b96ae089bf7ef0dcd764e04ba7393442eb9b224c",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/backup.rs": "b51a530f3e50db2958d6bdff05bbaa109c17d686679c53204ea6d9b8fdc0920a",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/client.rs": "7ec31baa64988ae3fb346097d7097aeeccfbc158001b939ffe82378bdf9534cd",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/context.rs": "47880858a3ba807613788b8da3a92b927923af78c904b8a83e471408738f6d21",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/mod.rs": "e055e3393cc6066fa2a781ce8cbdfff745d29aa324b607a1e2bc69693ddb8a9d",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/models.rs": "bc568d5cab0fff3e30b6f61cf4fe8dd08721c1534b30f6360b64cc69ee56f620",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/ordering.rs": "99aaf57f4492cce3ba056e07b58abb7febdc430525a82f42c4d040098e590a54",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/restore.rs": "9ba1ded66c0d21536e991c9ddd9d1604c90981c21dc304e8263776dbe397e31a",
+        "crates/kafka-backup-enterprise-core/tests/apicurio_body_retry_test.rs": "f2a91d72b54e3b4951dde79712fc3d14f9146cf8351a88f20cc7612161b6d05a",
+        "crates/kafka-backup-enterprise-core/tests/apicurio_registry_backup_test.rs": "e49ccf20c7d149a92743a7446fdf2b72fab058e85e26c48a349b453271c1e6c3",
+        "crates/kafka-backup-enterprise-core/tests/apicurio_registry_e2e_test.rs": "2665acc760a6e05c6cca16c4e8d2f1284b5a72882ce13fd837650e0ba03f0374",
+        "crates/kafka-backup-enterprise-core/tests/authorization_local_test.rs": "165bb2b52436efa47ca335c124235148c28b0c3d9c4cbdee576b6f9b7800755b",
+        "crates/kafka-backup-enterprise-core/tests/authorization_recovery_test.rs": "fd1beedf072723be8594dcec6d1cde6b996ea0d36e7f1686f9d3f0db8c3840c5",
+        "crates/kafka-backup-enterprise-core/tests/control_plane_test.rs": "b693b1841e6812525ebdc4ad04dd18589b12afe996cb7521280ea7be012a58dc",
+        "crates/kafka-backup-enterprise-core/tests/encryption_backup_test.rs": "972f5eb88c6a9769f75b1d5d718ede8de45f1d20e2f7601f5fe8041b9a4a17e6",
+        "crates/kafka-backup-enterprise-core/tests/encryption_restore_test.rs": "d1c49550e4b01c816eee0f7e9c2c9438be5a72dfd19d58c2e0beb43ab4d60736",
+        "crates/kafka-backup-enterprise-core/tests/erasure_suppression_test.rs": "e6b69062d4946b588ac1b87ddf4f450e02cf41886f282644bf21c997c73bec1d",
+        "crates/kafka-backup-enterprise-core/tests/fixtures/portal-license.json": "bf88d9220b7c82c7f4c1c2b7575604483f62647cea563c105e7f4a8ee2a1db11",
+        "crates/kafka-backup-enterprise-core/tests/license_production_trust.rs": "b5227d2bd5f43b28a740d36c2ae85d5ae09bdbd516ed52c59fc6cd8eae058d2d",
+        "crates/kafka-backup-enterprise-core/tests/msk_kraft_acl_iam_test.rs": "84a292b2a1a0ad3ea50c2d9ef43bce19e7158bd004895c4b84a34d421c803d6a",
+        "crates/kafka-backup-enterprise-core/tests/msk_kraft_topology_test.rs": "4b5f2b32a34d54647acd52bb07d28f0f6f2bc518b7e068532d2ada8e80fdce7a",
+        "crates/kafka-backup-enterprise-core/tests/oauth_providers_test.rs": "fc988ea8dda0135bb2d2ef77d254073b27dc8ef961f2a5d1a450f6c15b1f5d72",
+        "crates/kafka-backup-enterprise-core/tests/oauth_redaction_test.rs": "5bd7db9628262364d05d4d0a31889a1f6bd461766e9338d7710595a769e7270e",
+        "crates/kafka-backup-enterprise-core/tests/oauth_registry_test.rs": "af65edebefb3af06005ee9038a1db5eff16573436bf1574d9a16e5be80b7cfa7",
+        "crates/kafka-backup-enterprise-core/tests/rbac_backup_test.rs": "09b63f52de2a6bc04f72317c7a2616f99f30f055e3827d385055b975c936eca7",
+        "crates/kafka-backup-enterprise-core/tests/rbac_edge_cases_test.rs": "e0249c50aeda9942f44839ff88932ceab4e611f85888b486bee0f5fa3b79b894",
+        "crates/kafka-backup-enterprise-core/tests/registry_restore_real_test.rs": "8d23ff427122c9cfbed2aa0072f208ea5096ef3992ba1c4ba6f81b14508dac65",
+        "crates/kafka-backup-enterprise-core/tests/registry_restore_safety_test.rs": "9e337b37b3cc3f32d691552361d64a9956e3bc35f3aa5ee21f398ce99cb07340",
+        "crates/kafka-backup-enterprise-core/tests/registry_tls_test.rs": "173bd85a457001a751f06daab59b67efd02935377821e3496b4b51b49faae6b0",
+        "crates/kafka-backup-enterprise-core/tests/registry_transport_test.rs": "6e28831d73ee28ec6282d485872926e3b7a29f1cbeffd632d557f51610976878",
+        "crates/kafka-backup-enterprise-core/tests/schema_registry_backup_test.rs": "a87d7ae37917dcafdc9cee62f447528931f509019e2696cbb3447a4ad3b6057a",
+        "crates/kafka-backup-enterprise-core/tests/schema_registry_edge_cases_test.rs": "b139bbbd3840370549686766317dc6a0b61743149346f09faa62010fb017f017",
+        "crates/kafka-backup-enterprise-core/tests/schema_registry_restore/docker-compose.kbsr.yml": "950a62dbff7ff1a5e718e010a38255adc483ba5d885a1ffaa68ef416ddf65cb2",
+        "crates/kafka-backup-enterprise-core/tests/schema_registry_restore_e2e_test.rs": "8a71c2ef6438b5502ae9f391b5980a33c653a433c684d3963d65c56edf884590",
+        "crates/kafka-backup-enterprise-core/tests/schema_registry_restore_test.rs": "21b71df922a31db87a1c38dbc620a3d44943ea423b1a9e398dfe528454e3f9a3",
+        "crates/kafka-backup-enterprise-core/tests/support/authorization_mds.rs": "076eb8bc2824ec00b1d3301b93394f1607d182f8384a61a904e1b212c75a75ce",
+        "crates/kafka-backup-enterprise-core/tests/support/fake_schema_registry.rs": "15a568b2e757d220efbf3ea490fa3f5c9ac5680387751dc7e2bacb043eadaa2c",
+        "deploy/helm/kafka-backup-enterprise/.helmignore": "d729e7bf0833376e10e51600a4161e8abbe16936611a21e6585267dc18ec144d",
+        "deploy/helm/kafka-backup-enterprise/Chart.yaml": "24f4283cadae663fbd9d1d79ae8260716f5ab8f477c5676748b718bc67ddfe61",
+        "deploy/helm/kafka-backup-enterprise/templates/NOTES.txt": "bb9877af2bebed27d5bdad754242a2dac08a31f39c7b03694abb651af6ee036c",
+        "deploy/helm/kafka-backup-enterprise/templates/_helpers.tpl": "c8bc9e02e7415c7d7dd5874d5d486d77e169f8e71f5a57a3c8cf2d16e1aa2b7d",
+        "deploy/helm/kafka-backup-enterprise/templates/configmap.yaml": "05b65422cd47e4d223cc3cadcc46e0ff0284bac6c6844f16383fc518510ddd20",
+        "deploy/helm/kafka-backup-enterprise/templates/cronjob.yaml": "0e1a473f6c348f85cde5853ca88a43a593914fad2133e45d1cdac0bba3622843",
+        "deploy/helm/kafka-backup-enterprise/templates/job.yaml": "7c7695947cd943f304c6a1023a59ba0202f271f58598f8751e03ebcc89424878",
+        "deploy/helm/kafka-backup-enterprise/templates/pvc.yaml": "1966ecfa9e96d6c0f27e6b9471aef6fa580ab4055eaaca507a34f6468c7f1ab9",
+        "deploy/helm/kafka-backup-enterprise/templates/secret-credentials.yaml": "b3a25b680df70b67e110baa12997d742f84817ce1bc70aac9638154d55f71f6e",
+        "deploy/helm/kafka-backup-enterprise/templates/secret-license.yaml": "a5338cca41c125a0e08e3fac051ea52853cc15abc1993d79b2118d6128516a0f",
+        "deploy/helm/kafka-backup-enterprise/templates/service.yaml": "7f3aa30a198028ed4458597696609bdbf10ab762d632d810004d75aa0b2fd6f1",
+        "deploy/helm/kafka-backup-enterprise/templates/serviceaccount.yaml": "13a1a3e3fc1db00cc8534a5b14bd329631110ecbe6ef1ef97b730b1c5339627b",
+        "deploy/helm/kafka-backup-enterprise/templates/servicemonitor.yaml": "0633e9be27cc0c315e17b7b1b12dd313997cbe5fc5d6bc058f32bba365393a38",
+        "deploy/helm/kafka-backup-enterprise/templates/tests/test-license.yaml": "5b465eb25acb496c121d3261aa9c0c39e9d0dba8d7d4a31b6ec3fb3585c2edd2",
+        "deploy/helm/kafka-backup-enterprise/values.yaml": "c79bc6407a9e2276317d8e47088fe82a3b739a48643af3f67450d294ef94a70e",
+        "docker/Dockerfile.enterprise": "0da57ff2ca1311554108527a4a3f066a0d0e011f04370aee0bb7d0530edf61d8",
+        "docker/README.md": "4596a8303c4c9ac47bbc0bb634321f86d8900074a72b70520168b2e1651dd3fd",
+        "docker/docker-compose.registry-restore.yml": "1727b3e8662d6f1ba69de9e5def03791d2ccaa26f3d4afa36fec57af2b8543d9",
+        "examples/authorization-platform.yaml": "ce4abbb93fce82f73d4baf01c5264ecf00485defc4f1ca504fff8aa877460c01",
+        "qualification/authorization/cloud/README.md": "6977423d427e2d5cd6e5c7a11f4e4e34e816ee818c468718c751794fdf4b8422",
+        "qualification/authorization/cloud/run.py": "ca3104dce5d473d70cd1dcde94ca11f37faf310a2b4f2b77099c35dbe1152ff2",
+        "qualification/authorization/cloud/scenario.py": "493d1b264e466ee594545ad659ad28cce3237fff2abe397f7b974f37efc05c44",
+        "qualification/authorization/cloud/teardown.py": "7aee97e9741c60d7dcec4ca20a33cc1275cac6b12cfb3ac46567fbea23faaa77",
+        "qualification/authorization/cloud/terraform/.terraform.lock.hcl": "14adf0979beecead22203c3dda7a69db6ca060b70646bacfa4dccef670a9ff78",
+        "qualification/authorization/cloud/terraform/main.tf": "3d5b8576a824ca83745e3888f288bb7be71604cb8ae16c91000d5d00cc6d241b",
+        "qualification/authorization/local/.gitignore": "2a18e15b03ea933e18a1890dcf42c5fd014374935044d23fa3c5960b24db451f",
+        "qualification/authorization/local/Probe.java": "e5071f66ffed28152c6afe1459e7a22b63089a3b167108d2869d2c37cd7925aa",
+        "qualification/authorization/local/README.md": "906b0f886757115207f1e6b854bd9fcdab1674d562f1061d84651da5c9e893c1",
+        "qualification/authorization/local/cli.py": "9602c0c8dc4fe908080e4dc42d58aa194266c6ed08b1c27d32b0d9b4c04c7836",
+        "qualification/authorization/local/collect-components.py": "d7e66f1d6d95e443c684ace858d2ec3a741c6986ddf4531f5c18cfed8e8ab59c",
+        "qualification/authorization/local/collect.py": "e829affd8cae28835eb6a63367b491fa849e3271508a99fb401e950886b52be2",
+        "qualification/authorization/local/components.py": "21288f110d65a68402fd0b598f940a35ba92c8cb5568c531a393a0fe5567e1d5",
+        "qualification/authorization/local/components.yml": "78edf446128198f3aafac1f1ef76ff046ef960bc79378c1ef53b2d436e54773d",
+        "qualification/authorization/local/compose.yml": "f23d6eb228b8acfb296d6aea00651be79439a55f1458c81298e7535b242c1b47",
+        "qualification/authorization/local/ldap/50-fixture.ldif": "b5f429b8a28309528c86450cb64e7e70fbe7801f0afc33c83776cad4e2ac1a5b",
+        "qualification/authorization/local/run-components.sh": "2810bffe2d0935a8fb6eba00de0cd535f35669d58378a3a3670842854a253adf",
+        "qualification/authorization/local/run.sh": "bbe0759cbba9363a96516422f3b8ab95564c40bbf7aa201d3b20ea39030238e3",
+        "qualification/authorization/local/seed.py": "26fa5d66185fb9014d7c0efd4fe1e4ec21be3aee53b978c05c47436012785d29"
+      },
+      "teardown": true,
+      "licensing": "Bundled Confluent non-production evaluation; secured component operations enforced"
+    },
+    {
+      "version": "8.3.1",
+      "status": "platform_qualified",
+      "recorded_utc": "2026-10-15T11:49:18.200729+00:00",
+      "input_commit": "83ff9702bb67dca47d96e7fa032a3a1bd392956b",
+      "snapshot_count": 21,
+      "first_created": 20,
+      "repeat_created": 0,
+      "target_only": [
+        {
+          "kind": "acl",
+          "scope": {
+            "provider": "kafka",
+            "cluster": "NkU3OEVBNTcwNTJENDM2Qg"
+          },
+          "rule": {
+            "principal": "User:sentinel",
+            "host": "*",
+            "operation": "READ",
+            "permission_type": "ALLOW",
+            "resource_type": "TOPIC",
+            "resource_name": "recovered-sentinel",
+            "pattern_type": "LITERAL"
+          }
+        },
+        {
+          "kind": "role",
+          "principal": "User:bootstrap",
+          "scope": {
+            "provider": "platform",
+            "scope": {
+              "clusters": {
+                "kafka-cluster": "NkU3OEVBNTcwNTJENDM2Qg",
+                "connect-cluster": "destination-connect"
+              }
+            }
+          },
+          "role": "SystemAdmin",
+          "resource": null
+        },
+        {
+          "kind": "role",
+          "principal": "User:bootstrap",
+          "scope": {
+            "provider": "platform",
+            "scope": {
+              "clusters": {
+                "kafka-cluster": "NkU3OEVBNTcwNTJENDM2Qg",
+                "ksql-cluster": "destination-ksql"
+              }
+            }
+          },
+          "role": "SystemAdmin",
+          "resource": null
+        },
+        {
+          "kind": "role",
+          "principal": "User:bootstrap",
+          "scope": {
+            "provider": "platform",
+            "scope": {
+              "clusters": {
+                "kafka-cluster": "NkU3OEVBNTcwNTJENDM2Qg",
+                "schema-registry-cluster": "destination-sr"
+              }
+            }
+          },
+          "role": "SystemAdmin",
+          "resource": null
+        },
+        {
+          "kind": "role",
+          "principal": "User:bootstrap",
+          "scope": {
+            "provider": "platform",
+            "scope": {
+              "clusters": {
+                "kafka-cluster": "NkU3OEVBNTcwNTJENDM2Qg"
+              }
+            }
+          },
+          "role": "SystemAdmin",
+          "resource": null
+        }
+      ],
+      "passed": [
+        "complete_capture",
+        "mapped_roles_and_acls",
+        "component_enforcement",
+        "repeat_zero_writes",
+        "source_offline",
+        "data_and_schema_recovery",
+        "kill_and_resume",
+        "allow_and_deny_probes",
+        "additive_sentinel"
+      ],
+      "probes": [
+        {
+          "component": "connect",
+          "operation": "GET /connectors/sentinel-file/config",
+          "allowed": false,
+          "status": 403
+        },
+        {
+          "component": "registry",
+          "operation": "GET /subjects/recovered-orders-value/versions/latest",
+          "allowed": false,
+          "status": 403
+        },
+        {
+          "component": "registry",
+          "operation": "GET /subjects/recovered-orders-value/versions/latest",
+          "allowed": true
+        },
+        {
+          "component": "registry",
+          "operation": "POST /subjects/recovered-orders-value/versions",
+          "allowed": false,
+          "status": 403
+        },
+        {
+          "component": "connect",
+          "operation": "PUT /connectors/destination-file/config",
+          "allowed": true
+        },
+        {
+          "component": "connect",
+          "operation": "GET /connectors/destination-file/config",
+          "allowed": true
+        },
+        {
+          "component": "connect",
+          "operation": "GET /connectors/sentinel-file/config",
+          "allowed": false,
+          "status": 403
+        },
+        {
+          "component": "ksql",
+          "operation": "POST /ksql",
+          "allowed": true
+        },
+        {
+          "component": "ksql",
+          "operation": "POST /ksql",
+          "allowed": false,
+          "status": 403
+        }
+      ],
+      "interrupted_after_committed_deny": true,
+      "images": [
+        {
+          "service": "source",
+          "image_id": "sha256:62e3b04c4c88d03fbb484b9976e6145f751c2e908310f3f8b2db5ae7fcd3608f",
+          "digests": [
+            "confluentinc/cp-server@sha256:62e3b04c4c88d03fbb484b9976e6145f751c2e908310f3f8b2db5ae7fcd3608f"
+          ],
+          "state": "exited"
+        },
+        {
+          "service": "destination",
+          "image_id": "sha256:62e3b04c4c88d03fbb484b9976e6145f751c2e908310f3f8b2db5ae7fcd3608f",
+          "digests": [
+            "confluentinc/cp-server@sha256:62e3b04c4c88d03fbb484b9976e6145f751c2e908310f3f8b2db5ae7fcd3608f"
+          ],
+          "state": "running"
+        },
+        {
+          "service": "ldap",
+          "image_id": "sha256:18742e9c449c9c1afe129d3f2f3ee15fb34cc43e5f940a20f3399728f41d7c28",
+          "digests": [
+            "osixia/openldap@sha256:18742e9c449c9c1afe129d3f2f3ee15fb34cc43e5f940a20f3399728f41d7c28"
+          ],
+          "state": "running"
+        },
+        {
+          "service": "source-registry",
+          "image_id": "sha256:f0cfd047a839c1ace54d93b92e3459f0d03dc3b5c9db1192a2246fd79b4f44c4",
+          "digests": [
+            "confluentinc/cp-schema-registry@sha256:f0cfd047a839c1ace54d93b92e3459f0d03dc3b5c9db1192a2246fd79b4f44c4"
+          ],
+          "state": "exited"
+        },
+        {
+          "service": "destination-registry",
+          "image_id": "sha256:f0cfd047a839c1ace54d93b92e3459f0d03dc3b5c9db1192a2246fd79b4f44c4",
+          "digests": [
+            "confluentinc/cp-schema-registry@sha256:f0cfd047a839c1ace54d93b92e3459f0d03dc3b5c9db1192a2246fd79b4f44c4"
+          ],
+          "state": "running"
+        },
+        {
+          "service": "source-connect",
+          "image_id": "sha256:1af0a8e42a40d1dcd56ec42f313c391214a7a603769207d4bf4d099095f26b0c",
+          "digests": [
+            "confluentinc/cp-server-connect@sha256:1af0a8e42a40d1dcd56ec42f313c391214a7a603769207d4bf4d099095f26b0c"
+          ],
+          "state": "exited"
+        },
+        {
+          "service": "destination-connect",
+          "image_id": "sha256:1af0a8e42a40d1dcd56ec42f313c391214a7a603769207d4bf4d099095f26b0c",
+          "digests": [
+            "confluentinc/cp-server-connect@sha256:1af0a8e42a40d1dcd56ec42f313c391214a7a603769207d4bf4d099095f26b0c"
+          ],
+          "state": "running"
+        },
+        {
+          "service": "source-ksql",
+          "image_id": "sha256:213f8b8368fb417f75aca1c057bbde866cd8c8e802e2d0e28d1d430a34bb94bf",
+          "digests": [
+            "confluentinc/cp-ksqldb-server@sha256:213f8b8368fb417f75aca1c057bbde866cd8c8e802e2d0e28d1d430a34bb94bf"
+          ],
+          "state": "exited"
+        },
+        {
+          "service": "destination-ksql",
+          "image_id": "sha256:213f8b8368fb417f75aca1c057bbde866cd8c8e802e2d0e28d1d430a34bb94bf",
+          "digests": [
+            "confluentinc/cp-ksqldb-server@sha256:213f8b8368fb417f75aca1c057bbde866cd8c8e802e2d0e28d1d430a34bb94bf"
+          ],
+          "state": "running"
+        }
+      ],
+      "java_version": [
+        "openjdk version \"17.0.20.1\" 2026-08-18",
+        "OpenJDK Runtime Environment Homebrew (build 17.0.20.1+0)",
+        "OpenJDK 64-Bit Server VM Homebrew (build 17.0.20.1+0, mixed mode, sharing)"
+      ],
+      "binary_sha256": "afc512972cbd21811ba291de78303875ca219793da45677f36ffb18e23b3320e",
+      "kafka_client_sha256": "99ba7508b221596e4650e942dec1e979ff252573d9ba7caee196d19c775ce779",
+      "source_sha256": {
+        ".github/workflows/ci.yml": "375e68f159988c6abb6ad0736339af35ff529f51e739fe2fdd620754b8bc55e4",
+        ".github/workflows/helm-publish.yml": "e7d8257dc7105cb9db037547b19f1a0b3faf960b569808f8709de0abb7add67d",
+        ".github/workflows/oauth-qualification.yml": "8557a633a3521422c58b4d6a592c2226d3bd606c5d04406281a7287a84c11a21",
+        ".github/workflows/registry-compatibility.yml": "8c3045be8faab5bea3d6a410ca5933ca79f4f27f2c0e646a61d5d8a4caa6334a",
+        ".github/workflows/release.yml": "f829bd11dadfd78b137fb18aaea5fd682d72fee8a76064817485ab63c9c214c6",
+        "Cargo.lock": "f48a56c94f4778a867244b44260decb201ca0b3d8a5c93ce2a006ff03b04973a",
+        "Cargo.toml": "7c1d101fe0d4aa9c5302d48923ca3990a4ccb9142ddcf067d05c07c665f1e878",
+        "crates/kafka-backup-enterprise-cli/Cargo.toml": "a8b21c9181fa77148dc4727b94b9b6109a7d21a4f1fae1f5e687ff1d7aaf961e",
+        "crates/kafka-backup-enterprise-cli/clippy.toml": "aed05da26d5d0dbefb1125d40279f08231c94d89c36d8a31788585e46ebb1986",
+        "crates/kafka-backup-enterprise-cli/src/commands/authorization.rs": "0d45abf4f954b265d001f1855a52259fd7cec5e8bb1e2ed554b13f57d46cef72",
+        "crates/kafka-backup-enterprise-cli/src/commands/backup.rs": "dc1b212302fbfe12bb4e8928163007e6e8c61f6f4f8e1bdbbfa24befe76574ab",
+        "crates/kafka-backup-enterprise-cli/src/commands/cluster_args.rs": "0f408817c63ed3f73618f6e93dee1dfe91e9270cbbeca49befa4568f39861734",
+        "crates/kafka-backup-enterprise-cli/src/commands/config.rs": "ffedbb21881ec04ed2babce88ea4f362b9656f558dbba76ca5d6123e1863554c",
+        "crates/kafka-backup-enterprise-cli/src/commands/describe.rs": "b9d56715bf6e84cb46ad373ec069a08c8f53dc05ed38934d5e80592d6eef08c7",
+        "crates/kafka-backup-enterprise-cli/src/commands/erasure.rs": "b50bbef8cee18128c807c2f99679b40f74cb26456b1269ddff27d5ba57fc401f",
+        "crates/kafka-backup-enterprise-cli/src/commands/license.rs": "56cea17c05383e5eac004db7557bf756a7ff59c0535bf8e2df9dd80c97bb8b5b",
+        "crates/kafka-backup-enterprise-cli/src/commands/list.rs": "8de460c58dc41ad7f038600380a6b5d61f69ad89eefaf4921f8e614d3a96cacb",
+        "crates/kafka-backup-enterprise-cli/src/commands/metrics_runtime.rs": "39e4ac29b490a3327ef3c356a2b8ab61475b903e90eb59de8ac4b310fd47078c",
+        "crates/kafka-backup-enterprise-cli/src/commands/migrate.rs": "3bf11593a0b7cf4054a43617cafa8f676d5e4da0c708ecc08d6c67cc7bb043d2",
+        "crates/kafka-backup-enterprise-cli/src/commands/mod.rs": "0259bc2bd604ada9c25192cf1a07792c4f23a9e6c90de90fce38c3fd9d1fcb6a",
+        "crates/kafka-backup-enterprise-cli/src/commands/oauth.rs": "91b227c32162be92d7df2250962bbca0c263c9ffb2b72ecaffa0b4b14d914e57",
+        "crates/kafka-backup-enterprise-cli/src/commands/offset_mapping.rs": "426f51d9aa3bd638e5253a8499a660b77719d755b26f33969500cd11aae5e815",
+        "crates/kafka-backup-enterprise-cli/src/commands/offset_reset.rs": "a33c36016d5baa5f999acaebc4d5b07fc6230adf37f43e3e23b2782ee0a42ddc",
+        "crates/kafka-backup-enterprise-cli/src/commands/offset_reset_bulk.rs": "8941103daed87b6729384ab9b109c9c3b896e018aa2b844962d65a6ffb065b1e",
+        "crates/kafka-backup-enterprise-cli/src/commands/offset_rollback.rs": "881c9d0e55da7af7f300dcf7b173b882b4bd2963f17dfa3923f02d344377b0bb",
+        "crates/kafka-backup-enterprise-cli/src/commands/plan_render.rs": "b31f0341c2bb3d3fe3b89f5ecc02e5a4436c2c3f40ffd05fe208baa1bb9b88b3",
+        "crates/kafka-backup-enterprise-cli/src/commands/prune.rs": "c60dcf9bd099d4f56268faff89fa7f24d1bcc74c937d297d09d9a48a406df5e3",
+        "crates/kafka-backup-enterprise-cli/src/commands/rbac_backup.rs": "dc5659dbb7a77b86f2432618bbc329f612e1b9c31db41d82f7975d48ed79ae6b",
+        "crates/kafka-backup-enterprise-cli/src/commands/registry_restore.rs": "7f53972728c364fe5849a49565467c5b7d2cbf4b2e03493b9b94667480fa6d39",
+        "crates/kafka-backup-enterprise-cli/src/commands/restore.rs": "1414b3841d2dab0c346366f01415e7d277600d4033a5f919a79e592dd01135bd",
+        "crates/kafka-backup-enterprise-cli/src/commands/sasl_plugin.rs": "c11f73c48c7db423522769dcf937f186d7cf7afa346102af94c4be2215e6662e",
+        "crates/kafka-backup-enterprise-cli/src/commands/schema_restore.rs": "ab44dad89168bf357faf9366487c9a35f85deea04a8000aa03557ddadaad3c97",
+        "crates/kafka-backup-enterprise-cli/src/commands/security_args.rs": "4e46a18b7b157b84703aa00a3f2c853cbb8ea5ded5379035831a1835f7510702",
+        "crates/kafka-backup-enterprise-cli/src/commands/snapshot_groups.rs": "4a7d19f5b9ca1adef537f5a6ed2ab8a1868e513a191c8a84a106a566046a55fc",
+        "crates/kafka-backup-enterprise-cli/src/commands/status.rs": "0a4e7d1081b2b660ddc342aeed1ddab7796ed7aa1796e40da6ecc747c789b3b3",
+        "crates/kafka-backup-enterprise-cli/src/commands/status_watch.rs": "d6810dbf1c64528dfe2be10d10be22b8d1cec4243cf18a8bee0c430776abd5bd",
+        "crates/kafka-backup-enterprise-cli/src/commands/storage_path.rs": "032feb2a97b876d024a81112e9c448af7ae9d9ff2996f6c94e9184187a14ad53",
+        "crates/kafka-backup-enterprise-cli/src/commands/three_phase.rs": "334850c9715f289195d88d7355d8c95b285856e84257ce5eb6f01ae238df0316",
+        "crates/kafka-backup-enterprise-cli/src/commands/validate.rs": "b54d88b3616d8319f35f78895f3fcd4dbc3f3cd0ca2ed02aff7a5b6cafa1a127",
+        "crates/kafka-backup-enterprise-cli/src/commands/validate_restore.rs": "55ae8e41fb048ada778f6ca63688d7a1f742477451a12d378365a48610d59571",
+        "crates/kafka-backup-enterprise-cli/src/commands/validation.rs": "ec9a0293d14faef0df3757478cb238910a9442be02d5eabaee540af9617da3df",
+        "crates/kafka-backup-enterprise-cli/src/main.rs": "9b709137df77bdcc71a26da47961792c095db68415cb3c71cfc4f3235bf9aa6d",
+        "crates/kafka-backup-enterprise-cli/tests/authorization_cli_test.rs": "93abb890492f4067d27bf83f5d660e59dc594014991ed8794cd84b176a921947",
+        "crates/kafka-backup-enterprise-cli/tests/backup_control_plane_cli_test.rs": "f362a29d66664e5bddd34b76dc51101a39406e45871c008abcce3da61b516413",
+        "crates/kafka-backup-enterprise-cli/tests/erasure_cli_test.rs": "3621e46247355f019b71419ae805acebb00d6892875ce19f7b5746ec665e7c0b",
+        "crates/kafka-backup-enterprise-cli/tests/issue_100_storage_paths.rs": "6795f9d67607f9722eacc3b119f69e0c3f80261e704d4eb0fb6f37c343d00b0d",
+        "crates/kafka-backup-enterprise-cli/tests/issue_167_missing_topics.rs": "c0ac29f820622dab199dcd874671d3624de72200ca7ddfb776f84deb8700826f",
+        "crates/kafka-backup-enterprise-cli/tests/issue_168_config_flag.rs": "d857f593299b8a88083470caf4de486b01a2b19b0b838a2eadf7d1a8e069bf04",
+        "crates/kafka-backup-enterprise-cli/tests/issue_169_prune.rs": "7175f3846a48d26474bdaceb8ac19f671b0dad76c4b4b21acac36c159111f03a",
+        "crates/kafka-backup-enterprise-cli/tests/issue_174_storage_paths.rs": "330e8677b937917c8b9274e1afe61a06da49be3e9a19912412fc4ed3f9a1e65d",
+        "crates/kafka-backup-enterprise-cli/tests/issue_188_log_output.rs": "efc343aecd03db9f2616adbb9ccbef07c49dc45fddbfc1a800572562c839c592",
+        "crates/kafka-backup-enterprise-cli/tests/issue_218_storage_errors.rs": "02421ebb3e54a7709c675d3c50b041fa3b9363f6ac87b736ddb2a16ef354a59c",
+        "crates/kafka-backup-enterprise-cli/tests/issue_219_evidence_paths.rs": "5eae812bcd4ffe1d0428b67e22b8867e3a8370de50841c840b591dec7b0aacc1",
+        "crates/kafka-backup-enterprise-cli/tests/issue_220_bool_flags.rs": "ba3535d30e584706fdf108cdc604298f19cea58b1a97b3c78a15c607d25b09bb",
+        "crates/kafka-backup-enterprise-cli/tests/issue_221_file_urls.rs": "af72122e1e456bfb73786c1fda72ac62f2c3eda8c383e7d8f33ce178c04f4125",
+        "crates/kafka-backup-enterprise-cli/tests/issue_223_snapshot_show.rs": "c3ef40f5fce2ec7b871dc831aec243c2b3a97c1edbbbbf17e7cfd9d373ab05ee",
+        "crates/kafka-backup-enterprise-cli/tests/issue_224_snapshot_groups.rs": "da4466413d92807052ad9a92139448009cb24f110e89968181d2dc16860403a2",
+        "crates/kafka-backup-enterprise-cli/tests/license_info_cli_test.rs": "46c217f9034163037278ada5eadd6326f734d88078f02e54565dca43483173ab",
+        "crates/kafka-backup-enterprise-cli/tests/oauth_cli_test.rs": "7528c575354924aedd227d215435b15be716a4a81d5f7c7ced0a60bc6b6a6aff",
+        "crates/kafka-backup-enterprise-cli/tests/oauth_local_stack.rs": "9c601396ef992ab73a6c2c7d83332a58060ea26df6d167dcca7b05b45716438a",
+        "crates/kafka-backup-enterprise-cli/tests/oss_parity.rs": "a99321f2c9d243e637d2d115c95998aafbed8193765b6fdcad6bd27d1863e27e",
+        "crates/kafka-backup-enterprise-cli/tests/registry_validation_json_test.rs": "91fd68abf35eb72aa9f81b83ad201d52fb1e2befc61d334470585799f04f7d7b",
+        "crates/kafka-backup-enterprise-cli/tests/schema_restore_cli_test.rs": "f4064c25b9ed3a36199906b7ae6bf2dae409e06dbb18c3458c718241704f6598",
+        "crates/kafka-backup-enterprise-cli/tests/schema_restore_records_e2e_test.rs": "ff10324a9dd6b3dde4e1ea56229bb1d21f60a9f072ec18a0804b3b3df1c0bf74",
+        "crates/kafka-backup-enterprise-cli/tests/support/mod.rs": "f1c0a6c58966f5c439a0966d8a2f57b6105743915e82fd328ca195f8f4e5322d",
+        "crates/kafka-backup-enterprise-cli/tests/support/stub_s3.rs": "59b598d57ea200d916e66f474b6f09289ef0090ebd46b07b436844c10774b6ae",
+        "crates/kafka-backup-enterprise-cli/tests/trial_lifecycle_cli_test.rs": "9922bdc9c581d2cf1cf17e21290135914eb81726d541df0baed7c869ce847856",
+        "crates/kafka-backup-enterprise-core/Cargo.toml": "7827e4f7f8eda334e4332e2cb8dfa1100512151ee912482f2adc5a2e8409961e",
+        "crates/kafka-backup-enterprise-core/keys/license_public.key": "65166c54010b7e18cea035d173c9e56624dd6f03b327482842ead53719eac604",
+        "crates/kafka-backup-enterprise-core/keys/license_public.key.sha256": "48ee4da7fe1e678002c61af6c51939c95b5748a216f316db15ed1aed7a5bb471",
+        "crates/kafka-backup-enterprise-core/keys/test_commercial_private.key": "a87678e8cb85a73acf41d4aaede5038f811c92c7fa8092c6ad8f73481b7f60dd",
+        "crates/kafka-backup-enterprise-core/keys/test_commercial_public.key": "9d4059a0f9700a2ca49e003f43987abeca36a387d22f619adde543d94454a655",
+        "crates/kafka-backup-enterprise-core/keys/trial_public.key": "e9b90f13dca3331366f6cde6050020604f8b5a335ec4bd79fab876db3ffea186",
+        "crates/kafka-backup-enterprise-core/keys/trial_test_private.key": "6f6759ac1b247a4c92107bca3771fa9ee176d41e26ad1868b2e70d3117b4cc82",
+        "crates/kafka-backup-enterprise-core/src/apicurio_registry/backup.rs": "85aca002f911693fd1036fd554c284d4908f78acce2f85b73a04f3870b493097",
+        "crates/kafka-backup-enterprise-core/src/apicurio_registry/client.rs": "775a9057630005d2465134d0bba0aa04847a7eaf65d3840be6c0960638dfdf45",
+        "crates/kafka-backup-enterprise-core/src/apicurio_registry/mod.rs": "6ebf3e0c6811f8f058b95fcae0166c80738908369d0bb03e0311239015282130",
+        "crates/kafka-backup-enterprise-core/src/apicurio_registry/models.rs": "1993b48506a9a2404aeb4b065997dcb0b8e833f0cfe0b9f174ffaf7692e70425",
+        "crates/kafka-backup-enterprise-core/src/authorization/adapters.rs": "23a94da2c8fd0f26c6024661b43eb0a142ff906267bf161d9b031151d5acccf6",
+        "crates/kafka-backup-enterprise-core/src/authorization/config.rs": "045aa51c10dd7db447e8f806562493fea2774c9a75e75c02afb9de4cce2ee584",
+        "crates/kafka-backup-enterprise-core/src/authorization/crn.rs": "ea4648760b2cf2e546a25eda624b15aaa989f4aa1f13758aeeb62b19c23f6417",
+        "crates/kafka-backup-enterprise-core/src/authorization/engine.rs": "956361a9f7149e69bf3eb9418ac1631407e98d815beab81d35c2561dfea96e67",
+        "crates/kafka-backup-enterprise-core/src/authorization/kafka.rs": "59ccc844cab3688b1a71cba3523697fc121c2b8443412ffda9063ad6e67c605d",
+        "crates/kafka-backup-enterprise-core/src/authorization/metrics.rs": "7c17d4ad9a850ea30f59f97ee4b4a21a195bc973a6153180ca26c523b5751460",
+        "crates/kafka-backup-enterprise-core/src/authorization/mod.rs": "df07bc82e61bf21fd6650b8457299cf0b4b5d1064c95ab2c6a4e33eb8323ae95",
+        "crates/kafka-backup-enterprise-core/src/authorization/model.rs": "4b8bccc1baabd864c89cc09723b6d7d918d514e467b7ee701fd8318ab53e8823",
+        "crates/kafka-backup-enterprise-core/src/authorization/transport.rs": "afb63594d3783223c9dd1a186de88553b3a6d70a9eec8548e2dcea49690c6728",
+        "crates/kafka-backup-enterprise-core/src/config.rs": "31583de4ec95b9e71039a5b2b6ec21d4fe868ba2639287cb2d5713311b20a598",
+        "crates/kafka-backup-enterprise-core/src/confluent_rbac/backup.rs": "9c3e781b9375a0dec6802b5a613435e3df4fcb2a1defbfcf2ed818d0d1711ed6",
+        "crates/kafka-backup-enterprise-core/src/confluent_rbac/mds_client.rs": "652892b9feca4e6f21d934e467d4273b7cacdffc118b00b4358a41d8cdf032f0",
+        "crates/kafka-backup-enterprise-core/src/confluent_rbac/mod.rs": "34a18c63e37412451c845afc8ae0de94e240d8e6d79adfe66dbb3677f1a7ae19",
+        "crates/kafka-backup-enterprise-core/src/confluent_rbac/types.rs": "c4f49ee4c9484782e203526d4ec5f746c8cbb22b5be90cfd285cd26253d316cf",
+        "crates/kafka-backup-enterprise-core/src/control_plane.rs": "6fff3bd1a2c4f1679e7225d36d6fba2da1cb4bc7e1d7de05406fd6f089f609ac",
+        "crates/kafka-backup-enterprise-core/src/crypto.rs": "fda64414ddebe9b4d145e0095ef842c481b5f1cfdeec3f8cb1e8792d868652ce",
+        "crates/kafka-backup-enterprise-core/src/encryption/backup.rs": "589e6598f63bed5b7136d086f531e106f40bcdbc36482c8868c65b9c0cbc655a",
+        "crates/kafka-backup-enterprise-core/src/encryption/config.rs": "2dc1cd4e93f9b862c98904a9fb38f81747e55a93c06ce67c9b2b1e654c2fbff3",
+        "crates/kafka-backup-enterprise-core/src/encryption/csfle/detector.rs": "ca8df6ca3700305f3c650e0959bc60d1b0316f3f4ea9c5f6bc0012e6529dbd5b",
+        "crates/kafka-backup-enterprise-core/src/encryption/csfle/mod.rs": "320b177cfa953ef30fc454c244a1d91fb2c4e6b421f7d15e6c47cb1afea5e416",
+        "crates/kafka-backup-enterprise-core/src/encryption/csfle/tink.rs": "42788164f3ad532ee9c137b8eedcd37500f739892df7fe3e33f259d8270e5d35",
+        "crates/kafka-backup-enterprise-core/src/encryption/dek_registry/client.rs": "f1cf0e9951489bf853ead1f68ba5a6c3e918e4f9c920540863156e892c6be804",
+        "crates/kafka-backup-enterprise-core/src/encryption/dek_registry/mod.rs": "80a3cd9d78c7cde775c7e745b86c6656d9142053fd940ea8ccb4aae6208a2829",
+        "crates/kafka-backup-enterprise-core/src/encryption/dek_registry/types.rs": "3125eadea896d80b9c31c76eb472f04c56b7bccf29cdc5a86e54aedbcbc8b1a9",
+        "crates/kafka-backup-enterprise-core/src/encryption/mod.rs": "a9725140e239f5f97e51ae6b7b646d478460ace5c65ee59ae6692038f52766aa",
+        "crates/kafka-backup-enterprise-core/src/encryption/restore.rs": "7a7d235d74e9eb191fb3a07b42d31dbe56357fd4eff2cdec02e44a50e88b4582",
+        "crates/kafka-backup-enterprise-core/src/erasure/mod.rs": "1b9a9bf05f82a632f53e9b978a45fb588e6778a5e9295df9460623b415a6a3d2",
+        "crates/kafka-backup-enterprise-core/src/erasure/suppression.rs": "43014fccc36dfb401e6567763c8565aee4966a3238df986a93079765caec0290",
+        "crates/kafka-backup-enterprise-core/src/error.rs": "ea62c8f46ba1e4b75ce31aba0fbf874d8d132c91f68b8cd92c5c26aa163e2e75",
+        "crates/kafka-backup-enterprise-core/src/lib.rs": "31bccf666b34a876edf65a59128377e42643bf6e4a574698e3e4f5fe05cbe33a",
+        "crates/kafka-backup-enterprise-core/src/license/loader.rs": "1e1ef886cd36472a395382a7427d18bfd5634df062c70553258d4f765f1973ee",
+        "crates/kafka-backup-enterprise-core/src/license/mod.rs": "e62b164e9bfae6b0db225c3d729cba42e292906c23d3a8149361176ac1a1761c",
+        "crates/kafka-backup-enterprise-core/src/license/payload.rs": "1b9fe85680a13eaaea3ef8e00d216939a83d1b7aa0f02555f34b533605f1dfef",
+        "crates/kafka-backup-enterprise-core/src/license/validator.rs": "933581a15ff0c0c815eb2899ae47fbbb35ef0dc0063230d397261a2e97f3d19c",
+        "crates/kafka-backup-enterprise-core/src/migrations/mod.rs": "e42e544430186f90fa00f606907375a898de328198ade17d39978f79b914e5d4",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/acl.rs": "5c04788ba95e58444bd1510940ce2f9e92dfa4903003c3adb5cf08832a804acc",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/aws.rs": "c4bbfe942e7f8116cdb956a160c353519388d1efc86084277d14c433ac47ecfa",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/config.rs": "9b1334d453554c6baa2a5f4b561ccdc004ab2de94536b7dd096eeb01350352d7",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/consumer_groups.rs": "343fa72e1a064e3f6f22e1f7e8c9a4c8b33beac6bcc8ab94c911569a3723f887",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/cutover.rs": "d9b4e0c1f838af0b944833f2fbe5394ee7040a86b92143efbe31b6d215a83631",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/drain.rs": "b462e36950e9d5d44b5d21e4130e0577cc19afb70ac746a80b82dfb705adeada",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/error.rs": "15e4c78d8f3b6e3574b8a08ce37f6c3e95c3f363c5725a9604fe9c5709352363",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/evidence.rs": "d6f69d155e9ee475490ee46848974647c3769b8555a018934f8cef6b2f755ee4",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/journal.rs": "c1ad0e7ae2393ec49c30cb90c5f8e4bf1fc042a2e865d758154d5ac15c94bcd6",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/kafka.rs": "81887df6409031cfc70bb6d3c728ec3ef63dc889b6058ac222e42647c0b6d770",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/mod.rs": "8dc3dfba6ae6606fbd6f890ae4e7e1e41ecc8c65d74cfb0bd0e3319f314e27a7",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/orchestrator.rs": "991c231bb95aa227cb8bca034bd48a50d6638a8f779f5fd983197bbc990e0c3f",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan.rs": "15cc889d55ef2b0187079567aefffafb1aeb2c3a5b32608f8e6497943b6cd940",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_aws_cli.rs": "6aefe9fc38f60523a031fe6c763ace510d75b178d2761981486b2c1d12fc500a",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_cost.rs": "9cfc4f818a9b7fd4703b7382d2a09e3a5ee309ddf8cb36d01e2a7ba4be5ffe70",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_iam_policy.rs": "41ba07b869eb252115ba4425c0147fbd4bc9eef9a32fa8fa9ff759d2d11b5e3c",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_meta.rs": "ac515e32939eea32783140fd80f5e1f176b3709e447d8d8058b38b23a7d778cc",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_runbook.rs": "2d7a4c0750cfd6af441cc7f78bae002457eec0be4cffa9ab88d83f4f32d87497",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/precheck.rs": "b2c44740d7b9c2cb1ccf8a6aa83df1283649b38775a420867a237f5f814ac934",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/rollback.rs": "33cc58e1e933f8b01e0d1f658ed7d03b6f0326c77df5153401cd1208c42794e9",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/seed.rs": "02d2d7a362aa5c3cafea53be6f7fae02579d0addbbefe7d6fd6b975ea6026364",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/state.rs": "1916a9bb6fea3a94572201c5d09a2cceca8db49ec34548f2f4ba3158d876400e",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/tail.rs": "b6ee98db2de7d56e565ab2a4ed409611f7bf0aa1f6f8b26a5069be583ce8cac8",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/topology.rs": "a75d91b6492763f355519a5b5f9ad93200e9b34d7cc544924b780266ad7f8ca2",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/transactions.rs": "7ddb200e630ee4993a4b46d892470936263a5bb7546e62163f61932a2efe3039",
+        "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/validation.rs": "2599aabaadf6e367bfa23595b9f33303c7cd7826c44ffb417436cb665b0cfd83",
+        "crates/kafka-backup-enterprise-core/src/oauth/config.rs": "0d789816c2f674996a6d4a91954c283f47a777892c7bbe0849cd2313e4260940",
+        "crates/kafka-backup-enterprise-core/src/oauth/install.rs": "fea9d6af9aa49acf06bc0a42797e11dc4ab9f67d8589ca08490837c1bf80199e",
+        "crates/kafka-backup-enterprise-core/src/oauth/mod.rs": "e302e72812f9e5d8442225e313633939bd4ede3e5cfc6ef7b12ecc2829d0055e",
+        "crates/kafka-backup-enterprise-core/src/oauth/registry_auth.rs": "2546151220f999dff3a15d2f3f8b68763a6fa491c8fd1cf702f442c1b7502545",
+        "crates/kafka-backup-enterprise-core/src/registry_restore/engine.rs": "4c3668788d00f54858354f35fe1c4fa1459a9a88c422a45ac24742cdca316990",
+        "crates/kafka-backup-enterprise-core/src/registry_restore/mod.rs": "18a7e989cb9f0211f999269a0fcadb6a33a07296138e6b1690514eeb889372cd",
+        "crates/kafka-backup-enterprise-core/src/registry_restore/snapshot.rs": "065c2353306753bbc789d274f8fe62a4528d7691410d63ab01b7b7e05eaee3bc",
+        "crates/kafka-backup-enterprise-core/src/registry_restore/wire.rs": "225957b4edceb915db3fdf29d216c7878dad0433e12813cb99687f9783b71815",
+        "crates/kafka-backup-enterprise-core/src/sasl/mod.rs": "35217d6fba5d423ae7ba0c8e321327def0f53e3249a49396ac49fe224b2bcb47",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/cache.rs": "383aa92d127bfd6bf15f3eeba043a7313434211edd1c2cbe27d0259f0e589c0f",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/framing.rs": "42c3a6b502f7ab702b3f48d5c86beb7cf03951114207535fc76d52479eff64ce",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/http.rs": "419064c8b406b49b8ee3a1bd9fa33c44c387d13f62d3cffe9e40fa15a819e86f",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/jwt.rs": "4ad0967f10d8ee05b0e1f91ddb9bce5deeca3f7fa0a96564c3764db15436d900",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/mod.rs": "999d0f8c774b3ff069a269c37a361baaa383599c60feba8f65a6ca6bf18d5609",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/plugin.rs": "f5f58ade1fec73f177c5ad55f8d0914c83167ca977a7a7a62bbdbcc7cbff183b",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/azure_imds.rs": "465fe70b186fa10f70ddc2e1301add96c1c9c1efebb5057c2f83feb79280853c",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/azure_workload.rs": "3bcc1b0d5278aa127f02e80c50c435e077bebea66f183c5fc18e930655e1db7a",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/file.rs": "b5ec07bb25fc69a9e974f28001578a66904ac2e09785c0f684af09eca56fe4af",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/mod.rs": "b3e3a3f3555a2a18ed14e8dc129f0c09819434421014e3731dcc0b01643cad32",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/msk_iam.rs": "0bd754daceed9ae494e6611fee5921176c6c36dfde4392f368f07d52d3cbd52a",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/oidc.rs": "9d9d215d9496816d251ff4161d9e0127b1b8e407a93af5e2bb51ad2fe643fa0a",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/static_token.rs": "163e6ade1212effa1af7086a9f0e1123a9aefa1192a2b41b1e6addec4262c585",
+        "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/token.rs": "30750155286c5c0b6dedbfb8b96ae089bf7ef0dcd764e04ba7393442eb9b224c",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/backup.rs": "b51a530f3e50db2958d6bdff05bbaa109c17d686679c53204ea6d9b8fdc0920a",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/client.rs": "7ec31baa64988ae3fb346097d7097aeeccfbc158001b939ffe82378bdf9534cd",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/context.rs": "47880858a3ba807613788b8da3a92b927923af78c904b8a83e471408738f6d21",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/mod.rs": "e055e3393cc6066fa2a781ce8cbdfff745d29aa324b607a1e2bc69693ddb8a9d",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/models.rs": "bc568d5cab0fff3e30b6f61cf4fe8dd08721c1534b30f6360b64cc69ee56f620",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/ordering.rs": "99aaf57f4492cce3ba056e07b58abb7febdc430525a82f42c4d040098e590a54",
+        "crates/kafka-backup-enterprise-core/src/schema_registry/restore.rs": "9ba1ded66c0d21536e991c9ddd9d1604c90981c21dc304e8263776dbe397e31a",
+        "crates/kafka-backup-enterprise-core/tests/apicurio_body_retry_test.rs": "f2a91d72b54e3b4951dde79712fc3d14f9146cf8351a88f20cc7612161b6d05a",
+        "crates/kafka-backup-enterprise-core/tests/apicurio_registry_backup_test.rs": "e49ccf20c7d149a92743a7446fdf2b72fab058e85e26c48a349b453271c1e6c3",
+        "crates/kafka-backup-enterprise-core/tests/apicurio_registry_e2e_test.rs": "2665acc760a6e05c6cca16c4e8d2f1284b5a72882ce13fd837650e0ba03f0374",
+        "crates/kafka-backup-enterprise-core/tests/authorization_local_test.rs": "165bb2b52436efa47ca335c124235148c28b0c3d9c4cbdee576b6f9b7800755b",
+        "crates/kafka-backup-enterprise-core/tests/authorization_recovery_test.rs": "fd1beedf072723be8594dcec6d1cde6b996ea0d36e7f1686f9d3f0db8c3840c5",
+        "crates/kafka-backup-enterprise-core/tests/control_plane_test.rs": "b693b1841e6812525ebdc4ad04dd18589b12afe996cb7521280ea7be012a58dc",
+        "crates/kafka-backup-enterprise-core/tests/encryption_backup_test.rs": "972f5eb88c6a9769f75b1d5d718ede8de45f1d20e2f7601f5fe8041b9a4a17e6",
+        "crates/kafka-backup-enterprise-core/tests/encryption_restore_test.rs": "d1c49550e4b01c816eee0f7e9c2c9438be5a72dfd19d58c2e0beb43ab4d60736",
+        "crates/kafka-backup-enterprise-core/tests/erasure_suppression_test.rs": "e6b69062d4946b588ac1b87ddf4f450e02cf41886f282644bf21c997c73bec1d",
+        "crates/kafka-backup-enterprise-core/tests/fixtures/portal-license.json": "bf88d9220b7c82c7f4c1c2b7575604483f62647cea563c105e7f4a8ee2a1db11",
+        "crates/kafka-backup-enterprise-core/tests/license_production_trust.rs": "b5227d2bd5f43b28a740d36c2ae85d5ae09bdbd516ed52c59fc6cd8eae058d2d",
+        "crates/kafka-backup-enterprise-core/tests/msk_kraft_acl_iam_test.rs": "84a292b2a1a0ad3ea50c2d9ef43bce19e7158bd004895c4b84a34d421c803d6a",
+        "crates/kafka-backup-enterprise-core/tests/msk_kraft_topology_test.rs": "4b5f2b32a34d54647acd52bb07d28f0f6f2bc518b7e068532d2ada8e80fdce7a",
+        "crates/kafka-backup-enterprise-core/tests/oauth_providers_test.rs": "fc988ea8dda0135bb2d2ef77d254073b27dc8ef961f2a5d1a450f6c15b1f5d72",
+        "crates/kafka-backup-enterprise-core/tests/oauth_redaction_test.rs": "5bd7db9628262364d05d4d0a31889a1f6bd461766e9338d7710595a769e7270e",
+        "crates/kafka-backup-enterprise-core/tests/oauth_registry_test.rs": "af65edebefb3af06005ee9038a1db5eff16573436bf1574d9a16e5be80b7cfa7",
+        "crates/kafka-backup-enterprise-core/tests/rbac_backup_test.rs": "09b63f52de2a6bc04f72317c7a2616f99f30f055e3827d385055b975c936eca7",
+        "crates/kafka-backup-enterprise-core/tests/rbac_edge_cases_test.rs": "e0249c50aeda9942f44839ff88932ceab4e611f85888b486bee0f5fa3b79b894",
+        "crates/kafka-backup-enterprise-core/tests/registry_restore_real_test.rs": "8d23ff427122c9cfbed2aa0072f208ea5096ef3992ba1c4ba6f81b14508dac65",
+        "crates/kafka-backup-enterprise-core/tests/registry_restore_safety_test.rs": "9e337b37b3cc3f32d691552361d64a9956e3bc35f3aa5ee21f398ce99cb07340",
+        "crates/kafka-backup-enterprise-core/tests/registry_tls_test.rs": "173bd85a457001a751f06daab59b67efd02935377821e3496b4b51b49faae6b0",
+        "crates/kafka-backup-enterprise-core/tests/registry_transport_test.rs": "6e28831d73ee28ec6282d485872926e3b7a29f1cbeffd632d557f51610976878",
+        "crates/kafka-backup-enterprise-core/tests/schema_registry_backup_test.rs": "a87d7ae37917dcafdc9cee62f447528931f509019e2696cbb3447a4ad3b6057a",
+        "crates/kafka-backup-enterprise-core/tests/schema_registry_edge_cases_test.rs": "b139bbbd3840370549686766317dc6a0b61743149346f09faa62010fb017f017",
+        "crates/kafka-backup-enterprise-core/tests/schema_registry_restore/docker-compose.kbsr.yml": "950a62dbff7ff1a5e718e010a38255adc483ba5d885a1ffaa68ef416ddf65cb2",
+        "crates/kafka-backup-enterprise-core/tests/schema_registry_restore_e2e_test.rs": "8a71c2ef6438b5502ae9f391b5980a33c653a433c684d3963d65c56edf884590",
+        "crates/kafka-backup-enterprise-core/tests/schema_registry_restore_test.rs": "21b71df922a31db87a1c38dbc620a3d44943ea423b1a9e398dfe528454e3f9a3",
+        "crates/kafka-backup-enterprise-core/tests/support/authorization_mds.rs": "076eb8bc2824ec00b1d3301b93394f1607d182f8384a61a904e1b212c75a75ce",
+        "crates/kafka-backup-enterprise-core/tests/support/fake_schema_registry.rs": "15a568b2e757d220efbf3ea490fa3f5c9ac5680387751dc7e2bacb043eadaa2c",
+        "deploy/helm/kafka-backup-enterprise/.helmignore": "d729e7bf0833376e10e51600a4161e8abbe16936611a21e6585267dc18ec144d",
+        "deploy/helm/kafka-backup-enterprise/Chart.yaml": "24f4283cadae663fbd9d1d79ae8260716f5ab8f477c5676748b718bc67ddfe61",
+        "deploy/helm/kafka-backup-enterprise/templates/NOTES.txt": "bb9877af2bebed27d5bdad754242a2dac08a31f39c7b03694abb651af6ee036c",
+        "deploy/helm/kafka-backup-enterprise/templates/_helpers.tpl": "c8bc9e02e7415c7d7dd5874d5d486d77e169f8e71f5a57a3c8cf2d16e1aa2b7d",
+        "deploy/helm/kafka-backup-enterprise/templates/configmap.yaml": "05b65422cd47e4d223cc3cadcc46e0ff0284bac6c6844f16383fc518510ddd20",
+        "deploy/helm/kafka-backup-enterprise/templates/cronjob.yaml": "0e1a473f6c348f85cde5853ca88a43a593914fad2133e45d1cdac0bba3622843",
+        "deploy/helm/kafka-backup-enterprise/templates/job.yaml": "7c7695947cd943f304c6a1023a59ba0202f271f58598f8751e03ebcc89424878",
+        "deploy/helm/kafka-backup-enterprise/templates/pvc.yaml": "1966ecfa9e96d6c0f27e6b9471aef6fa580ab4055eaaca507a34f6468c7f1ab9",
+        "deploy/helm/kafka-backup-enterprise/templates/secret-credentials.yaml": "b3a25b680df70b67e110baa12997d742f84817ce1bc70aac9638154d55f71f6e",
+        "deploy/helm/kafka-backup-enterprise/templates/secret-license.yaml": "a5338cca41c125a0e08e3fac051ea52853cc15abc1993d79b2118d6128516a0f",
+        "deploy/helm/kafka-backup-enterprise/templates/service.yaml": "7f3aa30a198028ed4458597696609bdbf10ab762d632d810004d75aa0b2fd6f1",
+        "deploy/helm/kafka-backup-enterprise/templates/serviceaccount.yaml": "13a1a3e3fc1db00cc8534a5b14bd329631110ecbe6ef1ef97b730b1c5339627b",
+        "deploy/helm/kafka-backup-enterprise/templates/servicemonitor.yaml": "0633e9be27cc0c315e17b7b1b12dd313997cbe5fc5d6bc058f32bba365393a38",
+        "deploy/helm/kafka-backup-enterprise/templates/tests/test-license.yaml": "5b465eb25acb496c121d3261aa9c0c39e9d0dba8d7d4a31b6ec3fb3585c2edd2",
+        "deploy/helm/kafka-backup-enterprise/values.yaml": "c79bc6407a9e2276317d8e47088fe82a3b739a48643af3f67450d294ef94a70e",
+        "docker/Dockerfile.enterprise": "0da57ff2ca1311554108527a4a3f066a0d0e011f04370aee0bb7d0530edf61d8",
+        "docker/README.md": "4596a8303c4c9ac47bbc0bb634321f86d8900074a72b70520168b2e1651dd3fd",
+        "docker/docker-compose.registry-restore.yml": "1727b3e8662d6f1ba69de9e5def03791d2ccaa26f3d4afa36fec57af2b8543d9",
+        "examples/authorization-platform.yaml": "ce4abbb93fce82f73d4baf01c5264ecf00485defc4f1ca504fff8aa877460c01",
+        "qualification/authorization/cloud/README.md": "6977423d427e2d5cd6e5c7a11f4e4e34e816ee818c468718c751794fdf4b8422",
+        "qualification/authorization/cloud/run.py": "ca3104dce5d473d70cd1dcde94ca11f37faf310a2b4f2b77099c35dbe1152ff2",
+        "qualification/authorization/cloud/scenario.py": "493d1b264e466ee594545ad659ad28cce3237fff2abe397f7b974f37efc05c44",
+        "qualification/authorization/cloud/teardown.py": "7aee97e9741c60d7dcec4ca20a33cc1275cac6b12cfb3ac46567fbea23faaa77",
+        "qualification/authorization/cloud/terraform/.terraform.lock.hcl": "14adf0979beecead22203c3dda7a69db6ca060b70646bacfa4dccef670a9ff78",
+        "qualification/authorization/cloud/terraform/main.tf": "3d5b8576a824ca83745e3888f288bb7be71604cb8ae16c91000d5d00cc6d241b",
+        "qualification/authorization/local/.gitignore": "2a18e15b03ea933e18a1890dcf42c5fd014374935044d23fa3c5960b24db451f",
+        "qualification/authorization/local/Probe.java": "e5071f66ffed28152c6afe1459e7a22b63089a3b167108d2869d2c37cd7925aa",
+        "qualification/authorization/local/README.md": "906b0f886757115207f1e6b854bd9fcdab1674d562f1061d84651da5c9e893c1",
+        "qualification/authorization/local/cli.py": "9602c0c8dc4fe908080e4dc42d58aa194266c6ed08b1c27d32b0d9b4c04c7836",
+        "qualification/authorization/local/collect-components.py": "d7e66f1d6d95e443c684ace858d2ec3a741c6986ddf4531f5c18cfed8e8ab59c",
+        "qualification/authorization/local/collect.py": "e829affd8cae28835eb6a63367b491fa849e3271508a99fb401e950886b52be2",
+        "qualification/authorization/local/components.py": "21288f110d65a68402fd0b598f940a35ba92c8cb5568c531a393a0fe5567e1d5",
+        "qualification/authorization/local/components.yml": "78edf446128198f3aafac1f1ef76ff046ef960bc79378c1ef53b2d436e54773d",
+        "qualification/authorization/local/compose.yml": "f23d6eb228b8acfb296d6aea00651be79439a55f1458c81298e7535b242c1b47",
+        "qualification/authorization/local/ldap/50-fixture.ldif": "b5f429b8a28309528c86450cb64e7e70fbe7801f0afc33c83776cad4e2ac1a5b",
+        "qualification/authorization/local/run-components.sh": "2810bffe2d0935a8fb6eba00de0cd535f35669d58378a3a3670842854a253adf",
+        "qualification/authorization/local/run.sh": "bbe0759cbba9363a96516422f3b8ab95564c40bbf7aa201d3b20ea39030238e3",
+        "qualification/authorization/local/seed.py": "26fa5d66185fb9014d7c0efd4fe1e4ec21be3aee53b978c05c47436012785d29"
+      },
+      "teardown": true,
+      "licensing": "Bundled Confluent non-production evaluation; secured component operations enforced"
+    }
+  ],
+  "cloud": {
+    "organization": "b02dbb82-cb1b-4e15-8998-44c4209ef723",
+    "client": "2.6.1",
+    "passed": [
+      "initial_access_absent",
+      "complete_capture",
+      "iam_pagination",
+      "source_offline",
+      "kill_and_resume",
+      "data_and_schema_recovery",
+      "component_enforcement",
+      "bounded_scope_writes",
+      "mapped_roles_and_acls",
+      "allow_and_deny_probes",
+      "additive_sentinel",
+      "repeat_zero_writes",
+      "iam_propagation",
+      "subject_roles",
+      "environment_and_cluster_admins"
+    ],
+    "snapshot_count": 16,
+    "exact_acl_tuples_verified": 8,
+    "status": "cloud_qualified",
+    "environments": [
+      "env-1kqy76",
+      "env-71jdx1"
+    ],
+    "cluster_type": "STANDARD",
+    "cloud": "AZURE",
+    "region": "westeurope",
+    "first_apply_created": 15,
+    "repeat_created": 0,
+    "input_commit": "83ff9702bb67dca47d96e7fa032a3a1bd392956b",
+    "binary_sha256": "afc512972cbd21811ba291de78303875ca219793da45677f36ffb18e23b3320e",
+    "source_sha256": {
+      ".github/workflows/ci.yml": "375e68f159988c6abb6ad0736339af35ff529f51e739fe2fdd620754b8bc55e4",
+      ".github/workflows/helm-publish.yml": "e7d8257dc7105cb9db037547b19f1a0b3faf960b569808f8709de0abb7add67d",
+      ".github/workflows/oauth-qualification.yml": "8557a633a3521422c58b4d6a592c2226d3bd606c5d04406281a7287a84c11a21",
+      ".github/workflows/registry-compatibility.yml": "8c3045be8faab5bea3d6a410ca5933ca79f4f27f2c0e646a61d5d8a4caa6334a",
+      ".github/workflows/release.yml": "f829bd11dadfd78b137fb18aaea5fd682d72fee8a76064817485ab63c9c214c6",
+      "Cargo.lock": "f48a56c94f4778a867244b44260decb201ca0b3d8a5c93ce2a006ff03b04973a",
+      "Cargo.toml": "7c1d101fe0d4aa9c5302d48923ca3990a4ccb9142ddcf067d05c07c665f1e878",
+      "crates/kafka-backup-enterprise-cli/Cargo.toml": "a8b21c9181fa77148dc4727b94b9b6109a7d21a4f1fae1f5e687ff1d7aaf961e",
+      "crates/kafka-backup-enterprise-cli/clippy.toml": "aed05da26d5d0dbefb1125d40279f08231c94d89c36d8a31788585e46ebb1986",
+      "crates/kafka-backup-enterprise-cli/src/commands/authorization.rs": "0d45abf4f954b265d001f1855a52259fd7cec5e8bb1e2ed554b13f57d46cef72",
+      "crates/kafka-backup-enterprise-cli/src/commands/backup.rs": "dc1b212302fbfe12bb4e8928163007e6e8c61f6f4f8e1bdbbfa24befe76574ab",
+      "crates/kafka-backup-enterprise-cli/src/commands/cluster_args.rs": "0f408817c63ed3f73618f6e93dee1dfe91e9270cbbeca49befa4568f39861734",
+      "crates/kafka-backup-enterprise-cli/src/commands/config.rs": "ffedbb21881ec04ed2babce88ea4f362b9656f558dbba76ca5d6123e1863554c",
+      "crates/kafka-backup-enterprise-cli/src/commands/describe.rs": "b9d56715bf6e84cb46ad373ec069a08c8f53dc05ed38934d5e80592d6eef08c7",
+      "crates/kafka-backup-enterprise-cli/src/commands/erasure.rs": "b50bbef8cee18128c807c2f99679b40f74cb26456b1269ddff27d5ba57fc401f",
+      "crates/kafka-backup-enterprise-cli/src/commands/license.rs": "56cea17c05383e5eac004db7557bf756a7ff59c0535bf8e2df9dd80c97bb8b5b",
+      "crates/kafka-backup-enterprise-cli/src/commands/list.rs": "8de460c58dc41ad7f038600380a6b5d61f69ad89eefaf4921f8e614d3a96cacb",
+      "crates/kafka-backup-enterprise-cli/src/commands/metrics_runtime.rs": "39e4ac29b490a3327ef3c356a2b8ab61475b903e90eb59de8ac4b310fd47078c",
+      "crates/kafka-backup-enterprise-cli/src/commands/migrate.rs": "3bf11593a0b7cf4054a43617cafa8f676d5e4da0c708ecc08d6c67cc7bb043d2",
+      "crates/kafka-backup-enterprise-cli/src/commands/mod.rs": "0259bc2bd604ada9c25192cf1a07792c4f23a9e6c90de90fce38c3fd9d1fcb6a",
+      "crates/kafka-backup-enterprise-cli/src/commands/oauth.rs": "91b227c32162be92d7df2250962bbca0c263c9ffb2b72ecaffa0b4b14d914e57",
+      "crates/kafka-backup-enterprise-cli/src/commands/offset_mapping.rs": "426f51d9aa3bd638e5253a8499a660b77719d755b26f33969500cd11aae5e815",
+      "crates/kafka-backup-enterprise-cli/src/commands/offset_reset.rs": "a33c36016d5baa5f999acaebc4d5b07fc6230adf37f43e3e23b2782ee0a42ddc",
+      "crates/kafka-backup-enterprise-cli/src/commands/offset_reset_bulk.rs": "8941103daed87b6729384ab9b109c9c3b896e018aa2b844962d65a6ffb065b1e",
+      "crates/kafka-backup-enterprise-cli/src/commands/offset_rollback.rs": "881c9d0e55da7af7f300dcf7b173b882b4bd2963f17dfa3923f02d344377b0bb",
+      "crates/kafka-backup-enterprise-cli/src/commands/plan_render.rs": "b31f0341c2bb3d3fe3b89f5ecc02e5a4436c2c3f40ffd05fe208baa1bb9b88b3",
+      "crates/kafka-backup-enterprise-cli/src/commands/prune.rs": "c60dcf9bd099d4f56268faff89fa7f24d1bcc74c937d297d09d9a48a406df5e3",
+      "crates/kafka-backup-enterprise-cli/src/commands/rbac_backup.rs": "dc5659dbb7a77b86f2432618bbc329f612e1b9c31db41d82f7975d48ed79ae6b",
+      "crates/kafka-backup-enterprise-cli/src/commands/registry_restore.rs": "7f53972728c364fe5849a49565467c5b7d2cbf4b2e03493b9b94667480fa6d39",
+      "crates/kafka-backup-enterprise-cli/src/commands/restore.rs": "1414b3841d2dab0c346366f01415e7d277600d4033a5f919a79e592dd01135bd",
+      "crates/kafka-backup-enterprise-cli/src/commands/sasl_plugin.rs": "c11f73c48c7db423522769dcf937f186d7cf7afa346102af94c4be2215e6662e",
+      "crates/kafka-backup-enterprise-cli/src/commands/schema_restore.rs": "ab44dad89168bf357faf9366487c9a35f85deea04a8000aa03557ddadaad3c97",
+      "crates/kafka-backup-enterprise-cli/src/commands/security_args.rs": "4e46a18b7b157b84703aa00a3f2c853cbb8ea5ded5379035831a1835f7510702",
+      "crates/kafka-backup-enterprise-cli/src/commands/snapshot_groups.rs": "4a7d19f5b9ca1adef537f5a6ed2ab8a1868e513a191c8a84a106a566046a55fc",
+      "crates/kafka-backup-enterprise-cli/src/commands/status.rs": "0a4e7d1081b2b660ddc342aeed1ddab7796ed7aa1796e40da6ecc747c789b3b3",
+      "crates/kafka-backup-enterprise-cli/src/commands/status_watch.rs": "d6810dbf1c64528dfe2be10d10be22b8d1cec4243cf18a8bee0c430776abd5bd",
+      "crates/kafka-backup-enterprise-cli/src/commands/storage_path.rs": "032feb2a97b876d024a81112e9c448af7ae9d9ff2996f6c94e9184187a14ad53",
+      "crates/kafka-backup-enterprise-cli/src/commands/three_phase.rs": "334850c9715f289195d88d7355d8c95b285856e84257ce5eb6f01ae238df0316",
+      "crates/kafka-backup-enterprise-cli/src/commands/validate.rs": "b54d88b3616d8319f35f78895f3fcd4dbc3f3cd0ca2ed02aff7a5b6cafa1a127",
+      "crates/kafka-backup-enterprise-cli/src/commands/validate_restore.rs": "55ae8e41fb048ada778f6ca63688d7a1f742477451a12d378365a48610d59571",
+      "crates/kafka-backup-enterprise-cli/src/commands/validation.rs": "ec9a0293d14faef0df3757478cb238910a9442be02d5eabaee540af9617da3df",
+      "crates/kafka-backup-enterprise-cli/src/main.rs": "9b709137df77bdcc71a26da47961792c095db68415cb3c71cfc4f3235bf9aa6d",
+      "crates/kafka-backup-enterprise-cli/tests/authorization_cli_test.rs": "93abb890492f4067d27bf83f5d660e59dc594014991ed8794cd84b176a921947",
+      "crates/kafka-backup-enterprise-cli/tests/backup_control_plane_cli_test.rs": "f362a29d66664e5bddd34b76dc51101a39406e45871c008abcce3da61b516413",
+      "crates/kafka-backup-enterprise-cli/tests/erasure_cli_test.rs": "3621e46247355f019b71419ae805acebb00d6892875ce19f7b5746ec665e7c0b",
+      "crates/kafka-backup-enterprise-cli/tests/issue_100_storage_paths.rs": "6795f9d67607f9722eacc3b119f69e0c3f80261e704d4eb0fb6f37c343d00b0d",
+      "crates/kafka-backup-enterprise-cli/tests/issue_167_missing_topics.rs": "c0ac29f820622dab199dcd874671d3624de72200ca7ddfb776f84deb8700826f",
+      "crates/kafka-backup-enterprise-cli/tests/issue_168_config_flag.rs": "d857f593299b8a88083470caf4de486b01a2b19b0b838a2eadf7d1a8e069bf04",
+      "crates/kafka-backup-enterprise-cli/tests/issue_169_prune.rs": "7175f3846a48d26474bdaceb8ac19f671b0dad76c4b4b21acac36c159111f03a",
+      "crates/kafka-backup-enterprise-cli/tests/issue_174_storage_paths.rs": "330e8677b937917c8b9274e1afe61a06da49be3e9a19912412fc4ed3f9a1e65d",
+      "crates/kafka-backup-enterprise-cli/tests/issue_188_log_output.rs": "efc343aecd03db9f2616adbb9ccbef07c49dc45fddbfc1a800572562c839c592",
+      "crates/kafka-backup-enterprise-cli/tests/issue_218_storage_errors.rs": "02421ebb3e54a7709c675d3c50b041fa3b9363f6ac87b736ddb2a16ef354a59c",
+      "crates/kafka-backup-enterprise-cli/tests/issue_219_evidence_paths.rs": "5eae812bcd4ffe1d0428b67e22b8867e3a8370de50841c840b591dec7b0aacc1",
+      "crates/kafka-backup-enterprise-cli/tests/issue_220_bool_flags.rs": "ba3535d30e584706fdf108cdc604298f19cea58b1a97b3c78a15c607d25b09bb",
+      "crates/kafka-backup-enterprise-cli/tests/issue_221_file_urls.rs": "af72122e1e456bfb73786c1fda72ac62f2c3eda8c383e7d8f33ce178c04f4125",
+      "crates/kafka-backup-enterprise-cli/tests/issue_223_snapshot_show.rs": "c3ef40f5fce2ec7b871dc831aec243c2b3a97c1edbbbbf17e7cfd9d373ab05ee",
+      "crates/kafka-backup-enterprise-cli/tests/issue_224_snapshot_groups.rs": "da4466413d92807052ad9a92139448009cb24f110e89968181d2dc16860403a2",
+      "crates/kafka-backup-enterprise-cli/tests/license_info_cli_test.rs": "46c217f9034163037278ada5eadd6326f734d88078f02e54565dca43483173ab",
+      "crates/kafka-backup-enterprise-cli/tests/oauth_cli_test.rs": "7528c575354924aedd227d215435b15be716a4a81d5f7c7ced0a60bc6b6a6aff",
+      "crates/kafka-backup-enterprise-cli/tests/oauth_local_stack.rs": "9c601396ef992ab73a6c2c7d83332a58060ea26df6d167dcca7b05b45716438a",
+      "crates/kafka-backup-enterprise-cli/tests/oss_parity.rs": "a99321f2c9d243e637d2d115c95998aafbed8193765b6fdcad6bd27d1863e27e",
+      "crates/kafka-backup-enterprise-cli/tests/registry_validation_json_test.rs": "91fd68abf35eb72aa9f81b83ad201d52fb1e2befc61d334470585799f04f7d7b",
+      "crates/kafka-backup-enterprise-cli/tests/schema_restore_cli_test.rs": "f4064c25b9ed3a36199906b7ae6bf2dae409e06dbb18c3458c718241704f6598",
+      "crates/kafka-backup-enterprise-cli/tests/schema_restore_records_e2e_test.rs": "ff10324a9dd6b3dde4e1ea56229bb1d21f60a9f072ec18a0804b3b3df1c0bf74",
+      "crates/kafka-backup-enterprise-cli/tests/support/mod.rs": "f1c0a6c58966f5c439a0966d8a2f57b6105743915e82fd328ca195f8f4e5322d",
+      "crates/kafka-backup-enterprise-cli/tests/support/stub_s3.rs": "59b598d57ea200d916e66f474b6f09289ef0090ebd46b07b436844c10774b6ae",
+      "crates/kafka-backup-enterprise-cli/tests/trial_lifecycle_cli_test.rs": "9922bdc9c581d2cf1cf17e21290135914eb81726d541df0baed7c869ce847856",
+      "crates/kafka-backup-enterprise-core/Cargo.toml": "7827e4f7f8eda334e4332e2cb8dfa1100512151ee912482f2adc5a2e8409961e",
+      "crates/kafka-backup-enterprise-core/keys/license_public.key": "65166c54010b7e18cea035d173c9e56624dd6f03b327482842ead53719eac604",
+      "crates/kafka-backup-enterprise-core/keys/license_public.key.sha256": "48ee4da7fe1e678002c61af6c51939c95b5748a216f316db15ed1aed7a5bb471",
+      "crates/kafka-backup-enterprise-core/keys/test_commercial_private.key": "a87678e8cb85a73acf41d4aaede5038f811c92c7fa8092c6ad8f73481b7f60dd",
+      "crates/kafka-backup-enterprise-core/keys/test_commercial_public.key": "9d4059a0f9700a2ca49e003f43987abeca36a387d22f619adde543d94454a655",
+      "crates/kafka-backup-enterprise-core/keys/trial_public.key": "e9b90f13dca3331366f6cde6050020604f8b5a335ec4bd79fab876db3ffea186",
+      "crates/kafka-backup-enterprise-core/keys/trial_test_private.key": "6f6759ac1b247a4c92107bca3771fa9ee176d41e26ad1868b2e70d3117b4cc82",
+      "crates/kafka-backup-enterprise-core/src/apicurio_registry/backup.rs": "85aca002f911693fd1036fd554c284d4908f78acce2f85b73a04f3870b493097",
+      "crates/kafka-backup-enterprise-core/src/apicurio_registry/client.rs": "775a9057630005d2465134d0bba0aa04847a7eaf65d3840be6c0960638dfdf45",
+      "crates/kafka-backup-enterprise-core/src/apicurio_registry/mod.rs": "6ebf3e0c6811f8f058b95fcae0166c80738908369d0bb03e0311239015282130",
+      "crates/kafka-backup-enterprise-core/src/apicurio_registry/models.rs": "1993b48506a9a2404aeb4b065997dcb0b8e833f0cfe0b9f174ffaf7692e70425",
+      "crates/kafka-backup-enterprise-core/src/authorization/adapters.rs": "23a94da2c8fd0f26c6024661b43eb0a142ff906267bf161d9b031151d5acccf6",
+      "crates/kafka-backup-enterprise-core/src/authorization/config.rs": "045aa51c10dd7db447e8f806562493fea2774c9a75e75c02afb9de4cce2ee584",
+      "crates/kafka-backup-enterprise-core/src/authorization/crn.rs": "ea4648760b2cf2e546a25eda624b15aaa989f4aa1f13758aeeb62b19c23f6417",
+      "crates/kafka-backup-enterprise-core/src/authorization/engine.rs": "956361a9f7149e69bf3eb9418ac1631407e98d815beab81d35c2561dfea96e67",
+      "crates/kafka-backup-enterprise-core/src/authorization/kafka.rs": "59ccc844cab3688b1a71cba3523697fc121c2b8443412ffda9063ad6e67c605d",
+      "crates/kafka-backup-enterprise-core/src/authorization/metrics.rs": "7c17d4ad9a850ea30f59f97ee4b4a21a195bc973a6153180ca26c523b5751460",
+      "crates/kafka-backup-enterprise-core/src/authorization/mod.rs": "df07bc82e61bf21fd6650b8457299cf0b4b5d1064c95ab2c6a4e33eb8323ae95",
+      "crates/kafka-backup-enterprise-core/src/authorization/model.rs": "4b8bccc1baabd864c89cc09723b6d7d918d514e467b7ee701fd8318ab53e8823",
+      "crates/kafka-backup-enterprise-core/src/authorization/transport.rs": "afb63594d3783223c9dd1a186de88553b3a6d70a9eec8548e2dcea49690c6728",
+      "crates/kafka-backup-enterprise-core/src/config.rs": "31583de4ec95b9e71039a5b2b6ec21d4fe868ba2639287cb2d5713311b20a598",
+      "crates/kafka-backup-enterprise-core/src/confluent_rbac/backup.rs": "9c3e781b9375a0dec6802b5a613435e3df4fcb2a1defbfcf2ed818d0d1711ed6",
+      "crates/kafka-backup-enterprise-core/src/confluent_rbac/mds_client.rs": "652892b9feca4e6f21d934e467d4273b7cacdffc118b00b4358a41d8cdf032f0",
+      "crates/kafka-backup-enterprise-core/src/confluent_rbac/mod.rs": "34a18c63e37412451c845afc8ae0de94e240d8e6d79adfe66dbb3677f1a7ae19",
+      "crates/kafka-backup-enterprise-core/src/confluent_rbac/types.rs": "c4f49ee4c9484782e203526d4ec5f746c8cbb22b5be90cfd285cd26253d316cf",
+      "crates/kafka-backup-enterprise-core/src/control_plane.rs": "6fff3bd1a2c4f1679e7225d36d6fba2da1cb4bc7e1d7de05406fd6f089f609ac",
+      "crates/kafka-backup-enterprise-core/src/crypto.rs": "fda64414ddebe9b4d145e0095ef842c481b5f1cfdeec3f8cb1e8792d868652ce",
+      "crates/kafka-backup-enterprise-core/src/encryption/backup.rs": "589e6598f63bed5b7136d086f531e106f40bcdbc36482c8868c65b9c0cbc655a",
+      "crates/kafka-backup-enterprise-core/src/encryption/config.rs": "2dc1cd4e93f9b862c98904a9fb38f81747e55a93c06ce67c9b2b1e654c2fbff3",
+      "crates/kafka-backup-enterprise-core/src/encryption/csfle/detector.rs": "ca8df6ca3700305f3c650e0959bc60d1b0316f3f4ea9c5f6bc0012e6529dbd5b",
+      "crates/kafka-backup-enterprise-core/src/encryption/csfle/mod.rs": "320b177cfa953ef30fc454c244a1d91fb2c4e6b421f7d15e6c47cb1afea5e416",
+      "crates/kafka-backup-enterprise-core/src/encryption/csfle/tink.rs": "42788164f3ad532ee9c137b8eedcd37500f739892df7fe3e33f259d8270e5d35",
+      "crates/kafka-backup-enterprise-core/src/encryption/dek_registry/client.rs": "f1cf0e9951489bf853ead1f68ba5a6c3e918e4f9c920540863156e892c6be804",
+      "crates/kafka-backup-enterprise-core/src/encryption/dek_registry/mod.rs": "80a3cd9d78c7cde775c7e745b86c6656d9142053fd940ea8ccb4aae6208a2829",
+      "crates/kafka-backup-enterprise-core/src/encryption/dek_registry/types.rs": "3125eadea896d80b9c31c76eb472f04c56b7bccf29cdc5a86e54aedbcbc8b1a9",
+      "crates/kafka-backup-enterprise-core/src/encryption/mod.rs": "a9725140e239f5f97e51ae6b7b646d478460ace5c65ee59ae6692038f52766aa",
+      "crates/kafka-backup-enterprise-core/src/encryption/restore.rs": "7a7d235d74e9eb191fb3a07b42d31dbe56357fd4eff2cdec02e44a50e88b4582",
+      "crates/kafka-backup-enterprise-core/src/erasure/mod.rs": "1b9a9bf05f82a632f53e9b978a45fb588e6778a5e9295df9460623b415a6a3d2",
+      "crates/kafka-backup-enterprise-core/src/erasure/suppression.rs": "43014fccc36dfb401e6567763c8565aee4966a3238df986a93079765caec0290",
+      "crates/kafka-backup-enterprise-core/src/error.rs": "ea62c8f46ba1e4b75ce31aba0fbf874d8d132c91f68b8cd92c5c26aa163e2e75",
+      "crates/kafka-backup-enterprise-core/src/lib.rs": "31bccf666b34a876edf65a59128377e42643bf6e4a574698e3e4f5fe05cbe33a",
+      "crates/kafka-backup-enterprise-core/src/license/loader.rs": "1e1ef886cd36472a395382a7427d18bfd5634df062c70553258d4f765f1973ee",
+      "crates/kafka-backup-enterprise-core/src/license/mod.rs": "e62b164e9bfae6b0db225c3d729cba42e292906c23d3a8149361176ac1a1761c",
+      "crates/kafka-backup-enterprise-core/src/license/payload.rs": "1b9fe85680a13eaaea3ef8e00d216939a83d1b7aa0f02555f34b533605f1dfef",
+      "crates/kafka-backup-enterprise-core/src/license/validator.rs": "933581a15ff0c0c815eb2899ae47fbbb35ef0dc0063230d397261a2e97f3d19c",
+      "crates/kafka-backup-enterprise-core/src/migrations/mod.rs": "e42e544430186f90fa00f606907375a898de328198ade17d39978f79b914e5d4",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/acl.rs": "5c04788ba95e58444bd1510940ce2f9e92dfa4903003c3adb5cf08832a804acc",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/aws.rs": "c4bbfe942e7f8116cdb956a160c353519388d1efc86084277d14c433ac47ecfa",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/config.rs": "9b1334d453554c6baa2a5f4b561ccdc004ab2de94536b7dd096eeb01350352d7",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/consumer_groups.rs": "343fa72e1a064e3f6f22e1f7e8c9a4c8b33beac6bcc8ab94c911569a3723f887",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/cutover.rs": "d9b4e0c1f838af0b944833f2fbe5394ee7040a86b92143efbe31b6d215a83631",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/drain.rs": "b462e36950e9d5d44b5d21e4130e0577cc19afb70ac746a80b82dfb705adeada",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/error.rs": "15e4c78d8f3b6e3574b8a08ce37f6c3e95c3f363c5725a9604fe9c5709352363",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/evidence.rs": "d6f69d155e9ee475490ee46848974647c3769b8555a018934f8cef6b2f755ee4",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/journal.rs": "c1ad0e7ae2393ec49c30cb90c5f8e4bf1fc042a2e865d758154d5ac15c94bcd6",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/kafka.rs": "81887df6409031cfc70bb6d3c728ec3ef63dc889b6058ac222e42647c0b6d770",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/mod.rs": "8dc3dfba6ae6606fbd6f890ae4e7e1e41ecc8c65d74cfb0bd0e3319f314e27a7",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/orchestrator.rs": "991c231bb95aa227cb8bca034bd48a50d6638a8f779f5fd983197bbc990e0c3f",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan.rs": "15cc889d55ef2b0187079567aefffafb1aeb2c3a5b32608f8e6497943b6cd940",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_aws_cli.rs": "6aefe9fc38f60523a031fe6c763ace510d75b178d2761981486b2c1d12fc500a",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_cost.rs": "9cfc4f818a9b7fd4703b7382d2a09e3a5ee309ddf8cb36d01e2a7ba4be5ffe70",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_iam_policy.rs": "41ba07b869eb252115ba4425c0147fbd4bc9eef9a32fa8fa9ff759d2d11b5e3c",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_meta.rs": "ac515e32939eea32783140fd80f5e1f176b3709e447d8d8058b38b23a7d778cc",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/plan_runbook.rs": "2d7a4c0750cfd6af441cc7f78bae002457eec0be4cffa9ab88d83f4f32d87497",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/precheck.rs": "b2c44740d7b9c2cb1ccf8a6aa83df1283649b38775a420867a237f5f814ac934",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/rollback.rs": "33cc58e1e933f8b01e0d1f658ed7d03b6f0326c77df5153401cd1208c42794e9",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/seed.rs": "02d2d7a362aa5c3cafea53be6f7fae02579d0addbbefe7d6fd6b975ea6026364",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/state.rs": "1916a9bb6fea3a94572201c5d09a2cceca8db49ec34548f2f4ba3158d876400e",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/tail.rs": "b6ee98db2de7d56e565ab2a4ed409611f7bf0aa1f6f8b26a5069be583ce8cac8",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/topology.rs": "a75d91b6492763f355519a5b5f9ad93200e9b34d7cc544924b780266ad7f8ca2",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/transactions.rs": "7ddb200e630ee4993a4b46d892470936263a5bb7546e62163f61932a2efe3039",
+      "crates/kafka-backup-enterprise-core/src/migrations/msk_kraft/validation.rs": "2599aabaadf6e367bfa23595b9f33303c7cd7826c44ffb417436cb665b0cfd83",
+      "crates/kafka-backup-enterprise-core/src/oauth/config.rs": "0d789816c2f674996a6d4a91954c283f47a777892c7bbe0849cd2313e4260940",
+      "crates/kafka-backup-enterprise-core/src/oauth/install.rs": "fea9d6af9aa49acf06bc0a42797e11dc4ab9f67d8589ca08490837c1bf80199e",
+      "crates/kafka-backup-enterprise-core/src/oauth/mod.rs": "e302e72812f9e5d8442225e313633939bd4ede3e5cfc6ef7b12ecc2829d0055e",
+      "crates/kafka-backup-enterprise-core/src/oauth/registry_auth.rs": "2546151220f999dff3a15d2f3f8b68763a6fa491c8fd1cf702f442c1b7502545",
+      "crates/kafka-backup-enterprise-core/src/registry_restore/engine.rs": "4c3668788d00f54858354f35fe1c4fa1459a9a88c422a45ac24742cdca316990",
+      "crates/kafka-backup-enterprise-core/src/registry_restore/mod.rs": "18a7e989cb9f0211f999269a0fcadb6a33a07296138e6b1690514eeb889372cd",
+      "crates/kafka-backup-enterprise-core/src/registry_restore/snapshot.rs": "065c2353306753bbc789d274f8fe62a4528d7691410d63ab01b7b7e05eaee3bc",
+      "crates/kafka-backup-enterprise-core/src/registry_restore/wire.rs": "225957b4edceb915db3fdf29d216c7878dad0433e12813cb99687f9783b71815",
+      "crates/kafka-backup-enterprise-core/src/sasl/mod.rs": "35217d6fba5d423ae7ba0c8e321327def0f53e3249a49396ac49fe224b2bcb47",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/cache.rs": "383aa92d127bfd6bf15f3eeba043a7313434211edd1c2cbe27d0259f0e589c0f",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/framing.rs": "42c3a6b502f7ab702b3f48d5c86beb7cf03951114207535fc76d52479eff64ce",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/http.rs": "419064c8b406b49b8ee3a1bd9fa33c44c387d13f62d3cffe9e40fa15a819e86f",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/jwt.rs": "4ad0967f10d8ee05b0e1f91ddb9bce5deeca3f7fa0a96564c3764db15436d900",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/mod.rs": "999d0f8c774b3ff069a269c37a361baaa383599c60feba8f65a6ca6bf18d5609",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/plugin.rs": "f5f58ade1fec73f177c5ad55f8d0914c83167ca977a7a7a62bbdbcc7cbff183b",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/azure_imds.rs": "465fe70b186fa10f70ddc2e1301add96c1c9c1efebb5057c2f83feb79280853c",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/azure_workload.rs": "3bcc1b0d5278aa127f02e80c50c435e077bebea66f183c5fc18e930655e1db7a",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/file.rs": "b5ec07bb25fc69a9e974f28001578a66904ac2e09785c0f684af09eca56fe4af",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/mod.rs": "b3e3a3f3555a2a18ed14e8dc129f0c09819434421014e3731dcc0b01643cad32",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/msk_iam.rs": "0bd754daceed9ae494e6611fee5921176c6c36dfde4392f368f07d52d3cbd52a",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/oidc.rs": "9d9d215d9496816d251ff4161d9e0127b1b8e407a93af5e2bb51ad2fe643fa0a",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/providers/static_token.rs": "163e6ade1212effa1af7086a9f0e1123a9aefa1192a2b41b1e6addec4262c585",
+      "crates/kafka-backup-enterprise-core/src/sasl/oauthbearer/token.rs": "30750155286c5c0b6dedbfb8b96ae089bf7ef0dcd764e04ba7393442eb9b224c",
+      "crates/kafka-backup-enterprise-core/src/schema_registry/backup.rs": "b51a530f3e50db2958d6bdff05bbaa109c17d686679c53204ea6d9b8fdc0920a",
+      "crates/kafka-backup-enterprise-core/src/schema_registry/client.rs": "7ec31baa64988ae3fb346097d7097aeeccfbc158001b939ffe82378bdf9534cd",
+      "crates/kafka-backup-enterprise-core/src/schema_registry/context.rs": "47880858a3ba807613788b8da3a92b927923af78c904b8a83e471408738f6d21",
+      "crates/kafka-backup-enterprise-core/src/schema_registry/mod.rs": "e055e3393cc6066fa2a781ce8cbdfff745d29aa324b607a1e2bc69693ddb8a9d",
+      "crates/kafka-backup-enterprise-core/src/schema_registry/models.rs": "bc568d5cab0fff3e30b6f61cf4fe8dd08721c1534b30f6360b64cc69ee56f620",
+      "crates/kafka-backup-enterprise-core/src/schema_registry/ordering.rs": "99aaf57f4492cce3ba056e07b58abb7febdc430525a82f42c4d040098e590a54",
+      "crates/kafka-backup-enterprise-core/src/schema_registry/restore.rs": "9ba1ded66c0d21536e991c9ddd9d1604c90981c21dc304e8263776dbe397e31a",
+      "crates/kafka-backup-enterprise-core/tests/apicurio_body_retry_test.rs": "f2a91d72b54e3b4951dde79712fc3d14f9146cf8351a88f20cc7612161b6d05a",
+      "crates/kafka-backup-enterprise-core/tests/apicurio_registry_backup_test.rs": "e49ccf20c7d149a92743a7446fdf2b72fab058e85e26c48a349b453271c1e6c3",
+      "crates/kafka-backup-enterprise-core/tests/apicurio_registry_e2e_test.rs": "2665acc760a6e05c6cca16c4e8d2f1284b5a72882ce13fd837650e0ba03f0374",
+      "crates/kafka-backup-enterprise-core/tests/authorization_local_test.rs": "165bb2b52436efa47ca335c124235148c28b0c3d9c4cbdee576b6f9b7800755b",
+      "crates/kafka-backup-enterprise-core/tests/authorization_recovery_test.rs": "fd1beedf072723be8594dcec6d1cde6b996ea0d36e7f1686f9d3f0db8c3840c5",
+      "crates/kafka-backup-enterprise-core/tests/control_plane_test.rs": "b693b1841e6812525ebdc4ad04dd18589b12afe996cb7521280ea7be012a58dc",
+      "crates/kafka-backup-enterprise-core/tests/encryption_backup_test.rs": "972f5eb88c6a9769f75b1d5d718ede8de45f1d20e2f7601f5fe8041b9a4a17e6",
+      "crates/kafka-backup-enterprise-core/tests/encryption_restore_test.rs": "d1c49550e4b01c816eee0f7e9c2c9438be5a72dfd19d58c2e0beb43ab4d60736",
+      "crates/kafka-backup-enterprise-core/tests/erasure_suppression_test.rs": "e6b69062d4946b588ac1b87ddf4f450e02cf41886f282644bf21c997c73bec1d",
+      "crates/kafka-backup-enterprise-core/tests/fixtures/portal-license.json": "bf88d9220b7c82c7f4c1c2b7575604483f62647cea563c105e7f4a8ee2a1db11",
+      "crates/kafka-backup-enterprise-core/tests/license_production_trust.rs": "b5227d2bd5f43b28a740d36c2ae85d5ae09bdbd516ed52c59fc6cd8eae058d2d",
+      "crates/kafka-backup-enterprise-core/tests/msk_kraft_acl_iam_test.rs": "84a292b2a1a0ad3ea50c2d9ef43bce19e7158bd004895c4b84a34d421c803d6a",
+      "crates/kafka-backup-enterprise-core/tests/msk_kraft_topology_test.rs": "4b5f2b32a34d54647acd52bb07d28f0f6f2bc518b7e068532d2ada8e80fdce7a",
+      "crates/kafka-backup-enterprise-core/tests/oauth_providers_test.rs": "fc988ea8dda0135bb2d2ef77d254073b27dc8ef961f2a5d1a450f6c15b1f5d72",
+      "crates/kafka-backup-enterprise-core/tests/oauth_redaction_test.rs": "5bd7db9628262364d05d4d0a31889a1f6bd461766e9338d7710595a769e7270e",
+      "crates/kafka-backup-enterprise-core/tests/oauth_registry_test.rs": "af65edebefb3af06005ee9038a1db5eff16573436bf1574d9a16e5be80b7cfa7",
+      "crates/kafka-backup-enterprise-core/tests/rbac_backup_test.rs": "09b63f52de2a6bc04f72317c7a2616f99f30f055e3827d385055b975c936eca7",
+      "crates/kafka-backup-enterprise-core/tests/rbac_edge_cases_test.rs": "e0249c50aeda9942f44839ff88932ceab4e611f85888b486bee0f5fa3b79b894",
+      "crates/kafka-backup-enterprise-core/tests/registry_restore_real_test.rs": "8d23ff427122c9cfbed2aa0072f208ea5096ef3992ba1c4ba6f81b14508dac65",
+      "crates/kafka-backup-enterprise-core/tests/registry_restore_safety_test.rs": "9e337b37b3cc3f32d691552361d64a9956e3bc35f3aa5ee21f398ce99cb07340",
+      "crates/kafka-backup-enterprise-core/tests/registry_tls_test.rs": "173bd85a457001a751f06daab59b67efd02935377821e3496b4b51b49faae6b0",
+      "crates/kafka-backup-enterprise-core/tests/registry_transport_test.rs": "6e28831d73ee28ec6282d485872926e3b7a29f1cbeffd632d557f51610976878",
+      "crates/kafka-backup-enterprise-core/tests/schema_registry_backup_test.rs": "a87d7ae37917dcafdc9cee62f447528931f509019e2696cbb3447a4ad3b6057a",
+      "crates/kafka-backup-enterprise-core/tests/schema_registry_edge_cases_test.rs": "b139bbbd3840370549686766317dc6a0b61743149346f09faa62010fb017f017",
+      "crates/kafka-backup-enterprise-core/tests/schema_registry_restore/docker-compose.kbsr.yml": "950a62dbff7ff1a5e718e010a38255adc483ba5d885a1ffaa68ef416ddf65cb2",
+      "crates/kafka-backup-enterprise-core/tests/schema_registry_restore_e2e_test.rs": "8a71c2ef6438b5502ae9f391b5980a33c653a433c684d3963d65c56edf884590",
+      "crates/kafka-backup-enterprise-core/tests/schema_registry_restore_test.rs": "21b71df922a31db87a1c38dbc620a3d44943ea423b1a9e398dfe528454e3f9a3",
+      "crates/kafka-backup-enterprise-core/tests/support/authorization_mds.rs": "076eb8bc2824ec00b1d3301b93394f1607d182f8384a61a904e1b212c75a75ce",
+      "crates/kafka-backup-enterprise-core/tests/support/fake_schema_registry.rs": "15a568b2e757d220efbf3ea490fa3f5c9ac5680387751dc7e2bacb043eadaa2c",
+      "deploy/helm/kafka-backup-enterprise/.helmignore": "d729e7bf0833376e10e51600a4161e8abbe16936611a21e6585267dc18ec144d",
+      "deploy/helm/kafka-backup-enterprise/Chart.yaml": "24f4283cadae663fbd9d1d79ae8260716f5ab8f477c5676748b718bc67ddfe61",
+      "deploy/helm/kafka-backup-enterprise/templates/NOTES.txt": "bb9877af2bebed27d5bdad754242a2dac08a31f39c7b03694abb651af6ee036c",
+      "deploy/helm/kafka-backup-enterprise/templates/_helpers.tpl": "c8bc9e02e7415c7d7dd5874d5d486d77e169f8e71f5a57a3c8cf2d16e1aa2b7d",
+      "deploy/helm/kafka-backup-enterprise/templates/configmap.yaml": "05b65422cd47e4d223cc3cadcc46e0ff0284bac6c6844f16383fc518510ddd20",
+      "deploy/helm/kafka-backup-enterprise/templates/cronjob.yaml": "0e1a473f6c348f85cde5853ca88a43a593914fad2133e45d1cdac0bba3622843",
+      "deploy/helm/kafka-backup-enterprise/templates/job.yaml": "7c7695947cd943f304c6a1023a59ba0202f271f58598f8751e03ebcc89424878",
+      "deploy/helm/kafka-backup-enterprise/templates/pvc.yaml": "1966ecfa9e96d6c0f27e6b9471aef6fa580ab4055eaaca507a34f6468c7f1ab9",
+      "deploy/helm/kafka-backup-enterprise/templates/secret-credentials.yaml": "b3a25b680df70b67e110baa12997d742f84817ce1bc70aac9638154d55f71f6e",
+      "deploy/helm/kafka-backup-enterprise/templates/secret-license.yaml": "a5338cca41c125a0e08e3fac051ea52853cc15abc1993d79b2118d6128516a0f",
+      "deploy/helm/kafka-backup-enterprise/templates/service.yaml": "7f3aa30a198028ed4458597696609bdbf10ab762d632d810004d75aa0b2fd6f1",
+      "deploy/helm/kafka-backup-enterprise/templates/serviceaccount.yaml": "13a1a3e3fc1db00cc8534a5b14bd329631110ecbe6ef1ef97b730b1c5339627b",
+      "deploy/helm/kafka-backup-enterprise/templates/servicemonitor.yaml": "0633e9be27cc0c315e17b7b1b12dd313997cbe5fc5d6bc058f32bba365393a38",
+      "deploy/helm/kafka-backup-enterprise/templates/tests/test-license.yaml": "5b465eb25acb496c121d3261aa9c0c39e9d0dba8d7d4a31b6ec3fb3585c2edd2",
+      "deploy/helm/kafka-backup-enterprise/values.yaml": "c79bc6407a9e2276317d8e47088fe82a3b739a48643af3f67450d294ef94a70e",
+      "docker/Dockerfile.enterprise": "0da57ff2ca1311554108527a4a3f066a0d0e011f04370aee0bb7d0530edf61d8",
+      "docker/README.md": "4596a8303c4c9ac47bbc0bb634321f86d8900074a72b70520168b2e1651dd3fd",
+      "docker/docker-compose.registry-restore.yml": "1727b3e8662d6f1ba69de9e5def03791d2ccaa26f3d4afa36fec57af2b8543d9",
+      "examples/authorization-platform.yaml": "ce4abbb93fce82f73d4baf01c5264ecf00485defc4f1ca504fff8aa877460c01",
+      "qualification/authorization/cloud/README.md": "6977423d427e2d5cd6e5c7a11f4e4e34e816ee818c468718c751794fdf4b8422",
+      "qualification/authorization/cloud/run.py": "ca3104dce5d473d70cd1dcde94ca11f37faf310a2b4f2b77099c35dbe1152ff2",
+      "qualification/authorization/cloud/scenario.py": "493d1b264e466ee594545ad659ad28cce3237fff2abe397f7b974f37efc05c44",
+      "qualification/authorization/cloud/teardown.py": "7aee97e9741c60d7dcec4ca20a33cc1275cac6b12cfb3ac46567fbea23faaa77",
+      "qualification/authorization/cloud/terraform/.terraform.lock.hcl": "14adf0979beecead22203c3dda7a69db6ca060b70646bacfa4dccef670a9ff78",
+      "qualification/authorization/cloud/terraform/main.tf": "3d5b8576a824ca83745e3888f288bb7be71604cb8ae16c91000d5d00cc6d241b",
+      "qualification/authorization/local/.gitignore": "2a18e15b03ea933e18a1890dcf42c5fd014374935044d23fa3c5960b24db451f",
+      "qualification/authorization/local/Probe.java": "e5071f66ffed28152c6afe1459e7a22b63089a3b167108d2869d2c37cd7925aa",
+      "qualification/authorization/local/README.md": "906b0f886757115207f1e6b854bd9fcdab1674d562f1061d84651da5c9e893c1",
+      "qualification/authorization/local/cli.py": "9602c0c8dc4fe908080e4dc42d58aa194266c6ed08b1c27d32b0d9b4c04c7836",
+      "qualification/authorization/local/collect-components.py": "d7e66f1d6d95e443c684ace858d2ec3a741c6986ddf4531f5c18cfed8e8ab59c",
+      "qualification/authorization/local/collect.py": "e829affd8cae28835eb6a63367b491fa849e3271508a99fb401e950886b52be2",
+      "qualification/authorization/local/components.py": "21288f110d65a68402fd0b598f940a35ba92c8cb5568c531a393a0fe5567e1d5",
+      "qualification/authorization/local/components.yml": "78edf446128198f3aafac1f1ef76ff046ef960bc79378c1ef53b2d436e54773d",
+      "qualification/authorization/local/compose.yml": "f23d6eb228b8acfb296d6aea00651be79439a55f1458c81298e7535b242c1b47",
+      "qualification/authorization/local/ldap/50-fixture.ldif": "b5f429b8a28309528c86450cb64e7e70fbe7801f0afc33c83776cad4e2ac1a5b",
+      "qualification/authorization/local/run-components.sh": "2810bffe2d0935a8fb6eba00de0cd535f35669d58378a3a3670842854a253adf",
+      "qualification/authorization/local/run.sh": "bbe0759cbba9363a96516422f3b8ab95564c40bbf7aa201d3b20ea39030238e3",
+      "qualification/authorization/local/seed.py": "26fa5d66185fb9014d7c0efd4fe1e4ec21be3aee53b978c05c47436012785d29"
+    },
+    "teardown": {
+      "probes_passed": true,
+      "cleanup_errors": [],
+      "terraform_resources_remaining": [],
+      "independent_provider_absence": [
+        {
+          "type": "service_account",
+          "id": "sa-pk920pk",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "service_account",
+          "id": "sa-r208kxk",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "service_account",
+          "id": "sa-mk29wox",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "service_account",
+          "id": "sa-v1nd52n",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "service_account",
+          "id": "sa-0jdgw26",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "service_account",
+          "id": "sa-xr7d58x",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "service_account",
+          "id": "sa-8mv0kp7",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "service_account",
+          "id": "sa-9wz83v5",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "service_account",
+          "id": "sa-23jz0ny",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "service_account",
+          "id": "sa-j8vp0nw",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "ARDUOTNWOJUZAZVD",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "3QDHZLF7IH2JALLP",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "6JPOXG64I7SRUPFH",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "MXEI3P2RIPAWQTJR",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "VDPXYLD4DCTVVQH4",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "JUOH5BIYNR45XY33",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "NFYSZNMH5XZNVP4B",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "JATLX6W7VHBPRMAJ",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "GONI6W6YD3SIVL7E",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "5MK6GFSWSHWC6W7L",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "GGUZ523TEX2VFKSF",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "ZWW255ZOU4EWAE6H",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "ATWQOJWU4X5RWCVQ",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "PW73IGXVSGUJEJXU",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "7GPAPHVZ4Z6SEMR5",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "6Z3FDM46NY2F2Y4E",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "RP6PZI3VIZ33HAQE",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "LGWAFO2E2PCMSO4V",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "MS4CG4H75OGIWB3E",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "T32VRB5QZNSMCGYX",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "3OEFSPLMIEBOYZ5F",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "api_key",
+          "id": "CA5G73U2VUJGJ2IX",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "environment",
+          "id": "env-1kqy76",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "kafka_cluster",
+          "id": "lkc-o3ykyjx",
+          "environment": "env-1kqy76",
+          "proof": "owning_environment_absent"
+        },
+        {
+          "type": "schema_registry",
+          "id": "lsrc-pg0j035",
+          "environment": "env-1kqy76",
+          "proof": "owning_environment_absent"
+        },
+        {
+          "type": "environment",
+          "id": "env-71jdx1",
+          "proof": "absent_from_complete_inventory"
+        },
+        {
+          "type": "kafka_cluster",
+          "id": "lkc-q29p9np",
+          "environment": "env-71jdx1",
+          "proof": "owning_environment_absent"
+        },
+        {
+          "type": "schema_registry",
+          "id": "lsrc-gqj9j71",
+          "environment": "env-71jdx1",
+          "proof": "owning_environment_absent"
+        }
+      ],
+      "visibility_control": "active_bootstrap_key_present",
+      "fixture_role_bindings_remaining": 0,
+      "bootstrap_key_revocation_pending": true
+    }
+  },
+  "commercial_signer": {
+    "verified_at": "2026-10-15T11:45:00.842Z",
+    "binary_sha256": "afc512972cbd21811ba291de78303875ca219793da45677f36ffb18e23b3320e",
+    "fresh_production_signer": "accepted",
+    "retired_developer_signer": "rejected",
+    "fixture_licences_removed": true
+  },
+  "public_artifact": {
+    "status": "pending"
+  },
+  "limits": [
+    "Cloud service-account principals within one organisation only",
+    "Assignment recovery does not establish universal effective-access equivalence",
+    "Platform versions 7.6.0 and 8.3.1 were tested",
+    "Operator integration and complete recovery sets excluded"
+  ]
+}

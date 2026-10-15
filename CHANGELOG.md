@@ -2,7 +2,10 @@
 
 All notable changes to kafka-backup-enterprise are documented here.
 
-## [0.8.0] - Unreleased (qualification incomplete)
+## [0.8.0] - 2026-10-15
+
+Builds against kafka-backup-core **v0.25.2**, including its transport dependency
+security updates.
 
 - Rotate the commercial licence verification key away from the historical
   developer test signer. Commercial licence files issued for 0.7 and earlier
@@ -24,9 +27,14 @@ All notable changes to kafka-backup-enterprise are documented here.
   authorization recovery after registry, data and consumer-offset restoration.
 - Requested unlicensed authorization/RBAC operations now refuse before transfer
   with exit 2. Existing `confluent_rbac` capture configuration remains accepted.
-- Prepare the matching 0.8.0 Helm chart. Publication is blocked until all
-  [qualification gates](qualification/authorization/STATUS.md) pass; this is not
-  a statement of full Platform/Cloud support.
+- Ship the matching 0.8.0 Helm chart with durable trial PVC retention/reuse.
+- Native authorization qualification passed on CP 7.6.0 and 8.3.1 and for Cloud
+  service accounts across two environments within OSO. The complete 81-case
+  registry matrix passed against matching source hashes. Public-artifact
+  verification and final credential cleanup are recorded separately.
+- Require native cluster provenance even for ACL-only snapshots; reject
+  provider translation, cross-organisation recovery and unqualified Cloud ACL
+  principal formats.
 
 ## [0.7.0] - 2026-10-14
 

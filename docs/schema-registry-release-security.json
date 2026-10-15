@@ -1,6 +1,6 @@
 {
-  "recorded_utc": "2026-10-13T12:52:26.071532+00:00",
-  "cargo_lock_sha256": "152215afd092c3074e1de3892888da861c0e4b5fc8c5a099069277eb6c76de2b",
+  "recorded_utc": "2026-10-15T12:09:53.891974+00:00",
+  "cargo_lock_sha256": "f48a56c94f4778a867244b44260decb201ca0b3d8a5c93ce2a006ff03b04973a",
   "vulnerabilities": 0,
   "audit_exit_success": true,
   "remaining_warnings": [
@@ -39,5 +39,15 @@
       "advisory_id": null,
       "assessment": "Yanked locked transitive release; no security advisory reported."
     }
-  ]
+  ],
+  "source_commit": "83ff9702bb67dca47d96e7fa032a3a1bd392956b",
+  "ci_run_id": 38728397978,
+  "ci_audit_job_id": 116399812356,
+  "advisory_database": {
+    "advisory-count": 1329,
+    "last-commit": "edb58f5974b83eb8302332821cb6d389777aa351",
+    "last-updated": "2026-10-14T22:18:32+02:00"
+  },
+  "advisory_waivers": [],
+  "warning_review": "The exact previously assessed warning package/version/advisory set is unchanged; aws-sdk-s3 remains 1.119.0. Warnings are retained explicitly and are not described as resolved vulnerabilities."
 }
