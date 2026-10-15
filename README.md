@@ -6,7 +6,7 @@ Back up Kafka records, recover schemas and restore explicitly mapped permissions
 
 ## Evaluate 0.8.0
 
-The binary includes a fourteen-day evaluation of shipped Enterprise features. No signup or payment card is required, and there is no automatic charge. Inspection does not activate it; explicit activation or the first Enterprise operation starts the clock.
+The binary includes a fourteen-day evaluation of shipped Enterprise features. No signup or payment card is required, and there is no automatic charge. Inspection does not activate it; explicit activation or the first operational command in the Enterprise binary starts the clock.
 
 ```bash
 brew install osodevops/tap/kafka-backup-enterprise

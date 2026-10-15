@@ -1,6 +1,6 @@
 # Enterprise licensing in 0.8.0
 
-The binary includes a fourteen-day evaluation of shipped Enterprise features with no signup, card or automatic charge. See [evaluation and persistence](evaluation.md) before running containers or scheduled jobs. `license info` is read-only; `license activate-trial` or the first Enterprise operation starts the evaluation.
+The binary includes a fourteen-day evaluation of shipped Enterprise features with no signup, card or automatic charge. See [evaluation and persistence](evaluation.md) before running containers or scheduled jobs. `license info` is read-only; `license activate-trial` or the first operational command in the Enterprise binary starts the evaluation.
 
 Commercial licences are purchased through [enterprise.kafkabackup.com](https://enterprise.kafkabackup.com). Runtime validation is offline using an embedded Ed25519 public key. Keep the licence access controlled; the commercial signing private key is not distributed with the software.
 

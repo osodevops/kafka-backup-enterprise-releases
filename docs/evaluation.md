@@ -1,6 +1,6 @@
 # Fourteen-day Enterprise evaluation
 
-The built-in evaluation needs no signup, card or network connection and does not automatically charge. Explicit `license activate-trial` or the first Enterprise operation starts exactly fourteen days. `license info`, help, version and licence-file verification do not start it.
+The built-in evaluation needs no signup, card or network connection and does not automatically charge. Explicit `license activate-trial` or the first operational command in the Enterprise binary starts exactly fourteen days, including an ordinary backup without Enterprise configuration. Activation precedes config validation; set `KAFKA_BACKUP_NO_TRIAL=1` before operational checks if you do not want to start it yet. `license info`, help, version and licence-file verification do not start it.
 
 Persist `/var/lib/kafka-backup` in Docker, or set `KAFKA_BACKUP_TRIAL_STATE_DIR` to durable writable storage. Retain the same directory or Helm trial PVC across restarts, upgrades and reinstalls. Do not replace evaluation state to restart a trial.
 
