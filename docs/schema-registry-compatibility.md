@@ -112,7 +112,8 @@ matrix passed; its results apply to the executed fixtures and explicit limits
 above. They do not establish compatibility for unqualified custom serializers,
 rule executors or other excluded semantic combinations.
 
-## Published artifacts
+## Historical 0.6.1 public artifacts
+
 
 The [artifact verification report](schema-registry-release-artifacts.json) records
 all five binary checksums, execution and licence-key checks, the public Docker

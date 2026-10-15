@@ -2,6 +2,242 @@
 
 All notable changes to kafka-backup-enterprise are documented here.
 
+## [0.8.0] - Unreleased (qualification incomplete)
+
+- Rotate the commercial licence verification key away from the historical
+  developer test signer. Commercial licence files issued for 0.7 and earlier
+  require reissuance for 0.8. The built-in evaluation requires no signed file.
+  The portal signer must switch with the public 0.8 release; older binaries
+  cannot verify licences issued by the new signer.
+- Persist evaluation state atomically with concurrent activation locking,
+  strict integrity checks and exact fourteen-day expiry. Inspection commands
+  do not start the evaluation. Retired public trial-key signatures are refused.
+- Add versioned authorization capture, explicit-mapping plans, checksum-approved
+  additive recovery, durable intent journals and read-only verification.
+- Correct MDS direct-binding enumeration, principal/cluster filters and native
+  cluster/resource classification; legacy snapshots remain inspection-only.
+- Preserve complete Kafka ACL tuples and require complete protocol responses.
+  ACL recovery uses a single-attempt SASL/PLAIN administration transport.
+- Add Platform MDS and Cloud IAM adapters, structural Cloud CRNs, pagination
+  guards, ownership checks and administrator opt-in.
+- Add the `authorization backup|plan|apply|verify` commands and optional approved
+  authorization recovery after registry, data and consumer-offset restoration.
+- Requested unlicensed authorization/RBAC operations now refuse before transfer
+  with exit 2. Existing `confluent_rbac` capture configuration remains accepted.
+- Prepare the matching 0.8.0 Helm chart. Publication is blocked until all
+  [qualification gates](qualification/authorization/STATUS.md) pass; this is not
+  a statement of full Platform/Cloud support.
+
+## [0.7.0] - 2026-10-14
+
+Builds against kafka-backup-core **v0.25.1** (previously v0.24.1) and
+inherits its changes: read-committed backups, checkpoint durability,
+idempotent and resumable restores, topic configs that restore into Kafka 4.x
+and Confluent Cloud, and logs on stderr. The CLI is at parity with the
+kafka-backup v0.25.0 CLI. New in Enterprise: **OAuth (SASL/OAUTHBEARER) for
+Confluent Cloud** and other OIDC identity providers, for Kafka and Schema
+Registry, and **Schema Registry restore with original IDs**.
+
+### Upgrade notes
+- **kafka-backup-core 0.25.0 upgrade notes apply** (see its changelog):
+  - `backup.isolation_level` defaults to `read_committed`: aborted records
+    and transaction markers are no longer archived or restored. Set
+    `read_uncommitted` to keep the previous behaviour; alert on
+    `kafka_backup_lso_lag` for hanging transactions.
+  - One-time re-read after upgrading where an `offsets.db` checkpoint is
+    ahead of the manifest; backups resume from the manifest without
+    `offset_storage`.
+  - Restores use an idempotent producer by default, which requires
+    `restore.produce_acks: -1`; set `restore.idempotent_producer: false` to
+    keep `0` or `1`. Restore rate limits are restore-wide.
+  - Logs go to stderr (stdout carries only command output);
+    `--log-format json` for structured logs.
+  - Unknown keys under `source.security` / `target.security` are errors
+    (`security.oauth` is rejected with a pointer to `enterprise.oauth`).
+  - `restore.rewrite_schema_ids` fails on a truncated or unmapped schema ID
+    frame (`schema_id_rewrite_strict`, default `true`).
+- **MSK IAM migrations require the `oauth` licence feature** in addition to
+  the migration feature (MSK IAM is SASL/OAUTHBEARER). **Licences issued for
+  MSK IAM migrations must be reissued with `oauth` before upgrading**;
+  without it `migrate msk-kraft` on an IAM cluster is refused (exit status 2).
+- **Licence refusals exit with status 2** (OAuth without the `oauth` feature
+  or after its grace period, erasure suppression or a Schema Registry
+  restore without their features, `migrate msk-kraft` without its feature).
+  Other errors still exit with 1.
+- **Soft-deleted schema versions are backed up by default**
+  (`enterprise.schema_registry.backup.include_soft_deleted: true`): records
+  may still carry their IDs. Set `false` for the previous behaviour.
+- **`enterprise.schema_registry.restore.strategy`** takes `preserve_ids`
+  (default) or `into_existing`; `preserve` and `skip` are read as
+  `into_existing`, `overwrite` is rejected and `force_ids` is removed (the
+  section was parsed but unused before).
+- **MSK ZooKeeper → KRaft migrations read the source `read_committed`**
+  (SEED, TAIL and the cutover drain): transaction markers and aborted
+  records are no longer copied to the target, where they used to arrive as
+  ordinary records. A transaction still open on the source after the
+  producer freeze now fails the cutover drain with an explicit error.
+
+### Added
+- **OAuth for Kafka (SASL/OAUTHBEARER) and Schema Registry** (licence feature
+  `oauth`, included in the trial). `enterprise.oauth.providers.<name>` with
+  `oidc_client_credentials` (client_secret_basic or _post, scope, audience,
+  extra parameters, OIDC discovery; Entra ID, Okta, Keycloak),
+  `azure_managed_identity` (IMDS), `azure_workload_identity` (AKS federated
+  token exchange), `file` and `static` (tests). `enterprise.oauth.kafka.source`
+  / `.target` bind a provider to a cluster with optional Confluent Cloud SASL
+  extensions `logicalCluster` and `identityPoolId` (comma-separated lists
+  allowed). Rust-native (`oauth2` crate over reqwest/rustls); no JVM,
+  librdkafka or Azure SDK. See `docs/oauth-confluent-cloud.md`.
+- One token cache per provider shared by every connection and by Schema
+  Registry: single-flight refresh, refresh at 80 % of the lifetime or 5 min
+  before expiry (`enterprise.oauth.cache`), stale-but-valid serving with
+  backoff while the identity provider fails, handshake tokens with at least
+  60 s left so KIP-368 re-authentication happens in place (with
+  kafka-backup-core 0.25's SaslHandshake re-authentication), invalidation on
+  `invalid_token` and on Schema Registry 401.
+- Schema Registry / DEK Registry `auth: { type: oauth, provider,
+  target_sr_cluster, identity_pool_id }`: bearer token plus the
+  `target-sr-cluster` and (when set) `Confluent-Identity-Pool-Id` headers, on
+  the Schema Registry backup and restore alike.
+- Every command that connects to Kafka or Schema Registry applies OAuth:
+  `backup`, `restore` (including `--schema-only`), `three-phase-restore`,
+  `validate-restore`, `snapshot-groups`, `validation run`, and the offset
+  commands via `--config <yaml> --cluster source|target`.
+  `--sasl-mechanism OAUTHBEARER` parses and, without `--config`, says how to
+  configure a provider (instead of the OSS "requires Kafka Backup
+  Enterprise" error).
+- **30-day OAuth grace period** after a commercial licence expires: a warning
+  on every run, `license info` (text and JSON `oauth` object) shows the days
+  left, and the metric `kafka_backup_enterprise_licence_grace_days_remaining`.
+  After it, OAuth is refused; a continuous backup stops after its current
+  cycle. Trials get no grace period.
+- Metric `kafka_backup_enterprise_oauth_token_requests_total{provider,kind,outcome}`.
+- **Schema Registry restore with original IDs** (licence feature
+  `schema_registry`; `enterprise.schema_registry.restore`, the registry URL
+  being the target). `restore` and `three-phase-restore` restore the registry
+  first, then the records; `restore --schema-only` restores only the
+  registry. Strategies:
+  - `preserve_ids` (default): empty target; global IMPORT plus IMPORT on each
+    context (global IMPORT does not reach contexts); every version registered
+    with its original ID and version number; compatibility and modes
+    restored; every version verified (ID, schema, references, soft-deleted
+    state) along with subject compatibility/mode.
+  - `into_existing`: populated target (for example a shared Confluent Cloud
+    environment). Identical ID and schema is a skip; a free ID and version is
+    imported under subject-level IMPORT; an ID or version held by a different
+    schema is a conflict. Strict by default (fails before any change);
+    `rewrite_ids` registers such schemas with new IDs and rewrites the IDs in
+    the restored records' Confluent wire-format keys and values
+    (kafka-backup-core `restore.rewrite_schema_ids` / `schema_id_mapping`),
+    on the 1:1 and the repartitioning restore path alike.
+  - The restore never overwrites an existing version (IMPORT mode silently
+    does), orders registrations topologically on references at version level
+    (ties by original ID), handles contexts (`:.ctx:subject`), restores
+    soft-deleted versions with their original IDs then soft-deletes them again
+    (`restore_soft_deleted`, default on), applies the backup's global settings
+    by default only for `preserve_ids` (`restore_global_config`), and supports
+    `subject_mapping`. The target's prior global, context and subject modes
+    are put back on any failure.
+  - Capacity: `max_schema_versions` fails the restore before any change when
+    used (soft-deleted included) plus new versions would exceed it; a
+    registry limit hit during the restore ("Schema Limit Exceeded") is
+    reported as such.
+  - Dry run (`dry_run`, or `restore.dry_run`) lists what would be registered,
+    skipped, rewritten or in conflict. A JSON report goes to
+    `{backup_id}/restore/schema-registry-report.json`
+    (`.dry-run.json` for a dry run), on failure too; any failure exits
+    non-zero and no record is restored.
+  - A dropped or changed `metadata`/`ruleSet` on the target (a registry
+    without the rule-set extension) is reported as a warning.
+- The Schema Registry backup captures the versions that captured schemas
+  reference outside the subject filter (`include_references`, which was not
+  implemented) and context-level compatibility and mode.
+- From the kafka-backup v0.25.0 CLI: `--log-format text|json` (global; also
+  `KAFKA_BACKUP_LOG_FORMAT`) with every log line on stderr; `restore` and
+  `three-phase-restore` record the restore metrics (`three-phase-restore`
+  now serves `/metrics`, with the enterprise OAuth metrics when OAuth is in
+  use); `restore` lists topic configuration skipped or adjusted on the
+  target and per-topic schema ID rewrite counts; `describe` shows the
+  isolation level, transaction markers and aborted records not archived, and
+  snapshots that ended at the last stable offset; `offset-reset plan` marks
+  interpolated offsets as approximate; `validate --deep` verifies SHA-256 and
+  offset contiguity and `validate --verify-sha256` hashes without decoding
+  (mismatches exit 1); `--sasl-mechanism` accepts Kafka's `SCRAM-SHA-256` /
+  `SCRAM-SHA-512` spellings.
+
+### Changed
+- `LicenseValidator::verify` is split into `verify_signature` and
+  `check_expiry`; `LicenseError::LicenseExpired` carries the verified payload,
+  and `LicenseContext` gains `expired_license`, `expired_at`,
+  `feature_status(_at)` and `feature_deadline(_at)`.
+- `SchemaRegistryAuth::OAuth` is now a newtype over `SchemaRegistryOAuth`;
+  the Schema Registry and DEK Registry clients' private token caches are
+  replaced by the shared cache. The inline `token_url` form keeps working
+  (client_secret_post, no `oauth` licence needed).
+- `enterprise.oauth` rejects unknown keys.
+- `validation run` expands `${ENV}` references in its configuration like
+  every other command.
+- With OAuth in use, `backup`, `restore` and `three-phase-restore` serve the
+  enterprise metrics next to the OSS ones on the same endpoint; without
+  OAuth the OSS metrics server runs unchanged.
+- MSK IAM (the migrator) uses one token cache per region instead of a
+  provider per connection.
+- `rewrite_ids` hands the record restore the complete ID map (unchanged IDs
+  map to themselves, listed as `ids_preserved` in the report), so
+  kafka-backup-core's strict rewrite only fails on an ID the backup does not
+  have, and scopes the rewrite to the restored topics
+  (`restore.schema_id_rewrite_topics` = `target.topics.include` unless set).
+- MSK ZooKeeper → KRaft migration, isolation chosen per read: source reads
+  (SEED, TAIL, cutover drain, lag, seed size, validation) `read_committed`;
+  target reads that check the migrator's own writes (log-start/LEO floor,
+  sentinel) `read_uncommitted`; validation's view of the target
+  `read_committed`. Consumer-group offsets on partitions whose replicated
+  range has offsets without a record (markers, aborted records, compaction)
+  are translated from the replicated records instead of linearly; validation
+  reports a count drift equal to those offsets as a warning and spot-checks
+  such partitions by position. `tail.progress.json` counts the markers and
+  aborted records passed over.
+
+### Fixed
+- Registry reads retry when the server closes the connection before returning a
+  response. Mutation requests remain one-shot. Core 0.25.1 also retries batched
+  offset queries while a newly created target topic is waiting for its leader.
+- Integrate the 0.6.1 registry safety and Apicurio restore work without losing
+  OAuth or the context-aware Confluent restore path. Explicit common
+  `enterprise.registry_restore` options retain the serializer-aware engine.
+- Registry mutation requests are sent once after an uncertain response.
+  Confluent restore checks sealed snapshot completeness and hashes before
+  mutation; validation previews do not upload reports.
+- An OAUTHBEARER broker rejection is no longer mistaken for success: the
+  plugin answers the RFC 7628 error challenge with the `0x01` separator, so
+  the broker returns a proper authentication error.
+- Schema Registry backup: soft-deleted versions were never captured
+  (`is_soft_deleted` was hard-coded to false and versions were fetched without
+  `deleted=true`); they are now found by diffing the version lists with and
+  without `deleted=true`.
+- Schema Registry backup: crossing references between subjects (`a` v2 ->
+  `b` v1, `b` v2 -> `a` v1) failed the whole backup with a reference cycle;
+  ordering is now computed per version.
+- Fixed while extracting the PR #15 restore: the target was left in IMPORT
+  when the backup had no global mode, and was not reset on error (the prior
+  global, context and subject modes are now restored on any failure); every
+  subject got a forced READWRITE override (a subject without a mode in the
+  source now has its override removed).
+- MSK migration TAIL re-fetched the same offset forever when a fetch held
+  only transaction markers or aborted records (its lag never reached 0
+  while a log ended with a marker), and the cutover drain could spin until
+  its deadline on an aborted transaction larger than its fetch size.
+
+### Known limitations
+- `rewrite_ids` is refused when a rewritten ID is also used in another
+  context: the record rewrite is one ID map for every restored topic.
+- `rewrite_ids` registrations go through the target subject's compatibility
+  check; an incompatible target history fails the restore (modes restored).
+- The Schema Registry API does not expose Confluent Cloud's schema limit, so
+  it is checked only when `max_schema_versions` is set.
+- MSK migration validation can only explain a count drift on a partition
+  with transaction markers or aborted records from the migrator's own offset
+  map, so such partitions validate as a warning, not a pass.
 ## [0.6.1] - 2026-10-13
 
 Builds against kafka-backup-core **v0.24.1**. Schema Registry restoration now

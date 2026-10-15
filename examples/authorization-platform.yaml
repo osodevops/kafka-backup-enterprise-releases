@@ -1,0 +1,70 @@
+mode: backup
+backup_id: authorization-example
+storage:
+  backend: filesystem
+  path: /var/lib/kafka-backup
+enterprise:
+  authorization:
+    source:
+      provider: platform
+      recovery_principal: User:source-admin
+      mds:
+        mds_url: https://source-mds.example:8090
+        auth:
+          username: source-admin
+          password: ${SOURCE_ADMIN_PASSWORD}
+      kafka:
+        - cluster: source-kafka-id
+          connection:
+            bootstrap_servers: [source-kafka.example:9092]
+            security:
+              security_protocol: SASL_SSL
+              sasl_mechanism: PLAIN
+              sasl_username: source-admin
+              sasl_password: ${SOURCE_ADMIN_PASSWORD}
+    destination:
+      provider: platform
+      recovery_principal: User:recovery-admin
+      mds:
+        mds_url: https://target-mds.example:8090
+        auth:
+          username: recovery-admin
+          password: ${TARGET_ADMIN_PASSWORD}
+      kafka:
+        - cluster: target-kafka-id
+          connection:
+            bootstrap_servers: [target-kafka.example:9092]
+            security:
+              security_protocol: SASL_SSL
+              sasl_mechanism: PLAIN
+              sasl_username: recovery-admin
+              sasl_password: ${TARGET_ADMIN_PASSWORD}
+    source_scopes:
+      - provider: platform
+        scope: {clusters: {kafka-cluster: source-kafka-id}}
+      - provider: kafka
+        cluster: source-kafka-id
+    destination_scopes:
+      - provider: platform
+        scope: {clusters: {kafka-cluster: target-kafka-id}}
+      - provider: kafka
+        cluster: target-kafka-id
+    principals: [User:source-app]
+    mappings:
+      principals: {"User:source-app": "User:target-app"}
+      scopes:
+        - source: {provider: platform, scope: {clusters: {kafka-cluster: source-kafka-id}}}
+          destination: {provider: platform, scope: {clusters: {kafka-cluster: target-kafka-id}}}
+        - source: {provider: kafka, cluster: source-kafka-id}
+          destination: {provider: kafka, cluster: target-kafka-id}
+      resources:
+        - source: {resourceType: Topic, name: orders, patternType: LITERAL}
+          destination: {resourceType: Topic, name: recovered-orders, patternType: LITERAL}
+        - source: {resourceType: Group, name: orders-, patternType: PREFIXED}
+          destination: {resourceType: Group, name: recovered-orders-, patternType: PREFIXED}
+    allow_privileged_bindings: false
+    propagation_timeout_secs: 60
+    apply_on_restore: false
+    # Enable only with a reviewed plan and its exact checksum:
+    # plan: /etc/kafka-backup/authorization-plan.json
+    # approved_plan_checksum: <checksum>

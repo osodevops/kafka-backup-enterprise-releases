@@ -128,7 +128,7 @@ kafka-backup-enterprise license info
 # License ID: abc-123
 # Customer: Your Company
 # Tier: Enterprise
-# Features: encryption, schema_registry, rbac, audit, masking, wasm
+# Features: schema_registry, rbac, encryption, oauth, erasure
 # Expires: 2027-04-10 (365 days remaining)
 # Status: Valid
 ```

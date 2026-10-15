@@ -1,149 +1,63 @@
-# kafka-backup Enterprise
+# Kafka Backup Enterprise
 
-[![Latest Release](https://img.shields.io/github/v/release/osodevops/kafka-backup-enterprise-releases?style=flat-square&label=release)](https://github.com/osodevops/kafka-backup-enterprise-releases/releases/latest)
-[![License](https://img.shields.io/badge/license-Proprietary-red?style=flat-square)](https://enterprise.kafkabackup.com/)
-[![Rust](https://img.shields.io/badge/rust-2021_edition-orange?style=flat-square&logo=rust)](https://www.rust-lang.org/)
-[![Kafka](https://img.shields.io/badge/kafka-3.7+-231F20?style=flat-square&logo=apachekafka)](https://kafka.apache.org/)
-[![Confluent Platform](https://img.shields.io/badge/confluent_platform-5.4+-0074A2?style=flat-square)](https://www.confluent.io/)
-[![Docs](https://img.shields.io/badge/docs-kafkabackup.com-blue?style=flat-square)](https://enterprise.kafkabackup.com/)
+Back up Kafka records, recover schemas and restore explicitly mapped permissions onto existing identities. Run the CLI or container in your own infrastructure with your choice of backup storage.
 
-Enterprise edition of [kafka-backup](https://github.com/osodevops/kafka-backup) — backup and restore for Apache Kafka with Schema Registry, RBAC, and encryption support.
+[Documentation](https://kafkabackup.com/enterprise/) · [Downloads](https://github.com/osodevops/kafka-backup-enterprise-releases/releases) · [Pricing](https://enterprise.kafkabackup.com)
 
-**14-day free trial on first run — no signup required.**
+## Evaluate 0.8.0
 
-## Install
+The binary includes a fourteen-day evaluation of shipped Enterprise features. No signup or payment card is required, and there is no automatic charge. Inspection does not activate it; explicit activation or the first Enterprise operation starts the clock.
 
-**Homebrew (macOS / Linux):**
 ```bash
 brew install osodevops/tap/kafka-backup-enterprise
+kafka-backup-enterprise license activate-trial --format json
+kafka-backup-enterprise license info --format json
 ```
 
-**Docker:**
-```bash
-docker pull osodevops/kafka-backup-enterprise:v0.6.1
-```
-
-**Binary download:** See [Releases](https://github.com/osodevops/kafka-backup-enterprise-releases/releases) for Linux (x86_64, aarch64), macOS (Intel, Apple Silicon), and Windows. Linux standalone binaries require glibc 2.39+; use Docker on older Linux hosts.
-
-## Quick Start
+For Docker, persist trial state across restarts:
 
 ```bash
-# Check license status (auto-trial activates on first run)
-kafka-backup-enterprise license info
-
-# Backup Kafka + Schema Registry
-kafka-backup-enterprise backup --config backup.yaml
-
-# Schema-only backup
-kafka-backup-enterprise backup --config backup.yaml --schema-only
-
-# Validate a restore plan, then restore only the registries
-kafka-backup-enterprise validate-restore --config restore.yaml --schema-only --format json
-kafka-backup-enterprise restore --config restore.yaml --schema-only
+docker pull osodevops/kafka-backup-enterprise:v0.8.0
+docker volume create kafka-backup-trial
+docker run --rm \
+  --mount type=volume,src=kafka-backup-trial,dst=/var/lib/kafka-backup \
+  osodevops/kafka-backup-enterprise:v0.8.0 \
+  license activate-trial --format json
 ```
 
-Minimal config:
+Standalone downloads cover Linux x86_64/aarch64, macOS Intel/Apple Silicon and Windows x86_64. Linux binaries require glibc 2.39+; use Docker on older hosts. The unpacked executable is named `kafka-backup`; Homebrew installs `kafka-backup-enterprise`.
 
-```yaml
-mode: backup
-backup_id: "my-backup"
-source:
-  bootstrap_servers: ["kafka:9092"]
-storage:
-  backend: s3
-  bucket: my-kafka-backups
-enterprise:
-  schema_registry:
-    url: "https://schema-registry:8081"
-```
+## Enterprise features
 
-## OSS vs Enterprise
+| Capability | Behavior |
+| --- | --- |
+| Schema recovery | Confluent Schema Registry and Apicurio v2/v3 backup and restore, dependency ordering and supported schema-ID rewriting |
+| Authorization recovery | Versioned capture, explicit mappings, reviewed plans, additive apply/resume and assignment verification for MDS roles, Cloud IAM and Kafka ACLs |
+| Enterprise authentication | OAuth/OIDC for Kafka and Schema Registry |
+| Erasure suppression | Drop or tombstone listed keys during restore, with counts and checksum evidence |
+| Encryption metadata | Back up CSFLE/DEK Registry metadata; KMS master keys remain external |
+| Migration | Journalled migration, consumer-offset translation and cutover tooling; compare your provider's native options |
+| Commercial licensing | Offline signed licences and commercial support |
 
-| Feature | OSS | Enterprise |
-|---------|:---:|:---------:|
-| Core backup & restore | Yes | Yes |
-| All storage backends (S3, Azure, GCS, filesystem) | Yes | Yes |
-| Point-in-time recovery (PITR) | Yes | Yes |
-| Compression (Zstd, LZ4) | Yes | Yes |
-| Kafka SASL/TLS authentication | Yes | Yes |
-| Consumer offset management | Yes | Yes |
-| Three-phase restore | Yes | Yes |
-| **Confluent Schema Registry backup/restore** | - | Yes |
-| **Apicurio Registry v2/v3 backup/restore** | - | Yes |
-| **Confluent RBAC backup/restore (MDS)** | - | Yes |
-| **AWS MSK ZooKeeper to KRaft migration** | - | Yes |
-| **Field-level encryption (CSFLE/DEK)** | - | Yes |
-| **Data masking** | - | Planned |
-| **Audit logging** | - | Planned |
-| **WebAssembly plugins** | - | Planned |
-| **Priority support** | Community | 24/7 SLA |
+Core Kafka backup/restore, storage backends, point-in-time recovery and consumer-offset management are also available in the [open-source edition](https://github.com/osodevops/kafka-backup).
 
-Both registries can be configured simultaneously — back up Confluent SR and Apicurio in the same run.
+Field-level record encryption, masking, general audit logging and WASM transformations remain planned. Metadata backup does not encrypt records or prove recovered applications can decrypt them.
 
-Registry restoration verifies schemas and settings before Kafka replay. ID
-allocation and supported cross-provider migrations require explicit serializer
-profiles and coordinate mappings. See the restore guide for supported framing,
-snapshot requirements and explicit exclusions.
+## Rehearse permission recovery
 
-All enterprise features work alongside the full OSS backup engine — topics, partitions, offsets, consumer groups, three-phase restore, and everything else in [kafka-backup](https://github.com/osodevops/kafka-backup).
-
-## Documentation
-
-| Guide | Description |
-|-------|-------------|
-| [Getting Started](docs/getting-started.md) | Install, first backup, apply a license |
-| [Configuration Reference](docs/configuration.md) | Full YAML config for all enterprise features |
-| [Schema Registry Backup](docs/schema-registry.md) | Confluent SR backup and restore |
-| [Apicurio Registry Backup](docs/apicurio-registry.md) | Apicurio v2/v3 backup |
-| [Schema Registry Restore](docs/schema-registry-restore.md) | ID preservation, rewriting, migration profiles and recovery |
-| [Compatibility Evidence](docs/schema-registry-compatibility.md) | Exact images, SDK versions and executed contracts |
-| [RBAC Backup](docs/rbac.md) | Confluent MDS role binding backup |
-| [MSK KRaft Migration](docs/msk-kraft-migration.md) | AWS MSK ZooKeeper to KRaft migration |
-| [Encryption Backup](docs/encryption.md) | Field-level encryption metadata backup |
-| [Licensing](docs/licensing.md) | How the license system works, trial, purchasing |
-| [Kubernetes Deployment](docs/kubernetes.md) | Deploy to K8s with license secret |
-
-## Examples
-
-| Example | Description |
-|---------|-------------|
-| [basic-backup.yaml](examples/basic-backup.yaml) | Minimal backup config |
-| [confluent-sr.yaml](examples/confluent-sr.yaml) | Confluent Schema Registry with auth |
-| [apicurio.yaml](examples/apicurio.yaml) | Apicurio Registry with OIDC |
-| [full-enterprise.yaml](examples/full-enterprise.yaml) | All enterprise features |
-| [kubernetes/](examples/kubernetes/) | K8s deployment manifests |
-
-## Licensing
-
-The binary includes a **14-day free trial** — all enterprise features are enabled automatically on first run, no signup needed.
-
-After the trial:
-- [Contact us](mailto:sales@oso.sh) to request an extended trial
-- [Purchase an annual license](https://enterprise.kafkabackup.com/)
-
-Without a license, the binary continues to work as the full OSS edition.
+Recover data, schemas and requested offsets before releasing application access. Use existing destination identities and externally provisioned bootstrap administration. Review every mapping and the plan checksum.
 
 ```bash
-# Apply a license file
-kafka-backup-enterprise license apply --file license.lic
-
-# Check license status
-kafka-backup-enterprise license info
+kafka-backup authorization backup --config authorization.yaml --out snapshot.json --format json
+kafka-backup authorization plan --config authorization.yaml --snapshot snapshot.json --out plan.json --format json
+kafka-backup authorization apply --config authorization.yaml --plan plan.json --approve REVIEWED_CHECKSUM --format json
+kafka-backup authorization verify --config authorization.yaml --plan plan.json --format json
 ```
 
-## Reporting Issues
+Recovery preserves target-only assignments and never automatically deletes or rolls back permissions. Administrator grants require explicit selection and opt-in. Verification establishes assignment presence; independently test allowed and denied application operations.
 
-Use the GitHub issue tracker in this repository to report bugs or suggest features:
+Platform enforcement is qualified on CP 7.6.0 and 8.3.1. Cloud qualification covers service-account principals across two environments within one organisation. Cross-organisation recovery, Cloud user/group/identity-pool principals, operator integration and complete cross-component recovery sets are excluded. Kafka ACL writes currently require SASL/PLAIN over SASL_SSL or SASL_PLAINTEXT. Legacy unversioned RBAC exports require fresh capture.
 
-- [**Report a bug**](https://github.com/osodevops/kafka-backup-enterprise-releases/issues/new?template=bug.yml)
-- [**Request a feature**](https://github.com/osodevops/kafka-backup-enterprise-releases/issues/new?template=feature.yml)
+Follow the [recovery guide](https://kafkabackup.com/enterprise/authorization-recovery/), [evaluation guide](https://kafkabackup.com/enterprise/trial-evaluation/) and [registry recovery boundaries](https://kafkabackup.com/enterprise/schema-registry-restore/). Keep snapshots, plans, journals and licence files access controlled.
 
-For urgent production issues covered under a support contract, contact [support@oso.sh](mailto:support@oso.sh).
-
-## Links
-
-- [enterprise.kafkabackup.com](https://enterprise.kafkabackup.com/) — Pricing and purchase
-- [kafka-backup OSS](https://github.com/osodevops/kafka-backup) — Open-source core (MIT)
-- [Docker Hub](https://hub.docker.com/r/osodevops/kafka-backup-enterprise) — Docker images
-- [OSO](https://www.oso.sh)
-- [Changelog](CHANGELOG.md)
+At expiry, requested Enterprise operations fail; OSS functionality remains available and existing permissions remain in place. Purchase a commercial licence through [enterprise.kafkabackup.com](https://enterprise.kafkabackup.com).

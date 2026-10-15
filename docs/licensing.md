@@ -1,128 +1,23 @@
-# Licensing
+# Enterprise licensing in 0.8.0
 
-## How It Works
+The binary includes a fourteen-day evaluation of shipped Enterprise features with no signup, card or automatic charge. See [evaluation and persistence](evaluation.md) before running containers or scheduled jobs. `license info` is read-only; `license activate-trial` or the first Enterprise operation starts the evaluation.
 
-The enterprise binary has three modes of operation:
-
-### 1. Auto-Trial (14 days, no signup)
-
-On first run without a license, all enterprise features are enabled automatically for 14 days. No email, no form, no registration. Just install and use it.
-
-```
-$ kafka-backup-enterprise license info
-
-  Status:       Enterprise Auto-Trial
-  Days left:    14
-  Features:     All enterprise features enabled
-```
-
-### 2. Licensed (30-day trial or annual)
-
-Apply a license file to unlock enterprise features beyond the auto-trial:
+Commercial licences are purchased through [enterprise.kafkabackup.com](https://enterprise.kafkabackup.com). Runtime validation is offline using an embedded Ed25519 public key. Keep the licence access controlled; the commercial signing private key is not distributed with the software.
 
 ```bash
-kafka-backup-enterprise license apply --file license.lic
+kafka-backup license verify --file license.key
+kafka-backup license apply --file license.key
+kafka-backup license info --format json
 ```
 
-License files are cryptographically signed and verified **offline** — no internet required, works on air-gapped servers.
+Homebrew uses the executable name `kafka-backup-enterprise`.
 
-```
-$ kafka-backup-enterprise license info
+Discovery order is `ENTERPRISE_LICENSE_KEY` (base64 licence content), `ENTERPRISE_LICENSE_FILE`, `/etc/kafka-backup/license.key`, then `~/.config/kafka-backup/license.key`. An explicitly configured missing or invalid licence is authoritative and does not fall back to evaluation. Unset an inline override before applying a replacement file.
 
-  License ID:   abc-123
-  Customer:     Your Company (ops@company.com)
-  Tier:         Enterprise
-  Features:     encryption, schema_registry, rbac, audit, masking, wasm
-  Expires:      2027-04-10 (365 days remaining)
-  Status:       Valid
-```
+The `rbac` entitlement covers MDS capture and authorization recovery. Other shipped features use their documented entitlements, including `schema_registry`, `oauth`, `erasure`, `encryption` for CSFLE metadata, and migration entitlements. Licence flags for planned features do not make those features available.
 
-### 3. OSS Mode (no license, trial expired)
+At expiry, requested Enterprise operations fail. Authorization operations refuse with exit code 2 before transfer or permission mutation. Already created permissions remain in place; no automatic rollback occurs. OSS operations and licence inspection remain available.
 
-Without a license and after the trial expires, the binary continues to work as the full open-source edition. All OSS features (topic backup, restore, offset management) work indefinitely.
+Enterprise 0.8.0 rotates commercial signing trust. Existing licence files require reissuance for the new binary without changing their original expiry or entitlements. New files require 0.8.0 or later. The built-in evaluation needs no signed file.
 
-## Getting a License
-
-- **30-day trial:** [kafkabackup.com/enterprise](https://kafkabackup.com/enterprise)
-- **Annual license:** Contact [sales@osodevops.io](mailto:sales@osodevops.io)
-
-## Applying a License
-
-### CLI
-
-```bash
-kafka-backup-enterprise license apply --file license.lic
-```
-
-The license is saved to `~/.config/kafka-backup/license.lic` and loaded automatically on every subsequent run.
-
-### Docker (environment variable)
-
-```bash
-docker run --rm \
-  -e ENTERPRISE_LICENSE_KEY="$(base64 < license.lic)" \
-  osodevops/kafka-backup-enterprise:v0.3.2 \
-  backup --config /config.yaml
-```
-
-### Docker (mounted file)
-
-```bash
-docker run --rm \
-  -v ./license.lic:/etc/kafka-backup/license.key \
-  osodevops/kafka-backup-enterprise:v0.3.2 \
-  backup --config /config.yaml
-```
-
-### Kubernetes (secret)
-
-```bash
-kubectl create secret generic kafka-backup-license \
-  --from-literal=license-b64="$(base64 < license.lic)"
-```
-
-```yaml
-env:
-  - name: ENTERPRISE_LICENSE_KEY
-    valueFrom:
-      secretKeyRef:
-        name: kafka-backup-license
-        key: license-b64
-```
-
-## License Discovery Order
-
-On startup, the binary checks these locations:
-
-1. `ENTERPRISE_LICENSE_KEY` environment variable (base64-encoded content)
-2. `ENTERPRISE_LICENSE_FILE` environment variable (file path)
-3. `/etc/kafka-backup/license.key` (default container/K8s path)
-4. `~/.config/kafka-backup/license.lic` (user config, Keygen.sh format)
-5. `~/.config/kafka-backup/license.key` (user config, PEM format)
-6. If none found: auto-trial (14 days)
-
-## Offline Verification
-
-License files are verified using Ed25519 cryptographic signatures. **No network calls are made during verification.** The public key is embedded in the binary at compile time.
-
-This means:
-- Licenses work on air-gapped servers
-- No "phone home" or license server required
-- No DNS lookups or HTTPS calls during startup
-- The license file is completely self-contained
-
-## Verifying a License
-
-To verify a license without applying it:
-
-```bash
-kafka-backup-enterprise license verify --file license.lic
-```
-
-## Disabling the Auto-Trial
-
-To disable the auto-trial (e.g., in CI where you want pure OSS mode):
-
-```bash
-KAFKA_BACKUP_NO_TRIAL=1 kafka-backup-enterprise backup --config backup.yaml
-```
+The [public licensing reference](https://kafkabackup.com/enterprise/licensing/) is the maintained source for entitlement and upgrade details.
