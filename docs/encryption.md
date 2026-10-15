@@ -1,4 +1,4 @@
-# Field-Level Encryption Backup
+# CSFLE encryption metadata backup
 
 Backs up encryption metadata from Confluent's Client-Side Field-Level Encryption (CSFLE) system, including Key Encryption Keys (KEKs) and Data Encryption Keys (DEKs) from the DEK Registry.
 
@@ -28,3 +28,5 @@ enterprise:
 ## Prerequisites
 
 Encryption backup requires `schema_registry` to be configured because the DEK Registry is a sub-API of Confluent Schema Registry.
+
+This captures metadata and encrypted DEK values; it does not export KMS master keys, encrypt plaintext records or prove that recovered applications can decrypt records. Rule-bearing Kafka replay, including CSFLE ENCRYPT replay, is unsupported. See the [registry recovery boundaries](https://kafkabackup.com/enterprise/schema-registry-restore/).

@@ -1,6 +1,6 @@
 # Confluent RBAC Backup
 
-Backs up all role bindings from Confluent Metadata Service (MDS), preserving the complete RBAC configuration for disaster recovery.
+Captures selected direct role bindings from Confluent Metadata Service (MDS). Legacy unversioned exports cannot establish completeness and require fresh capture for recovery. For mapped additive recovery in 0.8.0, use the [authorization recovery workflow](authorization-recovery.md). Identity accounts and credentials remain externally managed.
 
 ## What Gets Backed Up
 

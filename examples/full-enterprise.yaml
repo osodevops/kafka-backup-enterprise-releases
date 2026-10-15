@@ -1,4 +1,4 @@
-# Full enterprise config — all features enabled
+# Full enterprise config — shipped capture features
 mode: backup
 backup_id: "full-enterprise-backup"
 
@@ -62,7 +62,7 @@ enterprise:
       principals: ["*"]
       exclude_principals: ["User:backup-svc"]
 
-  # Field-level encryption
+  # CSFLE/DEK Registry metadata only; KMS master keys remain external
   encryption:
     enabled: true
     backup:
